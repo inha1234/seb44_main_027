@@ -27,15 +27,21 @@ public class Post extends Auditable {
     @Column(nullable = false, updatable = false)
     private String category;
 
+    /* Image Upload, Download
     @Column(nullable = false)
     private String imageUrl;
+    */
 
-//    @OneToMany
-//    private Member member;
-//    @ManyToOne(mappedBy = "post", cascade = {CascadeType.ALL})
-//    private List<Comment> comments = new ArrayList<>();
-//
-//    public void addComment(Comment comment){
-//        this.comments.add(comment);
-//    }
+    /* JPA Entity Mapping
+    @OneToMany
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @ManyToOne(mappedBy = "post", cascade = {CascadeType.ALL})
+    private List<Comment> comments = new ArrayList<>();
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+    */
 }

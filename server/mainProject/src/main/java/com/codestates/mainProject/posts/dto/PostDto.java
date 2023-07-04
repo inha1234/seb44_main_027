@@ -9,7 +9,7 @@ public class PostDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Post {
+    public static class Request { // POST, PUT Dto
         @NotBlank(message = "공유하고 싶은 활동의 제목을 입력하세요")
         private String title;
 
@@ -19,36 +19,26 @@ public class PostDto {
         @NotBlank(message = "게시글 카테고리를 입력하세요")
         private String category;
 
-        @NotBlank(message = "게시글 사진주소를 입력하세요")
-        private String imageUrl;
-
+//        @NotBlank(message = "게시글 사진주소를 입력하세요")
+//        private String imageUrl;
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Put {
-        @NotBlank(message = "수정할 제목을 입력하세요")
-        private String title;
-
-        @NotBlank(message = "수정할 내용을 입력하세요")
-        private String content;
-
-        @NotBlank(message = " 카테고리를 입력하세요")
-        private String category;
-
-        @NotBlank(message = "수정할 사진주소를 입력하세요")
-        private String imageUrl;
     }
 
     @Builder
     public static class Response {
+        private long postId;
+
         private String title;
 
         private String content;
 
         private String category;
 
-        private String  imageUrl;
+//        private String  imageUrl;
+
+        private LocalDateTime createdAt;
+
+        private LocalDateTime modifiedAt;
     }
 }
