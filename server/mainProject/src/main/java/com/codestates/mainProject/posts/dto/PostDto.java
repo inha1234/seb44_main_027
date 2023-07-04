@@ -23,8 +23,6 @@ public class PostDto {
 //        private String imageUrl;
     }
 
-    }
-
     @Builder
     public static class Response {
         private long postId;
