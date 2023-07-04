@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
-    @Mapping(target = "member_Id", ignore = true)
+    @Mapping(target = "memberId", ignore = true)
     @Mapping(target = "active", ignore = true)
     Member memberPostDtoToMember(MemberDto.Post memberPostDto);
     MemberDto.Response memberToMemberResponseDto(Member member);

@@ -30,11 +30,8 @@ public class MemberService {
         memberMapper.memberToMemberResponseDto(savedMember);
     }
 
-    public void putMember(MemberDto.Put put){
-        Member findMember = findByEmail(put.getEmail());
-        if(!findMember.isActive()){
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+    public void putMember(long memberId,MemberDto.Put put){
+        Member findMember = findMember(memberId);
         Optional.ofNullable(put.getUsername())
                 .ifPresent(findMember::setUsername);
         Optional.ofNullable(put.getPassword())
@@ -47,11 +44,7 @@ public class MemberService {
     }
 
     public MemberDto.Response getMember(long memberId){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        if(!member.isActive()){
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+        Member member = findMember(memberId);
         return memberMapper.memberToMemberResponseDto(member);
     }
 
@@ -73,7 +66,12 @@ public class MemberService {
         }
     }
 
-    private Member findByEmail(String email){
-        return memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    private Member findMember(Long memberId){
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        if(!findMember.isActive()){
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+        return findMember;
     }
 }
