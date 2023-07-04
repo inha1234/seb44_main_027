@@ -21,8 +21,8 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PutMapping("/{member_id}")
-    public ResponseEntity putMember(@RequestBody MemberDto.Put put){
-        memberService.putMember(put);
+    public ResponseEntity putMember(@PathVariable("member_id") long memberId, @RequestBody MemberDto.Put put){
+        memberService.putMember(memberId,put);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
