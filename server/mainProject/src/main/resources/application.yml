@@ -1,24 +1,24 @@
 spring:
   profiles:
-#  active: prod
-  active: dev
+#   active: prod
+    active: dev
 
 ---
-#spring:
-#  profiles: prod
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    database: mysql
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-#  datasource:
-#    url:
-#    username: admin
-#    password: ${DB_PASSWORD}
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#config:
-#  domain:
+spring:
+  profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url:
+    username: admin
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+config:
+  domain:
 ---
 spring:
   profiles: dev
@@ -30,11 +30,11 @@ spring:
     url: jdbc:h2:mem:test
   jpa:
     hibernate:
-      ddl-auto: create  # (1) ??? ?? ??
-    show-sql: true      # (2) SQL ?? ??
+      ddl-auto: create
+    show-sql: true
     properties:
       hibernate:
-        format_sql: true  # (3) SQL pretty print
+        format_sql: true
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
