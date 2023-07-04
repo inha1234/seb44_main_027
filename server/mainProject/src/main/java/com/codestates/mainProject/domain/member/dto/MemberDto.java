@@ -15,14 +15,14 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     public static class Post{
-        @Email
-        @NotBlank
+        @Email(message = "이메일 형식이 아닙니다.")
+        @NotBlank(message = "이메일은 필수로 입력해야하는 값입니다.")
         private String email;
-        @Size(max = 8)
-        @NotBlank
+        @Size(max = 8, message = "유저 네임은 8글자를 넘길 수 없습니다.")
+        @NotBlank(message = "유저 네임은 필수로 입력해야하는 값입니다.")
         private String username;
         @NotBlank
-        @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
+        @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
         private String password;
         private String activityArea;
 
@@ -32,14 +32,9 @@ public class MemberDto {
     @Setter
     @AllArgsConstructor
     public static class Put{
-        @Email
-        @NotBlank
-        private String email;
-        @Size(max = 8)
-        @NotBlank
+        @Size(max = 8, message = "유저 네임은 8글자를 넘길 수 없습니다.")
         private String username;
-        @NotBlank
-        @Size(min = 8)
+        @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
         private String password;
         private String activityArea;
 //        private String ImageUrl;
@@ -54,7 +49,5 @@ public class MemberDto {
         private String activityArea;
 //    private String ImageUrl;
         private LocalDateTime createdAt;
-//수정일을 보여줘야함????
-//        private LocalDateTime modifiedAt;
     }
 }
