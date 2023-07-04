@@ -14,16 +14,22 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Post extends Auditable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //
     private long postId;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String content;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
     private String category;
+
+    @Column(nullable = false)
+    private String imageUrl;
+
 //    @OneToMany
 //    private Member member;
 //    @ManyToOne(mappedBy = "post", cascade = {CascadeType.ALL})
@@ -32,5 +38,4 @@ public class Post extends Auditable {
 //    public void addComment(Comment comment){
 //        this.comments.add(comment);
 //    }
-
 }
