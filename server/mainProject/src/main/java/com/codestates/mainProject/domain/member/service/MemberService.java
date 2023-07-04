@@ -52,6 +52,7 @@ public class MemberService {
 //        if(!member.isActive()){
 //            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
 //        }
+//        정상작동하나 확인용으로 일단은 주석처리함
         return memberMapper.memberToMemberResponseDto(member);
     }
 
