@@ -49,10 +49,9 @@ public class MemberService {
     public MemberDto.Response getMember(long memberId){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        if(!member.isActive()){
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-//        }
-//        정상작동하나 확인용으로 일단은 주석처리함
+        if(!member.isActive()){
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
         return memberMapper.memberToMemberResponseDto(member);
     }
 
