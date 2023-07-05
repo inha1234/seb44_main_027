@@ -1,5 +1,9 @@
 import React from 'react';
 import { StyledDots,SliderWrapper, StyledSlider } from './ImageCarousel.style';
+import image01 from '/images/image1.jpg';
+import image02 from '/images/image2.jpg';
+import image03 from '/images/image3.jpg';
+
 
 
 export default function ImageCarousel() {
@@ -21,13 +25,13 @@ export default function ImageCarousel() {
     <SliderWrapper>
       <StyledSlider {...settings}>
         <div>
-          <img src="images/image1.jpg" alt="First slide"/>
+          <img src={image01} alt="First slide"/>
         </div>
         <div>
-          <img src="images/image2.jpg" alt="Second slide"/>
+          <img src={image02} alt="Second slide"/>
         </div>
         <div>
-          <img src="images/image3.jpg" alt="Third slide"/>
+          <img src={image03} alt="Third slide"/>
         </div>
       </StyledSlider>
     </SliderWrapper>
