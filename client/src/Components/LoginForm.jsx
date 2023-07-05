@@ -105,7 +105,7 @@ function LoginForm() {
       <LoginButton onClick={onLoginClick}>{MESSAGE.LOGIN}</LoginButton>
       <SignUpLinkContainer>
         <SignUpLinkMessage>{MESSAGE.SIGN_UP_LINK_INFO}</SignUpLinkMessage>
-        <SignUpLink to="/">{MESSAGE.SIGN_UP_LINK_MESSAGE}</SignUpLink>
+        <SignUpLink to="/signup">{MESSAGE.SIGN_UP_LINK_MESSAGE}</SignUpLink>
       </SignUpLinkContainer>
     </LoginInputContainer>
   );
