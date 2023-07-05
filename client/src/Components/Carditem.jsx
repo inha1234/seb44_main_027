@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Card } from './Carditem.style';
-import PostModal from './PostModal';
+import PostModal from './PostDetailModal';
 
 function Carditem ({ item }){
 
@@ -8,8 +8,7 @@ function Carditem ({ item }){
 
   const hendleClick = () => {
     setIsModal(!isModal)
-    const newURL = "/new-url"; // 변경하고자 하는 URL
-    window.history.pushState({}, "", newURL);
+    window.history.pushState({}, "", `/posts/${item.postId}`);
   }
 
   return (
@@ -17,7 +16,7 @@ function Carditem ({ item }){
       <Card onClick={hendleClick}>
         <img src={item.imageUrl} alt="카드이미지" />
       </Card>
-      {isModal ? <PostModal item={item}/> : undefined}
+      {isModal ? <PostModal item={item} setIsModal={setIsModal}/> : undefined}
     </>
   )
 }

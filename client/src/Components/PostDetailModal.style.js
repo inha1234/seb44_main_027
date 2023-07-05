@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Modal = styled.section`
   position: fixed;
@@ -13,14 +14,18 @@ export const Modal = styled.section`
 `;
 
 export const PostDetail = styled.div`
+  margin: 0 100px;
   width: auto;
-  height: 75%;
+  max-width: 1364px;
+  height: auto;
   border-radius: 6px;
   background-color: #fff;
+  display: flex;
 `;
 
 export const PostImg = styled.div`
   width: 60%;
+  min-width: 530px;
   > img {
     display: block;
     width: 100%;
@@ -28,4 +33,18 @@ export const PostImg = styled.div`
     object-fit: cover;
     aspect-ratio: 1/1;
   }
+`;
+
+export const PostBody = styled.div`
+  width: 530px;
+  height: auto;
+`;
+
+export const CloseBtn = styled(FontAwesomeIcon)`
+  font-size: 28px;
+  color: #fff;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  cursor: pointer;
 `;
