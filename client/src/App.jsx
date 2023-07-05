@@ -1,39 +1,35 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createGlobalStyle } from "styled-components";
+import store from "./redux/store";
+import Main from "./Pages/Main";
+import Login from "./Pages/Login";
 import ShareBoard from './Components/ShareBoard'
 
+const GlobalStyle = createGlobalStyle`
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+`;
 function App() {
-  // const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0)
 
   return (
-
-    <ShareBoard />
-    // <>
-    //   <div>
-    //     <a href="https://vitejs.dev" target="_blank">
-    //       <img src={viteLogo} className="logo" alt="Vite logo" />
-    //     </a>
-    //     <a href="https://react.dev" target="_blank">
-    //       <img src={reactLogo} className="logo react" alt="React logo" />
-    //     </a>
-    //   </div>
-    //   <h1>Vite + React</h1>
-    //   <div className="card">
-    //     <button onClick={() => setCount((count) => count + 1)}>
-    //       count is {count}
-    //     </button>
-    //     <p>
-    //       Edit <code>src/App.jsx</code> and save to test HMR
-    //     </p>
-    //   </div>
-    //   <p className="read-the-docs">
-    //     Click on the Vite and React logos to learn more
-    //   </p>
-    // </>
-  )
+    <>
+      <Provider store={store}>
+        <Router>
+          <GlobalStyle />
+          <Routes>
+            <Route exact path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </Router>
+      </Provider>
+    </>
+  );
 }
 
-export default App
+export default App;
