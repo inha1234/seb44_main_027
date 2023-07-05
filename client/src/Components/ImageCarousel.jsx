@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 const SliderWrapper = styled.div`
   width: 100%;
   height: 100%;
-  position: relative; // Relative position을 추가합니다.
+  position: relative;
 `;
 
 const StyledSlider = styled(Slider)`
@@ -18,20 +18,19 @@ const StyledSlider = styled(Slider)`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; // 변경되었습니다.
-    width: 50vw; // 변경되었습니다.
+    height: 100vh; 
+    width: 50vw; 
   }
 
   .slick-slide img {
     width: auto;
     height: auto;
-    max-height: 100vh; // 변경되었습니다.
-    max-width: 50vw; // 변경되었습니다.
+    max-height: 100vh; 
+    max-width: 50vw; 
     object-fit: contain; 
   }
 `;
 
-// Dots를 스타일링합니다.
 const StyledDots = styled.ul`
   position: absolute;
   bottom: 40px;
@@ -59,7 +58,7 @@ const StyledDots = styled.ul`
 export default function ImageCarousel() {
     const settings = {
         dots: true,
-        dotsClass: "slick-dots", // dotsClass를 추가합니다.
+        dotsClass: "slick-dots",
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -67,7 +66,7 @@ export default function ImageCarousel() {
         autoplay: true,
         autoplaySpeed: 3000,
         appendDots: dots => (
-          <StyledDots>{dots}</StyledDots> // dots를 StyledDots로 감쌉니다.
+          <StyledDots>{dots}</StyledDots> //
         ),
     }
 
