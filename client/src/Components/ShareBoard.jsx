@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { BoardBox, Title, CardList, Btn } from './ShareBoard.style.js';
 import Carditem from './Carditem.jsx';
@@ -79,7 +78,7 @@ const dummyData = {
  }
 
 
-const ShareBoard = () => {
+function ShareBoard (){
   return (
     <BoardBox>
       <Title>

@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Modal, PostDetail, PostImg } from "./PostModal.style";
 
-const PostModal = ({ item }) => {
+function PostModal ({ item }){
 
   return (
     <Modal>

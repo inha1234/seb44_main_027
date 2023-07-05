@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 import { Card } from './Carditem.style';
 import PostModal from './PostModal';
 
-const Carditem = ({ item }) => {
+function Carditem ({ item }){
 
   const [isModal, setIsModal] = useState(false);
 
   const hendleClick = () => {
     setIsModal(!isModal)
+    const newURL = "/new-url"; // 변경하고자 하는 URL
+    window.history.pushState({}, "", newURL);
   }
 
   return (
