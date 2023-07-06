@@ -1,4 +1,4 @@
-package com.codestates.mainProject.domain.member.entity;
+package com.codestates.mainProject.member.entity;
 
 import com.codestates.mainProject.audit.Auditable;
 import com.codestates.mainProject.follow.entity.Follow;

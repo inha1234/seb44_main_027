@@ -1,6 +1,6 @@
 package com.codestates.mainProject.follow.entity;
 
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

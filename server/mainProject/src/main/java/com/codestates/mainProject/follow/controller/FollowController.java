@@ -1,6 +1,6 @@
 package com.codestates.mainProject.follow.controller;
 
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.follow.dto.FollowDto;
 import com.codestates.mainProject.follow.entity.Follow;
 import com.codestates.mainProject.follow.mapper.FollowMapper;

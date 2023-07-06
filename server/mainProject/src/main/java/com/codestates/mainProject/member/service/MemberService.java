@@ -1,10 +1,10 @@
-package com.codestates.mainProject.domain.member.service;
+package com.codestates.mainProject.member.service;
 
 
-import com.codestates.mainProject.domain.member.dto.MemberDto;
-import com.codestates.mainProject.domain.member.entity.Member;
-import com.codestates.mainProject.domain.member.mapper.MemberMapper;
-import com.codestates.mainProject.domain.member.repository.MemberRepository;
+import com.codestates.mainProject.member.dto.MemberDto;
+import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.member.mapper.MemberMapper;
+import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
