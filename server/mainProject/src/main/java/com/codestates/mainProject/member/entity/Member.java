@@ -3,6 +3,8 @@ package com.codestates.mainProject.member.entity;
 import com.codestates.mainProject.audit.Auditable;
 import com.codestates.mainProject.follow.entity.Follow;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.codestates.mainProject.posts.entity.Post;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,5 +50,11 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "following")
     @JsonIgnore
     private List<Follow> following = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
+    public void addPost(Post post) {
+        posts.add(post);
+    }
 
 }
