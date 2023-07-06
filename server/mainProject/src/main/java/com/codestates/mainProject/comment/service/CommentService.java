@@ -1,9 +1,9 @@
-package com.codestates.comment.service;
+package com.codestates.mainProject.comment.service;
 
 import com.codestates.mainProject.comment.entity.Comment;
 import com.codestates.mainProject.comment.repository.CommentRepository;
-import com.codestates.mainProject.domain.member.entity.Member;
-import com.codestates.mainProject.domain.member.repository.MemberRepository;
+import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import org.springframework.stereotype.Service;

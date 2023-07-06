@@ -1,4 +1,4 @@
-package com.codestates.comment.controller;
+package com.codestates.mainProject.comment.controller;
 
 import com.codestates.mainProject.comment.dto.CommentDto;
 import com.codestates.mainProject.comment.entity.Comment;

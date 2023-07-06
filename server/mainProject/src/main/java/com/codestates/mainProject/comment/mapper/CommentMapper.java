@@ -1,8 +1,8 @@
-package com.codestates.comment.mapper;
+package com.codestates.mainProject.comment.mapper;
 
 import com.codestates.mainProject.comment.dto.CommentDto;
 import com.codestates.mainProject.comment.entity.Comment;
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.member.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
