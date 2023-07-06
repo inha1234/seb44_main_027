@@ -1,7 +1,7 @@
-package com.codestates.mainProject.domain.member.mapper;
+package com.codestates.mainProject.member.mapper;
 
-import com.codestates.mainProject.domain.member.dto.MemberDto;
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.member.dto.MemberDto;
+import com.codestates.mainProject.member.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

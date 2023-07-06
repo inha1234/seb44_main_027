@@ -1,7 +1,7 @@
-package com.codestates.mainProject.domain.member.controller;
+package com.codestates.mainProject.member.controller;
 
-import com.codestates.mainProject.domain.member.dto.MemberDto;
-import com.codestates.mainProject.domain.member.service.MemberService;
+import com.codestates.mainProject.member.dto.MemberDto;
+import com.codestates.mainProject.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
