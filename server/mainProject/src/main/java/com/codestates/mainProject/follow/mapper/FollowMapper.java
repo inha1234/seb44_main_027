@@ -8,5 +8,7 @@ import org.mapstruct.Mapper;
 public interface FollowMapper {
     Follow followPostDtoToFollow(FollowDto.Post requestBody);
 
-    FollowDto.Response followToFollowResponse(Follow follow);
+//    FollowDto.Response followToFollowResponse(Follow follow);
+
+
 }

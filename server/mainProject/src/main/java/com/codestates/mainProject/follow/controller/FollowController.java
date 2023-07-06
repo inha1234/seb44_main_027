@@ -48,13 +48,17 @@ public class FollowController {
     }
 
     @GetMapping("/followers")
-    public List<Member> getFollowers(@RequestParam("memberId") Long memberId) {
-        return followService.getFollowers(memberId);
+    public ResponseEntity getFollowers(@RequestParam("memberId") Long memberId) {
+        List<FollowDto.Members> followerMember = followService.getFollowers(memberId);
+
+        return new ResponseEntity<>(followerMember, HttpStatus.OK);
     }
 
     @GetMapping("/followings")
-    public List<Member> getFollowings(@RequestParam("memberId") Long memberId) {
-        return followService.getFollowings(memberId);
+    public ResponseEntity getFollowings(@RequestParam("memberId") Long memberId) {
+        List<FollowDto.Members> followingMember = followService.getFollowings(memberId);
+
+        return new ResponseEntity<>(followingMember, HttpStatus.OK);
     }
 
 
