@@ -1,6 +1,7 @@
-package com.codestates.mainProject.domain.member.entity;
+package com.codestates.mainProject.member.entity;
 
 import com.codestates.mainProject.audit.Auditable;
+import com.codestates.mainProject.posts.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "members")
 @Getter
@@ -34,5 +37,12 @@ public class Member extends Auditable {
     private String activityArea;
     private boolean active = true;
 //    private String ImageUrl;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
+    public void addPost(Post post) {
+        posts.add(post);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.codestates.mainProject.posts.entity;
 
 import com.codestates.mainProject.audit.Auditable;
+import com.codestates.mainProject.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,17 +28,18 @@ public class Post extends Auditable {
     @Column(nullable = false, updatable = false)
     private String category;
 
-    /* Image Upload, Download
+    /* 이미지 업로드, 다운로드 기능 미구현
     @Column(nullable = false)
     private String imageUrl;
     */
 
-    /* JPA Entity Mapping
-    @OneToMany
+    /* JPA Entity Mapping */
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(mappedBy = "post", cascade = {CascadeType.ALL})
+    /*
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.ALL})
     private List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment){
