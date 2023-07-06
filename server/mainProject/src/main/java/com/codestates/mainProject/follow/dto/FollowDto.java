@@ -1,6 +1,6 @@
 package com.codestates.mainProject.follow.dto;
 
-import com.codestates.mainProject.advice.audit.Auditable;
+import com.codestates.mainProject.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
