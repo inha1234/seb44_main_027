@@ -24,7 +24,7 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity postComment(@Valid @RequestBody CommentDto.Post commentPostDto) {
+    public ResponseEntity postComment(@Valid @RequestBody CommentDto.PostDto commentPostDto) {
         Comment comment = commentService.createComment(mapper.commentPostToComment(commentPostDto));
 
         return new ResponseEntity<>(HttpStatus.CREATED);

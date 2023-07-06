@@ -1,6 +1,7 @@
 package com.codestates.mainProject.comment.dto;
 
 import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.posts.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +15,12 @@ public class CommentDto {
 
     @Getter
     @AllArgsConstructor
-    public static class Post {
+    public static class PostDto {
         @Positive
         private long memberId;
 
-//        @Positive
-//        private long postId;
+        @Positive
+        private long postId;
 //
 //        @Positive
 //        private long crewingId;
@@ -33,11 +34,11 @@ public class CommentDto {
             return member;
         }
 
-//        public Post getPost() {
-//            Post post = new Post();
-//            post.setPostId(postId);
-//            return post;
-//        }
+        public Post getPost() {
+            Post post = new Post();
+            post.setPostId(postId);
+            return post;
+        }
 
 //        public Crewing getCrewing() {
 //            Crewing crewing = new Crewing();
@@ -62,7 +63,7 @@ public class CommentDto {
     public static class Response {
         private long commentId;
         private long memberId;
-//        private long postId;
+        private long postId;
 //        private long crewingId;
         private String content;
         private LocalDateTime createdAt;
@@ -72,9 +73,9 @@ public class CommentDto {
             this.memberId = member.getMemberId();
         }
 
-//        public void setPost(Post post) {
-//            this.postId = post.getPostId();
-//        }
+        public void setPost(Post post) {
+            this.postId = post.getPostId();
+        }
 
 //        public void setCrewing(Crewing crewing) {
 //            this.crewingId = crewing.getCrewingId();

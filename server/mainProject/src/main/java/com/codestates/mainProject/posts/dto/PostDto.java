@@ -1,5 +1,7 @@
 package com.codestates.mainProject.posts.dto;
 
+import com.codestates.mainProject.comment.dto.CommentDto;
+import com.codestates.mainProject.comment.entity.Comment;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -7,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostDto {
     @Getter
@@ -30,7 +33,9 @@ public class PostDto {
     }
 
     @Getter
-    @Builder
+    @Setter
+    @NoArgsConstructor
+//    @Builder
     public static class ResponseDto {
         private long postId;
 
@@ -45,5 +50,7 @@ public class PostDto {
         private LocalDateTime createdAt;
 
         private LocalDateTime modifiedAt;
+
+        private List<CommentDto.Response> comments;
     }
 }

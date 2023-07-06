@@ -44,11 +44,9 @@ public class Member extends Auditable {
 //    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "follower")
-    @JsonIgnore
     private List<Follow> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "following")
-    @JsonIgnore
     private List<Follow> following = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();
