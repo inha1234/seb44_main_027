@@ -1,4 +1,4 @@
-package com.codestates.mainProject.domain.member.dto;
+package com.codestates.mainProject.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +39,18 @@ public class MemberDto {
         private String activityArea;
 //        private String ImageUrl;
     }
+//    @Getter
+//    @Setter
+//    @AllArgsConstructor
+//    public static class Login{
+//        @Email(message = "이메일 형식이 아닙니다.")
+//        @NotBlank(message = "이메일은 필수로 입력해야하는 값입니다.")
+//        private String email;
+//        @NotBlank
+//        @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
+//        private String password;
+//    }
+
     @Getter
     @Setter
     @AllArgsConstructor

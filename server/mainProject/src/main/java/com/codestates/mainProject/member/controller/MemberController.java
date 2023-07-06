@@ -1,18 +1,26 @@
-package com.codestates.mainProject.domain.member.controller;
+package com.codestates.mainProject.member.controller;
 
-import com.codestates.mainProject.domain.member.dto.MemberDto;
-import com.codestates.mainProject.domain.member.service.MemberService;
+
+import com.codestates.mainProject.Authority.AuthoritymemberAuthenticationProvider.MemberAuthenticationProvider;
+import com.codestates.mainProject.member.dto.MemberDto;
+import com.codestates.mainProject.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
+    private final MemberAuthenticationProvider memberAuthenticationProvider;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, MemberAuthenticationProvider memberAuthenticationProvider) {
         this.memberService = memberService;
+        this.memberAuthenticationProvider = memberAuthenticationProvider;
     }
 
     @PostMapping("/signUp")
@@ -36,4 +44,10 @@ public class MemberController {
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+//    @PostMapping("/login")
+//    public ResponseEntity loginMember(@RequestBody MemberDto.Login login){
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
+//
+//        return new ResponseEntity<>( memberAuthenticationProvider.authenticate(authentication), HttpStatus.OK);
+//    }
 }

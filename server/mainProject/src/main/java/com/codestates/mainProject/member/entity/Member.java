@@ -1,4 +1,4 @@
-package com.codestates.mainProject.domain.member.entity;
+package com.codestates.mainProject.member.entity;
 
 import com.codestates.mainProject.audit.Auditable;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "members")
 @Getter
@@ -28,11 +30,11 @@ public class Member extends Auditable {
     @NotBlank
     private String username;
     @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
     private String password;
     @Column(name = "activity_area", length = 100)
     private String activityArea;
     private boolean active = true;
 //    private String ImageUrl;
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 }
