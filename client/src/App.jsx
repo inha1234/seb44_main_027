@@ -7,6 +7,7 @@ import Main from "./Pages/Main";
 import Login from "./Pages/Login";
 import Workout from "./Pages/Workout";
 import Diet from "./Pages/Diet"
+import PostDetail from "./Pages/PostDetail";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/workout" element={<Workout />} />
             <Route path="/diet" element={<Diet />} />
+            <Route path="/posts/:postId" element={<PostDetail />} />
           </Routes>
         </Router>
       </Provider>

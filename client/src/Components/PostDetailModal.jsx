@@ -1,9 +1,12 @@
 import React, {useEffect, useRef} from "react";
-import { Modal, PostDetail, PostImg, PostBody,CloseBtn } from "./PostDetailModal.style";
+import { Modal, CloseBtn } from "./PostDetailModal.style";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import PostContent from "./PostContent";
+import PostDatailBox from "./PostDetailBox.jsx";
+
 
 function PostDetailModal ({ item, setIsModal }){
+
+  const closeIcon = faXmark;
 
   // 모달 닫기
   const closeModal = () => {
@@ -15,6 +18,7 @@ function PostDetailModal ({ item, setIsModal }){
   const modalRef = useRef(null);
   useEffect(() => {
     function handleOutside(e) {
+      console.log(modalRef.current)
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         closeModal();
       }
@@ -29,16 +33,11 @@ function PostDetailModal ({ item, setIsModal }){
 
   return (
     <Modal>
-      <PostDetail ref={modalRef}>
-        <PostImg>
-          <img src={item.imageUrl} alt="게시글 이미지" />
-        </PostImg>
-        <PostBody>
-          <PostContent item={item}/>
-          <div></div>
-        </PostBody>
-      </PostDetail>
-      <CloseBtn icon={faXmark} onClick={closeModal}/>
+        
+        <div ref={modalRef}> 
+          <PostDatailBox  item={item}/>
+        </div> {/* 함수형 컴포넌트에서는 useRef를 사용할 수 없기때문에 useRef를 사용하기 위해 생성한 div 태그 */}
+        <CloseBtn icon={closeIcon} onClick={closeModal}/>
     </Modal>
   )
 
