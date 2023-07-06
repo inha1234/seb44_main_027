@@ -1,4 +1,4 @@
-package com.codestates.comment.entity;
+package com.codestates.mainProject.comment.entity;
 
 import com.codestates.mainProject.advice.audit.Auditable;
 import com.codestates.mainProject.domain.member.entity.Member;

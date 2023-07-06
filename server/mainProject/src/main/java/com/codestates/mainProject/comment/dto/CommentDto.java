@@ -1,6 +1,6 @@
-package com.codestates.comment.dto;
+package com.codestates.mainProject.comment.dto;
 
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
