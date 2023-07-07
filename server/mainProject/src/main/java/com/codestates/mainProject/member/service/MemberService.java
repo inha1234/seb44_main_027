@@ -1,6 +1,7 @@
 package com.codestates.mainProject.member.service;
 
 
+import com.codestates.mainProject.Authority.util.AuthorityUtil;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.mapper.MemberMapper;
@@ -20,18 +21,19 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AuthorityUtil authorityUtil;
 
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil) {
         this.memberRepository = memberRepository;
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
+        this.authorityUtil = authorityUtil;
     }
-
     public void createMember(MemberDto.Post post){
-        findByEmailPost(post.getEmail());
+        findExist(post.getEmail(),"email");
         Member member = memberMapper.memberPostDtoToMember(post);
-//        List<String> roles = authorityUtils.createRoles();
-//        member.setRoles(roles);
+        List<String> roles = authorityUtil.createRoles();
+        member.setRoles(roles);
         member.setPassword(encodePassword(member.getPassword()));
         Member savedMember = memberRepository.save(member);
         memberMapper.memberToMemberResponseDto(savedMember);
@@ -39,8 +41,8 @@ public class MemberService {
 
     public void putMember(long memberId,MemberDto.Put put){
         Member findMember = findMember(memberId);
-        Optional.ofNullable(put.getUsername())
-                .ifPresent(findMember::setUsername);
+        Optional.ofNullable(put.getUserName())
+                .ifPresent(findMember::setUserName);
         Optional.ofNullable(put.getPassword())
                 .ifPresent(password -> findMember.setPassword(encodePassword(password)));
         Optional.ofNullable(put.getActivityArea())
@@ -49,30 +51,42 @@ public class MemberService {
 //                .ifPresent(findMember::setImageUrl);
         memberRepository.save(findMember);
     }
-
+    @Transactional(readOnly = true)
     public MemberDto.Response getMember(long memberId){
         Member member = findMember(memberId);
         return memberMapper.memberToMemberResponseDto(member);
     }
 
     public void deleteMember(long memberId){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        if(!member.isActive()){
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-       }
-        member.setActive(false);
+        Member findMember = findMember(memberId);
+        findMember.setActive(false);
 
     }
+    @Transactional(readOnly = true)
+    public void findExist(MemberDto.Exist exist){
+        if(!(exist.getEmail()==null) && exist.getUserName()==null){
+            findExist(exist.getEmail(), "email");
+        } else if (!(exist.getUserName()==null) && exist.getEmail()==null) {
+            findExist(exist.getUserName(),"username");
+        } else {
+            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
+        }
+    }
+
 
     private String encodePassword(String password){
         String encodePassword = passwordEncoder.encode(password);
         return encodePassword;
     }
-
-    private void findByEmailPost(String email){
-        if(memberRepository.findByEmail(email).isPresent()){
-            throw new BusinessLogicException(ExceptionCode.MEMBER_EXIST);
+    private void findExist(String exist, String findExist){
+        if(findExist.equals("email")){
+            if(memberRepository.findByEmail(exist).isPresent()){
+                throw new BusinessLogicException(ExceptionCode.MEMBER_EXIST);
+            }
+        } else if (findExist.equals("username")) {
+            if(memberRepository.findByUserName(exist).isPresent()){
+                throw new BusinessLogicException(ExceptionCode.USERNAME_EXIST);
+            }
         }
     }
 

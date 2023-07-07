@@ -24,14 +24,15 @@ public class Member extends Auditable {
     private Long memberId;
     @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank
-    @Column(unique = true, length = 100)
+    @Column(unique = true)
     private String email;
     @Size(max = 8, message = "유저 네임은 8글자를 넘길 수 없습니다.")
     @NotBlank
-    private String username;
+    @Column(unique = true)
+    private String userName;
     @NotBlank
     private String password;
-    @Column(name = "activity_area", length = 100)
+    @Column(name = "activity_area")
     private String activityArea;
     private boolean active = true;
 //    private String ImageUrl;

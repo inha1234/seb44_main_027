@@ -1,7 +1,6 @@
 package com.codestates.mainProject.member.controller;
 
 
-import com.codestates.mainProject.Authority.AuthoritymemberAuthenticationProvider.MemberAuthenticationProvider;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -16,11 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-    private final MemberAuthenticationProvider memberAuthenticationProvider;
 
-    public MemberController(MemberService memberService, MemberAuthenticationProvider memberAuthenticationProvider) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.memberAuthenticationProvider = memberAuthenticationProvider;
     }
 
     @PostMapping("/signUp")
@@ -44,6 +41,13 @@ public class MemberController {
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping("/findExist")
+    public ResponseEntity findExist(@RequestBody MemberDto.Exist exist){
+        memberService.findExist(exist);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 //    @PostMapping("/login")
 //    public ResponseEntity loginMember(@RequestBody MemberDto.Login login){
 //        Authentication authentication = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
