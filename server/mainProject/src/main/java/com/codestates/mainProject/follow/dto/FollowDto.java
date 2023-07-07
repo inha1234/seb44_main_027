@@ -24,9 +24,8 @@ public class FollowDto extends Auditable {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Response {
-        private long followerId;
-        private long followingId;
-        private LocalDateTime createdAt;
+    public static class Members {
+        private long memberId;
+        private String username;
     }
 }

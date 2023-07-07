@@ -36,7 +36,7 @@ public class FollowController {
     }
 
     @GetMapping("/counts")
-    public Map<String, Integer> countFollowers(@RequestParam("memberId") long memberId) {
+    public ResponseEntity countFollowers(@RequestParam("memberId") long memberId) {
         int followersCount = followService.countFollowers(memberId);
         int followingsCount = followService.countFollowings(memberId);
 
@@ -44,17 +44,21 @@ public class FollowController {
         counts.put("followersCount", followersCount);
         counts.put("followingsCount", followingsCount);
 
-        return counts;
+        return new ResponseEntity<>(counts, HttpStatus.OK);
     }
 
     @GetMapping("/followers")
-    public List<Member> getFollowers(@RequestParam("memberId") Long memberId) {
-        return followService.getFollowers(memberId);
+    public ResponseEntity getFollowers(@RequestParam("memberId") Long memberId) {
+        List<FollowDto.Members> followerMember = followService.getFollowers(memberId);
+
+        return new ResponseEntity<>(followerMember, HttpStatus.OK);
     }
 
     @GetMapping("/followings")
-    public List<Member> getFollowings(@RequestParam("memberId") Long memberId) {
-        return followService.getFollowings(memberId);
+    public ResponseEntity getFollowings(@RequestParam("memberId") Long memberId) {
+        List<FollowDto.Members> followingMember = followService.getFollowings(memberId);
+
+        return new ResponseEntity<>(followingMember, HttpStatus.OK);
     }
 
 

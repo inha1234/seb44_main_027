@@ -22,12 +22,10 @@ public class Follow {
     private long followingId;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "FOLLOWER_ID", insertable = false, updatable = false)
     private Member follower;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "FOLLOWING_ID", insertable = false, updatable = false)
     private Member following;
 }
