@@ -1,4 +1,4 @@
-package com.codestates.mainProject.Authority.userdetails;
+package com.codestates.mainProject.Authority.memberdetailsservice;
 
 import com.codestates.mainProject.Authority.util.AuthorityUtil;
 import com.codestates.mainProject.exception.BusinessLogicException;
@@ -6,6 +6,7 @@ import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -16,23 +17,21 @@ import java.util.Optional;
 
 @Component
 @Transactional
-public class UserDetails implements UserDetailsService {
+public class MemberDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final AuthorityUtil authorityUtil;
 
-    public UserDetails(MemberRepository memberRepository, AuthorityUtil authorityUtil) {
+    public MemberDetailsService(MemberRepository memberRepository, AuthorityUtil authorityUtil) {
         this.memberRepository = memberRepository;
         this.authorityUtil = authorityUtil;
     }
 
     @Override
-    public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         if(optionalMember.isEmpty()){
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
-
-
         return new MemberDetail(optionalMember.get());
     }
 
@@ -45,7 +44,6 @@ public class UserDetails implements UserDetailsService {
             setPassword(member.getPassword());
             setRoles(member.getRoles());
             setActivityArea(member.getActivityArea());
-
         }
 
         @Override

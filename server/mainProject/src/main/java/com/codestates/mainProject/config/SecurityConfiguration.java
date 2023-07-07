@@ -1,13 +1,18 @@
 package com.codestates.mainProject.config;
 
+import com.codestates.mainProject.Authority.handler.MemberAuthenticationFailureHandler;
+import com.codestates.mainProject.Authority.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.mainProject.Authority.jwt.JwtAuthenticationFilter;
 import com.codestates.mainProject.Authority.jwt.JwtTokenizer;
+import com.codestates.mainProject.Authority.jwt.JwtVerificationFilter;
+import com.codestates.mainProject.Authority.util.AuthorityUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,9 +27,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration{
     private final JwtTokenizer jwtTokenizer;
+    private final AuthorityUtil authorityUtil;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil) {
         this.jwtTokenizer = jwtTokenizer;
+        this.authorityUtil = authorityUtil;
     }
 
     @Bean
@@ -34,14 +41,17 @@ public class SecurityConfiguration{
                .and()
                .csrf().disable()
                .cors(withDefaults())
+               .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+               .and()
                .formLogin().disable()
                .httpBasic().disable()
                .apply(new CustomFilterConfigurer())
                .and()
                .authorizeHttpRequests(authorize -> authorize
-//                       .antMatchers(HttpMethod.POST).permitAll()
-//                       .antMatchers(HttpMethod.PUT).permitAll()
-//                       .antMatchers(HttpMethod.DELETE).permitAll()
+                       .antMatchers(HttpMethod.POST, "/members").permitAll()
+                       .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")
+                       .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
+                       .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
                        .anyRequest().permitAll()
                );
 
@@ -65,8 +75,14 @@ public class SecurityConfiguration{
 
            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
            jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
+           jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+           jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-           builder.addFilter(jwtAuthenticationFilter);
+           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil);
+
+           builder
+                   .addFilter(jwtAuthenticationFilter)
+                   .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
        }
     }
 
