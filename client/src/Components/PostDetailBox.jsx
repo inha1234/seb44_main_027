@@ -11,8 +11,7 @@ function PostDatailBox ({ postId }){
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(url);
-  
+  // GET API
   const getData = () => {
     setLoading(true)
     axios.get(url)
