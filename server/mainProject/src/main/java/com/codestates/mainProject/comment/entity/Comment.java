@@ -1,7 +1,9 @@
 package com.codestates.mainProject.comment.entity;
 
-import com.codestates.mainProject.advice.audit.Auditable;
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.audit.Auditable;
+import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.posts.entity.Post;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,9 +26,9 @@ public class Comment extends Auditable {
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
 
-//    @ManyToOne
-//    @JoinColumn(name = "POST_ID")
-//    private Post post;
+    @ManyToOne
+    @JoinColumn(name = "POST_ID")
+    private Post post;
 //    @ManyToOne
 //    @JoinColumn(name = "CREWING_ID")
 //    private Crewing crewing;

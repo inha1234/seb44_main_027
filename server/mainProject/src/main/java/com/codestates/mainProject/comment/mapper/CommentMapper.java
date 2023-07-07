@@ -1,15 +1,15 @@
-package com.codestates.comment.mapper;
+package com.codestates.mainProject.comment.mapper;
 
 import com.codestates.mainProject.comment.dto.CommentDto;
 import com.codestates.mainProject.comment.entity.Comment;
-import com.codestates.mainProject.domain.member.entity.Member;
+import com.codestates.mainProject.member.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentMapper {
-    Comment commentPostToComment(CommentDto.Post requestBody);
+    Comment commentPostToComment(CommentDto.PostDto requestBody);
 
 //    default Comment commentPostToComment(CommentDto.Post commentPostDto) {
 //        Comment comment = new Comment();
@@ -29,7 +29,7 @@ public interface CommentMapper {
 
         commentResponseDto.setCommentId(comment.getCommentId());
         commentResponseDto.setMember(comment.getMember());
-//        commentResponseDto.setPost(comment.getPost());
+        commentResponseDto.setPost(comment.getPost());
 //        commentResponseDto.setCrewing(comment.getCrewing());
         commentResponseDto.setContent(comment.getContent());
         commentResponseDto.setCreatedAt(comment.getCreatedAt());

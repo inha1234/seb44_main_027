@@ -1,9 +1,9 @@
-package com.codestates.comment.service;
+package com.codestates.mainProject.comment.service;
 
 import com.codestates.mainProject.comment.entity.Comment;
 import com.codestates.mainProject.comment.repository.CommentRepository;
-import com.codestates.mainProject.domain.member.entity.Member;
-import com.codestates.mainProject.domain.member.repository.MemberRepository;
+import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
@@ -25,12 +25,14 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment updateComment(long memberId, Comment comment) {
+    public Comment updateComment(
+//            long memberId,
+            Comment comment) {
         Comment findComment = findVerifiedComment(comment.getCommentId());
 
-        if(!isAuthorized(memberId, comment.getCommentId())) {
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
-        }
+//        if(!isAuthorized(memberId, comment.getCommentId())) {
+//            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+//        }
 
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
@@ -38,12 +40,14 @@ public class CommentService {
         return commentRepository.save(findComment);
     }
 
-    public void deleteComment(long memberId, long commentId) {
+    public void deleteComment(
+//            long memberId,
+            long commentId) {
         Comment findComment = findVerifiedComment(commentId);
 
-        if(!isAuthorized(memberId, commentId)) {
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
-        }
+//        if(!isAuthorized(memberId, commentId)) {
+//            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+//        }
 
         commentRepository.delete(findComment);
     }
@@ -57,10 +61,10 @@ public class CommentService {
         return findComment;
     }
 
-    private boolean isAuthorized(long memberId, long commentId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
-
-        return comment.getMember().getMemberId().equals(memberId);
-    }
+//    private boolean isAuthorized(long memberId, long commentId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+//
+//        return comment.getMember().getMemberId().equals(memberId);
+//    }
 }

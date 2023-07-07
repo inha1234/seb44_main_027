@@ -1,6 +1,7 @@
 package com.codestates.mainProject.posts.entity;
 
 import com.codestates.mainProject.audit.Auditable;
+import com.codestates.mainProject.comment.entity.Comment;
 import com.codestates.mainProject.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,10 @@ public class Post extends Auditable {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
 
     /*
     @OneToMany(mappedBy = "post", cascade = {CascadeType.ALL})
