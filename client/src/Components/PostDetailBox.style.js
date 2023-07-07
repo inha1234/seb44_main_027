@@ -7,11 +7,13 @@ export const Container = styled.div`
   border-radius: 6px;
   background-color: #fff;
   display: flex;
+  overflow: hidden;
 `;
 
 export const PostImg = styled.div`
-  width: 60%;
+  width: 100%;
   min-width: 530px;
+  flex-grow: 1;
   > img {
     display: block;
     width: 100%;
@@ -22,6 +24,9 @@ export const PostImg = styled.div`
 `;
 
 export const PostBody = styled.div`
+  /* width: 530px; */
+  flex-shrink: 0;
   width: 530px;
-  height: auto;
+  display: flex;
+  flex-direction: column;
 `;

@@ -6,6 +6,8 @@ import PostDatailBox from "./PostDetailBox.jsx";
 
 function PostDetailModal ({ item, setIsModal }){
 
+
+
   const closeIcon = faXmark;
 
   // 모달 닫기
@@ -18,7 +20,6 @@ function PostDetailModal ({ item, setIsModal }){
   const modalRef = useRef(null);
   useEffect(() => {
     function handleOutside(e) {
-      console.log(modalRef.current)
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         closeModal();
       }

@@ -2,11 +2,13 @@ import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 
 export const PostContainer = styled.section`
-  width: 100%;
-  height: 45%;
-  padding: 30px;
+  width: 530px;
+  max-height: 300px;
+  padding: 30px 10px 30px 30px;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #dbdbdb;
 `;
 
 export const Author = styled.div`
@@ -51,11 +53,17 @@ export const Title = styled.div`
 `;
 
 export const Text = styled.div`
+  padding-right: 20px;
   font-size: 14px;
   color: #000;
+  line-height: 1.4;
   font-weight: normal;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    display: none;
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #ccc;
   }
 `;

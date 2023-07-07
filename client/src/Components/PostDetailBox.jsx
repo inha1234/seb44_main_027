@@ -1,6 +1,9 @@
 import React from "react";
 import {  Container, PostImg, PostBody } from "./PostDetailBox.style";
 import PostContent from "./PostContent";
+import PostComment from "./PostComment";
+import PostCommentInput from "./PostCommentInput";
+
 
 
 function PostDatailBox ({ item }){
@@ -12,7 +15,8 @@ function PostDatailBox ({ item }){
         </PostImg>
         <PostBody>
           <PostContent item={item}/>
-          <div></div>
+          <PostComment comments={item.comments}/>
+          <PostCommentInput/>
         </PostBody>
       </Container>
   )
