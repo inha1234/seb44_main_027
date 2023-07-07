@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { styled } from "styled-components";
+import { Link } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 export const LoginInputContainer = styled.section`
   width: 345px;
@@ -27,7 +27,7 @@ export const InputHeading = styled.section`
 
 export const InputArea = styled.input`
   font-size: 20px;
-  width: 303px;
+  width: 345px;
   height: 60px;
   padding: 20px;
   border-radius: 4px;

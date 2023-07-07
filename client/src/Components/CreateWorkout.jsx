@@ -1,12 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useRef } from 'react';
-import MakeSport from './Makesport.style.js';
+import MakeSport from './CreateWorkout.style.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Makesport() {
+export default function CreateWorkout() {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
