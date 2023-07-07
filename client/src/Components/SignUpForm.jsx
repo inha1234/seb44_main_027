@@ -16,8 +16,8 @@ import {
   LoginLink,
   ActivityAreaSelect,
 } from "./SignUpForm.style";
-import defaultProfile from "/images/defaultprofile.png";
-import { useNavigate } from "react-router-dom";
+
+import useSignUpForm from "../utils/hooks/useSIgnUpForm";
 
 const MESSAGES = {
   EMAIL_SUCCESS: "사용할 수 있는 이메일입니다",
@@ -40,52 +40,33 @@ const MESSAGES = {
 };
 
 function SignUpForm() {
-  const [email, setEmail] = useState("");
-  const [emailTouched, setEmailTouched] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [nickname, setNickname] = useState("");
-  const [nicknameTouched, setNicknameTouched] = useState(false);
-  const [nicknameError, setNicknameError] = useState(false);
-  const [password, setPassword] = useState("");
-  const [passwordTouched, setPasswordTouched] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false);
-  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-  const [formStep, setFormStep] = useState(0);
-  const [activityArea, setActivityArea] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (emailTouched) {
-      const emailRegex = /\S+@\S+\.\S+/;
-      setEmailError(!emailRegex.test(email));
-    }
-
-    if (nicknameTouched) {
-      const nicknameRegex = /^[a-zA-Z0-9]{1,8}$/;
-      setNicknameError(!nicknameRegex.test(nickname));
-    }
-
-    if (passwordTouched) {
-      const passwordRegex =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@!%*#?&])[A-Za-z\d$@!%*#?&]{8,}$/;
-      setPasswordError(!passwordRegex.test(password));
-    }
-
-    if (confirmPasswordTouched) {
-      setConfirmPasswordError(password !== confirmPassword);
-    }
-  }, [
+  const {
     email,
+    setEmail,
     emailTouched,
+    setEmailTouched,
+    emailError,
     nickname,
+    setNickname,
     nicknameTouched,
+    setNicknameTouched,
+    nicknameError,
     password,
+    setPassword,
     passwordTouched,
+    setPasswordTouched,
+    passwordError,
     confirmPassword,
+    setConfirmPassword,
     confirmPasswordTouched,
-  ]);
+    setConfirmPasswordTouched,
+    confirmPasswordError,
+    formStep,
+    setActivityArea,
+    handleCheckEmailDuplicate,
+    handleCheckNicknameDuplicate,
+    handleSubmit,
+  } = useSignUpForm(MESSAGES);
 
   const errorMessage = {
     email: emailError && emailTouched ? MESSAGES.EMAIL_INVALID : "",
@@ -95,69 +76,6 @@ function SignUpForm() {
       confirmPasswordError && confirmPasswordTouched
         ? MESSAGES.CONFIRM_PASSWORD_INVALID
         : "",
-  };
-
-  const checkEmailDuplicate = () => {
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/members/findExist`, {
-        email: email,
-      })
-      .then(() => {
-        alert(MESSAGES.EMAIL_SUCCESS);
-        setFormStep(1);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 409) {
-          alert(MESSAGES.EMAIL_DUPLICATE);
-        } else {
-          alert(MESSAGES.EMAIL_ERROR);
-        }
-      });
-  };
-
-  const checkNicknameDuplicate = () => {
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/members/findExist`, {
-        userName: nickname,
-      })
-      .then(() => {
-        alert(MESSAGES.NICKNAME_SUCCESS);
-        setFormStep(2);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 409) {
-          alert(MESSAGES.NICKNAME_DUPLICATE);
-        } else {
-          alert(MESSAGES.EMAIL_ERROR);
-        }
-      });
-  };
-
-  const handleSubmit = () => {
-    const newUser = {
-      email: email,
-      userName: nickname,
-      password: password,
-      activityArea: activityArea,
-      imageUrl: defaultProfile,
-    };
-
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/members/signUp`, newUser)
-      .then((response) => {
-        if (response.status === 201) {
-          alert(MESSAGES.SIGNUP_SUCCESS);
-          navigate("/login");
-        } else {
-          alert(MESSAGES.SIGNUP_FAIL);
-          window.location.reload();
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        alert(MESSAGES.SIGNUP_ERROR);
-        window.location.reload();
-      });
   };
 
   return (
@@ -178,7 +96,7 @@ function SignUpForm() {
           <CheckDuplicateButton
             onClick={() => {
               if (email && !emailError) {
-                checkEmailDuplicate();
+                handleCheckEmailDuplicate();
               }
             }}
             disabled={formStep !== 0 || emailError}
@@ -204,7 +122,7 @@ function SignUpForm() {
           <CheckDuplicateButton
             onClick={() => {
               if (nickname && !nicknameError) {
-                checkNicknameDuplicate();
+                handleCheckNicknameDuplicate();
               }
             }}
             disabled={formStep !== 1 || nicknameError}
