@@ -3,26 +3,30 @@ export const dummyData = {
     {
       memberId: "MEM_1",
       userName: "user1",
-      userImageUrl: "../src/assets/mock/1.jpeg",
+      userImageUrhttps:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "1",
       title: "제목",
       content: "내용",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/1.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2017/08/07/14/02/man-2604149_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
@@ -31,26 +35,30 @@ export const dummyData = {
     {
       memberId: "MEM_2",
       userName: "user2",
-      userImageUrl: "../src/assets/mock/2.jpeg",
+      userImageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "2",
       title: "제목2",
       content: "내용2",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/2.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/27/07/08/man-1282232_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
@@ -59,26 +67,30 @@ export const dummyData = {
     {
       memberId: "MEM_3",
       userName: "user3",
-      userImageUrl: "../src/assets/mock/3.jpeg",
+      userImageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "3",
       title: "제목3",
       content: "내용3",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/3.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2020/06/12/00/11/boxing-5288635_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
@@ -87,26 +99,30 @@ export const dummyData = {
     {
       memberId: "MEM_4",
       userName: "user4",
-      userImageUrl: "../src/assets/mock/4.jpeg",
+      userImageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "4",
       title: "제목4",
       content: "내용4",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/4.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2016/11/29/03/53/athletes-1867185_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
@@ -115,26 +131,30 @@ export const dummyData = {
     {
       memberId: "MEM_5",
       userName: "user5",
-      userImageUrl: "../src/assets/mock/5.jpeg",
+      userImageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "5",
       title: "제목5",
       content: "내용5",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/5.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2019/09/06/02/52/football-4455306_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
@@ -143,26 +163,30 @@ export const dummyData = {
     {
       memberId: "MEM_6",
       userName: "user6",
-      userImageUrl: "../src/assets/mock/6.jpeg",
+      userImageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "6",
       title: "제목6",
       content: "내용6",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/6.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2016/11/18/13/23/action-1834465_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
@@ -171,96 +195,110 @@ export const dummyData = {
     {
       memberId: "MEM_7",
       userName: "user7",
-      userImageUrl: "../src/assets/mock/7.jpeg",
+      userImageUrl:
+        "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
       postId: "7",
       title: "제목7",
       content: "내용7",
       category: "카테고리",
-      imageUrl: "../src/assets/mock/7.jpeg",
+      imageUrl:
+        "https://cdn.pixabay.com/photo/2016/11/29/09/10/man-1868632_1280.jpg",
       createdAt: "2023-01-07",
       modifiedAt: "수정일",
       comments: [
         {
           memberId: "MEM_1",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
           memberId: "MEM_2",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_1",
+          memberId: "MEM_3",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_2",
+          memberId: "MEM_4",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_1",
+          memberId: "MEM_5",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_2",
+          memberId: "MEM_6",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_1",
+          memberId: "MEM_7",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_2",
+          memberId: "MEM_8",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_1",
+          memberId: "MEM_9",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_2",
+          memberId: "MEM_10",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_1",
+          memberId: "MEM_11",
           userName: "user1",
-          userImageUrl: "../src/assets/mock/1.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
         {
-          memberId: "MEM_2",
+          memberId: "MEM_12",
           userName: "user2",
-          userImageUrl: "../src/assets/mock/2.jpeg",
+          userImageUrl:
+            "https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg",
           content: "댓글 내용",
           createAt: "2040-02-03",
         },
