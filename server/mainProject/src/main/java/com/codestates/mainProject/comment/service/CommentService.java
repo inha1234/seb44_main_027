@@ -25,12 +25,14 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment updateComment(long memberId, Comment comment) {
+    public Comment updateComment(
+//            long memberId,
+            Comment comment) {
         Comment findComment = findVerifiedComment(comment.getCommentId());
 
-        if(!isAuthorized(memberId, comment.getCommentId())) {
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
-        }
+//        if(!isAuthorized(memberId, comment.getCommentId())) {
+//            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+//        }
 
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
@@ -38,12 +40,14 @@ public class CommentService {
         return commentRepository.save(findComment);
     }
 
-    public void deleteComment(long memberId, long commentId) {
+    public void deleteComment(
+//            long memberId,
+            long commentId) {
         Comment findComment = findVerifiedComment(commentId);
 
-        if(!isAuthorized(memberId, commentId)) {
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
-        }
+//        if(!isAuthorized(memberId, commentId)) {
+//            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+//        }
 
         commentRepository.delete(findComment);
     }
@@ -57,10 +61,10 @@ public class CommentService {
         return findComment;
     }
 
-    private boolean isAuthorized(long memberId, long commentId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
-
-        return comment.getMember().getMemberId().equals(memberId);
-    }
+//    private boolean isAuthorized(long memberId, long commentId) {
+//        Comment comment = commentRepository.findById(commentId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+//
+//        return comment.getMember().getMemberId().equals(memberId);
+//    }
 }

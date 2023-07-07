@@ -31,37 +31,33 @@ public class CommentController {
     }
 
 
-    @GetMapping
-    public String getComment() {
-        return "comments is works";
-    }
-
     @PutMapping("/{comment-id}")
     public ResponseEntity putComment(@Valid @PathVariable("comment-id") long commentId,
-                                     @RequestHeader("Authorization") String authToken,
+//                                     @RequestHeader("Authorization") String authToken,
                                      @Valid @RequestBody CommentDto.Put commentPutDto) {
         commentPutDto.setCommentId(commentId);
-        long memberId = extractMemberIdFromAuthToken(authToken); // 헤더에 있는 토큰에서 memberId를 추출하는 메소드
-        Comment comment = commentService.updateComment(memberId, mapper.commentPutToComment(commentPutDto));
+//        long memberId = extractMemberIdFromAuthToken(authToken); // 헤더에 있는 토큰에서 memberId를 추출하는 메소드
+        Comment comment = commentService.updateComment(mapper.commentPutToComment(commentPutDto));
 
 
         return new ResponseEntity<>(mapper.CommentToCommentResponse(comment), HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteComment(@Valid @PathVariable("comment-id") long commentId,
-                                        @RequestHeader("Authorization") String authToken) {
+    public ResponseEntity deleteComment(@Valid @PathVariable("comment-id") long commentId
+//                                        @RequestHeader("Authorization") String authToken
+    ) {
 
-        long memberId = extractMemberIdFromAuthToken(authToken);
+//        long memberId = extractMemberIdFromAuthToken(authToken);
 
-        commentService.deleteComment(memberId, commentId);
+        commentService.deleteComment(commentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private Long extractMemberIdFromAuthToken(String authToken) {
-
-
-        return null;
-    }
+//    private Long extractMemberIdFromAuthToken(String authToken) {
+//
+//
+//        return null;
+//    }
 }
