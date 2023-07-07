@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import MakeCrew from './Makecrew.style.js';
+import MakeCrew from './CreateCrewing.style.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
@@ -17,7 +17,7 @@ const StyledDatePicker = styled(DatePicker)`
   color: #676767;
 `;
 
-export default function Makeeat() {
+export default function CreateCrewing() {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');

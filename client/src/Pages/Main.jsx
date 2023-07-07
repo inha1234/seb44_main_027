@@ -6,9 +6,9 @@ function Main() {
     <>
       main
       <Link to="login">toLogin</Link>
-      <Link to="make">만들기</Link>
-      <Link to="makeeats">식단</Link>
-      <Link to="makesports">운동</Link>
+      <Link to="create">만들기</Link>
+      <Link to="workout">식단</Link>
+      <Link to="diet">운동</Link>
     </>
   );
 }
