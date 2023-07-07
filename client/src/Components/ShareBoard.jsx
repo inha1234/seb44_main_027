@@ -41,7 +41,7 @@ function ShareBoard ({ type }){
         <h1>
           {type === "workout" ? MESSAGE.TITLE_WORKOUT : MESSAGE.TITLE_DIET}
         </h1>
-        <Btn>
+        <Btn to={type === "workout" ? "/create/workout" : "/create/diet"}>
           {type === "workout" ? MESSAGE.BTN_WORKOUT : MESSAGE.BTN_DIET}
         </Btn>
       </Title>

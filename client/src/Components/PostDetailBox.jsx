@@ -35,7 +35,7 @@ function PostDatailBox ({ postId }){
         <PostBody>
           <PostContent data={data}/>
           <PostComment comments={data.comments}/>
-          <PostCommentInput/>
+          <PostCommentInput postId={postId}/> {/*로그인된 멤버의 프로필 prop 전달 */}
         </PostBody>
       </Container>
   )
