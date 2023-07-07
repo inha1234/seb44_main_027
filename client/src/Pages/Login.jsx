@@ -1,12 +1,17 @@
-import { Link } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
-
+import React from "react";
+import { CarouselContainer, LoginContainer, LoginMain } from "./Login.style";
+import LoginForm from "../Components/LoginForm";
+import ImageCarousel from "../Components/ImageCarousel";
 function Login() {
   return (
-    <>
-      login<Link to="/">toMain</Link>
-    </>
+    <LoginMain>
+      <LoginContainer>
+        <LoginForm />
+      </LoginContainer>
+      <CarouselContainer>
+        <ImageCarousel />
+      </CarouselContainer>
+    </LoginMain>
   );
 }
 
