@@ -1,5 +1,5 @@
-import { styled } from "styled-components";
-import { Link } from "react-router-dom";
+import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const SignUpInputContainer = styled.section`
   width: 345px;
@@ -32,7 +32,7 @@ export const InputWithButtonContainer = styled.section`
 
 export const InputAreaDefault = styled.input`
   font-size: 20px;
-  width: 303px;
+  width: 345px;
   height: 60px;
   padding: 20px;
   border-radius: 4px;
@@ -41,8 +41,8 @@ export const InputAreaDefault = styled.input`
 
 export const InputAreaShort = styled.input`
   font-size: 20px;
-  width: 193px;
-  height: 23px;
+  width: 253px;
+  height: 60px;
   padding: 20px;
   border-radius: 4px;
   border: 1px solid black;
