@@ -58,7 +58,7 @@ function LoginForm() {
     setMessage({ emailMessage: "", passwordMessage: "" });
 
     axios
-      .post("url", form)
+      .post(`${import.meta.env.VITE_API_URL}/members/login`, form)
       .then((res) => {
         if (res.status === 200) {
           const token = res.data.token;
