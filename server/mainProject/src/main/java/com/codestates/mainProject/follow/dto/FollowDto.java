@@ -26,6 +26,6 @@ public class FollowDto extends Auditable {
     @NoArgsConstructor
     public static class Members {
         private long memberId;
-        private String username;
+        private String userName;
     }
 }

@@ -65,11 +65,14 @@ public class CommentDto {
         private long memberId;
         private long postId;
 //        private long crewingId;
+        private String userName;
+//        private String imageUrl;
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
         public void setMember(Member member) {
+            this.userName = member.getUsername();
             this.memberId = member.getMemberId();
         }
 
