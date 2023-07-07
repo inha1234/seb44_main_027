@@ -1,25 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import { BoardBox, Title, CardList, Btn } from './ShareBoard.style.js';
 import Carditem from './Carditem.jsx';
-import { dummyData } from '../assets/mock/dummyData.js';
-// import axios from "axios";
+import axios from "axios";
 
 
 function ShareBoard ({ type }){
-
-  // const url = `${import.meta.env.VITE_KEY}/questions/scroll`
-
-  const data = dummyData;
-
-  // const getPostData = useCallback(() => {
-  //   axios.get('https://api.example.com/data')
-  //     .then(response => {
-  //       setData(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
 
   const MESSAGE = {
     TITLE_WORKOUT: "오늘은 무슨 운동을 하셨나요?",
@@ -28,6 +13,28 @@ function ShareBoard ({ type }){
     BTN_DIET: "식단 게시글 만들기" 
   }
 
+
+  const url = `${import.meta.env.VITE_API_URL}/posts`
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // GET API
+  const getData = () => {
+    setLoading(true)
+    axios.get(url, {params: {category: type}})
+        .then((response) => {
+          setData(response.data)
+          setLoading(false)
+        })
+        .catch((error) => {throw error;});
+  }
+
+  useEffect(() => {
+    getData()
+  }, []);
+
+  
   return (
     <BoardBox>
       <Title>
@@ -39,7 +46,7 @@ function ShareBoard ({ type }){
         </Btn>
       </Title>
       <CardList>
-        {data.posts.map(item => <Carditem key={item.postId} item={item}/>)}
+        {data && data.posts && data.posts.map(item => <Carditem key={item.postId} item={item}/>)}
       </CardList>
     </BoardBox>
   )

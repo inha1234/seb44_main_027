@@ -1,6 +1,7 @@
 import React from "react"
 import ShareBoard from "../Components/ShareBoard";
-import { Nav, Main, Profile } from "./Diet.style";
+import { Main, Profile } from "./Diet.style";
+import Nav from "../Components/nav";
 
 
 function Diet(){
