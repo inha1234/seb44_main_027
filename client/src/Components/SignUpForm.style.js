@@ -2,14 +2,14 @@ import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 
 export const SignUpInputContainer = styled.section`
-    width: 345px;
-`
+  width: 345px;
+`;
 
 export const SignUpHeading = styled.section`
-      font-size: 30px;
+  font-size: 30px;
   font-weight: bold;
   margin-bottom: 70px;
-`
+`;
 
 export const InputWithTitle = styled.section`
   font-size: 14px;
@@ -18,17 +18,17 @@ export const InputWithTitle = styled.section`
   width: 345px;
   height: 90px;
   margin-bottom: 33px;
-`
+`;
 
 export const InputHeading = styled.section`
   margin-bottom: 16px;
 `;
 
 export const InputWithButtonContainer = styled.section`
-    display: flex;
-    width: 345px;
-    align-items: center;
-`
+  display: flex;
+  width: 345px;
+  align-items: center;
+`;
 
 export const InputAreaDefault = styled.input`
   font-size: 20px;
@@ -46,7 +46,7 @@ export const InputAreaShort = styled.input`
   padding: 20px;
   border-radius: 4px;
   border: 1px solid black;
-`
+`;
 
 export const CheckDuplicateButton = styled.button`
   background-color: black;
@@ -67,13 +67,24 @@ export const CheckDuplicateButton = styled.button`
     border: 1px solid darkgray;
     cursor: not-allowed;
   }
-`
+`;
 
 export const InvalidInputIndicator = styled.section`
   margin: 4px;
   color: crimson;
   height: 17px;
   width: 450px;
+`;
+
+export const ActivityAreaSelect = styled.select`
+  font-size: 20px;
+  line-height: 20px;
+  height: 60px;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid black;
+  -webkit-appearance: none;
+  appearance: none;
 `;
 
 export const SignUpButton = styled.button`
