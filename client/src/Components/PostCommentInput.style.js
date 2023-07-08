@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const InputContainer = styled.div`
   width: 530px;
@@ -50,6 +50,11 @@ export const InputContainer = styled.div`
 
     &:hover {
       color: #737373;
+    }
+
+    &:disabled {
+      color: #dbdbdb;
+      cursor: no-drop;
     }
   }
 `;
