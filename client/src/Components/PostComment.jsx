@@ -10,7 +10,7 @@ function PostComment ({ comments }){
     <CommentContainer>
       <CommentList>
         <ul>
-          {comments.map( item => <PostCommentItem key={item.memberId} item={item}/>)}
+          {comments&&comments.map( item => <PostCommentItem key={item.memberId} item={item}/>)}
         </ul>
       </CommentList>
     </CommentContainer>

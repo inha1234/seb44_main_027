@@ -1,6 +1,7 @@
 import React from "react"
 import ShareBoard from "../Components/ShareBoard";
-import { Nav, Main, Profile } from "./Workout.style";
+import { Main, Profile } from "./Workout.style";
+import Nav from "../Components/nav";
 
 
 function Workout(){

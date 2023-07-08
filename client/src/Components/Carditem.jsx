@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import { Card } from './Carditem.style';
-import PostModal from './PostDetailModal';
+import PostDetailModal from './PostDetailModal';
 
 function Carditem ({ item }){
+
 
   const [isModal, setIsModal] = useState(false);
 
@@ -16,7 +17,7 @@ function Carditem ({ item }){
       <Card onClick={hendleClick}>
         <img src={item.imageUrl} alt="카드이미지" />
       </Card>
-      {isModal ? <PostModal item={item} setIsModal={setIsModal}/> : undefined}
+      {isModal ? <PostDetailModal postId={item.postId} setIsModal={setIsModal}/> : undefined}
     </>
   )
 }
