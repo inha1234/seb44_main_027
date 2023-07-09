@@ -1,14 +1,14 @@
 import React from 'react';
-import { AuthorityBtn } from './PostEditDelete.style';
+import { Btn } from './CommentEditDelete.style';
 import axios from 'axios';
 
-function PostEditDelete({ postId, memberId }) {
+function CommentEditDelete({ commentId, memberId }) {
   // 로그인된 사용자의 멤버아이디를 임시로 지정
   const loginId = 'MEM_1';
 
-  const url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
+  const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
 
-  // 게시글 삭제 API
+  // 댓글 삭제 API
   const DeletData = () => {
     axios
       .delete(url)
@@ -22,6 +22,7 @@ function PostEditDelete({ postId, memberId }) {
 
   const handleClickDelete = () => {
     const confirmValue = confirm('정말로 삭제하시겠습니까?');
+
     // 로그인된 사용자와 게시글의 작성자가 같으면 삭제요청가능
     if (memberId === loginId && confirmValue) {
       DeletData();
@@ -29,13 +30,11 @@ function PostEditDelete({ postId, memberId }) {
   };
 
   return (
-    <AuthorityBtn.Container>
-      <AuthorityBtn.Edit>수정</AuthorityBtn.Edit>
-      <AuthorityBtn.Delete onClick={handleClickDelete}>
-        삭제
-      </AuthorityBtn.Delete>
-    </AuthorityBtn.Container>
+    <Btn.Container>
+      <Btn.Edit>수정</Btn.Edit>
+      <Btn.Delete onClick={handleClickDelete}>삭제</Btn.Delete>
+    </Btn.Container>
   );
 }
 
-export default PostEditDelete;
+export default CommentEditDelete;
