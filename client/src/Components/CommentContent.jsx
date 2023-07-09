@@ -10,10 +10,7 @@ function CommentContent({ item, setIsEdit }) {
     <Item.Content>
       <Content.Info>
         <Info.Name>{item.userName}</Info.Name>
-        <Info.Content>
-          {/*item.content*/}가장긴댓ㅇ르 사용했을때는 어떻게 보일까요 가장 긴
-          탟ㅅ을 사용했을때는 어떻ㄱ세 표시가 될까요
-        </Info.Content>
+        <Info.Content>{item.content}</Info.Content>
         {loginId === item.memberId ? (
           <CommentEditDelete
             commentId={item.commentId}
