@@ -2,7 +2,7 @@ import React from 'react';
 import { Btn } from './CommentEditDelete.style';
 import axios from 'axios';
 
-function CommentEditDelete({ commentId, memberId }) {
+function CommentEditDelete({ commentId, memberId, setIsEdit }) {
   // 로그인된 사용자의 멤버아이디를 임시로 지정
   const loginId = 'MEM_1';
 
@@ -29,9 +29,13 @@ function CommentEditDelete({ commentId, memberId }) {
     }
   };
 
+  const handleClickEdit = () => {
+    setIsEdit(true);
+  };
+
   return (
     <Btn.Container>
-      <Btn.Edit>수정</Btn.Edit>
+      <Btn.Edit onClick={handleClickEdit}>수정</Btn.Edit>
       <Btn.Delete onClick={handleClickDelete}>삭제</Btn.Delete>
     </Btn.Container>
   );
