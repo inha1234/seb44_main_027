@@ -111,8 +111,8 @@ public class MemberService {
 
     private long getMemberId(Authentication authentication){
         String email = (String) authentication.getPrincipal();
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        return member.getMemberId();
+        Long memberId = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)).getMemberId();
+        return memberId;
     }
 }
