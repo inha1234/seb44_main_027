@@ -1,12 +1,10 @@
-import React from "react"
-import { Main, Container } from "./PostDetail.style";
-import PostDatailBox from "../Components/PostDetailBox.jsx";
+import React from 'react';
+import { Main, Container } from './PostDetail.style';
+import PostDatailBox from '../Components/PostDetailBox.jsx';
 import { useParams } from 'react-router-dom';
-import Nav from "../Components/nav";
+import Nav from '../Components/Nav';
 
-
-function PostDetail(){
-
+function PostDetail() {
   const { postId } = useParams();
 
   return (
@@ -18,7 +16,7 @@ function PostDetail(){
         </Container>
       </Main>
     </>
-  )
+  );
 }
 
 export default PostDetail;
