@@ -8,6 +8,7 @@ import com.codestates.mainProject.member.mapper.MemberMapper;
 import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityUtil authorityUtil;
+    private final String FIND_EMAIL_KEY = "email";
+    private final String FIND_USER_NAME_KEY = "userName";
 
     public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil) {
         this.memberRepository = memberRepository;
@@ -29,8 +32,9 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
         this.authorityUtil = authorityUtil;
     }
+
     public void createMember(MemberDto.Post post){
-        findExist(post.getEmail(),"email");
+        findExist(post.getEmail(), FIND_EMAIL_KEY);
         Member member = memberMapper.memberPostDtoToMember(post);
         List<String> roles = authorityUtil.createRoles();
         member.setRoles(roles);
@@ -39,35 +43,41 @@ public class MemberService {
         memberMapper.memberToMemberResponseDto(savedMember);
     }
 
-    public void putMember(long memberId,MemberDto.Put put){
+    public void putMember(Authentication authentication, long memberId, MemberDto.Put put){
         Member findMember = findMember(memberId);
-        Optional.ofNullable(put.getUserName())
-                .ifPresent(findMember::setUserName);
-        Optional.ofNullable(put.getPassword())
-                .ifPresent(password -> findMember.setPassword(encodePassword(password)));
-        Optional.ofNullable(put.getActivityArea())
-                .ifPresent(findMember::setActivityArea);
-//        Optional.ofNullable(put.getImageUrl())
-//                .ifPresent(findMember::setImageUrl);
-        memberRepository.save(findMember);
+        Long authenticationMemberId = getMemberId(authentication);
+        if(findMember.getMemberId().equals(authenticationMemberId)){
+            Optional.ofNullable(put.getUserName())
+                    .ifPresent(findMember::setUserName);
+            Optional.ofNullable(put.getPassword())
+                    .ifPresent(password -> findMember.setPassword(encodePassword(password)));
+            Optional.ofNullable(put.getActivityArea())
+                    .ifPresent(findMember::setActivityArea);
+//            Optional.ofNullable(put.getImageUrl())
+//                    .ifPresent(findMember::setImageUrl);
+            memberRepository.save(findMember);
+        }
     }
+
     @Transactional(readOnly = true)
     public MemberDto.Response getMember(long memberId){
         Member member = findMember(memberId);
         return memberMapper.memberToMemberResponseDto(member);
     }
 
-    public void deleteMember(long memberId){
+    public void deleteMember(Authentication authentication,long memberId){
         Member findMember = findMember(memberId);
-        findMember.setActive(false);
-
+        Long authenticationMemberId = getMemberId(authentication);
+        if(findMember.getMemberId().equals(authenticationMemberId)){
+            findMember.setActive(false);
+        }
     }
     @Transactional(readOnly = true)
     public void findExist(MemberDto.Exist exist){
         if(!(exist.getEmail()==null) && exist.getUserName()==null){
-            findExist(exist.getEmail(), "email");
+            findExist(exist.getEmail(), FIND_EMAIL_KEY);
         } else if (!(exist.getUserName()==null) && exist.getEmail()==null) {
-            findExist(exist.getUserName(),"username");
+            findExist(exist.getUserName(), FIND_USER_NAME_KEY);
         } else {
             throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
         }
@@ -79,11 +89,11 @@ public class MemberService {
         return encodePassword;
     }
     private void findExist(String exist, String findExist){
-        if(findExist.equals("email")){
+        if(findExist.equals(FIND_EMAIL_KEY)){
             if(memberRepository.findByEmail(exist).isPresent()){
                 throw new BusinessLogicException(ExceptionCode.MEMBER_EXIST);
             }
-        } else if (findExist.equals("username")) {
+        } else if (findExist.equals(FIND_USER_NAME_KEY)) {
             if(memberRepository.findByUserName(exist).isPresent()){
                 throw new BusinessLogicException(ExceptionCode.USERNAME_EXIST);
             }
@@ -97,5 +107,12 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
         return findMember;
+    }
+
+    private long getMemberId(Authentication authentication){
+        String email = (String) authentication.getPrincipal();
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return member.getMemberId();
     }
 }

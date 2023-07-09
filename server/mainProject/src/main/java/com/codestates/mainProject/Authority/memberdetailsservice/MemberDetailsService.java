@@ -36,7 +36,7 @@ public class MemberDetailsService implements UserDetailsService {
     }
 
 
-    private final class MemberDetail extends Member implements org.springframework.security.core.userdetails.UserDetails {
+    private final class MemberDetail extends Member implements UserDetails {
         MemberDetail(Member member){
             setMemberId(member.getMemberId());
             setUserName(member.getUserName());

@@ -26,8 +26,8 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PutMapping("/{member_id}")
-    public ResponseEntity putMember(@PathVariable("member_id") long memberId, @RequestBody MemberDto.Put put){
-        memberService.putMember(memberId,put);
+    public ResponseEntity putMember(Authentication authentication, @PathVariable("member_id") long memberId, @RequestBody MemberDto.Put put){
+        memberService.putMember(authentication, memberId,put);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -37,8 +37,8 @@ public class MemberController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @DeleteMapping("/{member_id}")
-    public ResponseEntity deleteMember(@PathVariable("member_id") long memberId){
-        memberService.deleteMember(memberId);
+    public ResponseEntity deleteMember(Authentication authentication,@PathVariable("member_id") long memberId){
+        memberService.deleteMember(authentication, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/findExist")
@@ -46,12 +46,4 @@ public class MemberController {
         memberService.findExist(exist);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-//    @PostMapping("/login")
-//    public ResponseEntity loginMember(@RequestBody MemberDto.Login login){
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
-//
-//        return new ResponseEntity<>( memberAuthenticationProvider.authenticate(authentication), HttpStatus.OK);
-//    }
 }
