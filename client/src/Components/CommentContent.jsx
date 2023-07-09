@@ -3,8 +3,8 @@ import { Item, Content, Info } from './CommentContent.style';
 import CommentEditDelete from './CommentEditDelete';
 
 function CommentContent({ item, setIsEdit }) {
-  // 로그인된 사용자의 멤버아이디를 임시로 지정
-  const loginId = 'MEM_1';
+  // 로그인된 사용자의 멤버아이디
+  const loginId = sessionStorage.getItem('memberId');
 
   return (
     <Item.Content>

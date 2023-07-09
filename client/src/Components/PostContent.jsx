@@ -6,12 +6,11 @@ import {
   Text,
   AuthorInfo,
 } from './PostContent.style';
-import { dummyText } from '../assets/mock/dummyData.js';
 import PostEditDelete from './PostEditDelete';
 
 function PostContent({ data }) {
-  // 로그인된 사용자의 멤버아이디를 임시로 지정
-  const loginId = 'MEM_1';
+  // 로그인된 사용자의 멤버아이디
+  const loginId = sessionStorage.getItem('memberId');
 
   return (
     <PostContainer>
@@ -34,10 +33,7 @@ function PostContent({ data }) {
         }
       </Author>
       <Title className="title">{data.title}</Title>
-      <Text className="text">
-        {/*data.content*/}
-        {dummyText}
-      </Text>
+      <Text className="text">{data.content}</Text>
     </PostContainer>
   );
 }

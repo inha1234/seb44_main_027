@@ -3,15 +3,20 @@ import { AuthorityBtn } from './PostEditDelete.style';
 import axios from 'axios';
 
 function PostEditDelete({ postId, memberId }) {
-  // 로그인된 사용자의 멤버아이디를 임시로 지정
-  const loginId = 'MEM_1';
+  // 로그인된 사용자의 멤버아이디
+  const loginId = sessionStorage.getItem('memberId');
+  const accessToken = sessionStorage.getItem('token');
 
   const url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
 
   // 게시글 삭제 API
   const DeletData = () => {
     axios
-      .delete(url)
+      .delete(url, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
       .then((response) => {
         console.log(response.data);
       })

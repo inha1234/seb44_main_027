@@ -3,15 +3,24 @@ import { Edit, Btn } from './CommentEdit.style';
 import axios from 'axios';
 
 function CommentEdit({ item, setIsEdit }) {
+  const accessToken = sessionStorage.getItem('token');
   const url = `${import.meta.env.VITE_API_URL}/comments/${item.commentId}`;
   const [commentText, setCommentText] = useState(item.content);
 
   // 댓글 수정 API
   const EditData = () => {
     axios
-      .delete(url, {
-        content: commentText,
-      })
+      .delete(
+        url,
+        {
+          content: commentText,
+        },
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
       .then((response) => {
         console.log(response.data);
       })

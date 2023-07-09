@@ -3,21 +3,30 @@ import { InputContainer } from './PostCommentInput.style';
 import axios from 'axios';
 
 function PostCommentInput({ postId }) {
+  const accessToken = sessionStorage.getItem('token');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
 
-  // 로그인된 사용자의 멤버아이디를 임시로 지정
-  const loginId = 'MEM_1';
+  // 로그인된 사용자의 멤버아이디
+  const loginId = sessionStorage.getItem('memberId');
 
   //댓글작성 api
   const postData = () => {
     if (commentText !== '') {
       axios
-        .post(url, {
-          memberId: loginId,
-          postsId: postId,
-          content: commentText,
-        })
+        .post(
+          url,
+          {
+            memberId: loginId,
+            postsId: postId,
+            content: commentText,
+          },
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
         .then((response) => {
           console.log(response.data);
         })

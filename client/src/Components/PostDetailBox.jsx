@@ -9,12 +9,17 @@ function PostDatailBox({ postId }) {
   const url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const accessToken = sessionStorage.getItem('token');
 
   // GET API
   const getData = () => {
     setLoading(true);
     axios
-      .get(url)
+      .get(url, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
       .then((response) => {
         setData(response.data);
         setLoading(false);
