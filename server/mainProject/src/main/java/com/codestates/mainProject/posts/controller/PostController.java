@@ -2,6 +2,8 @@ package com.codestates.mainProject.posts.controller;
 
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.SingleResponseDto;
+import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.member.service.MemberService;
 import com.codestates.mainProject.posts.dto.PostDto;
 import com.codestates.mainProject.posts.entity.Post;
 import com.codestates.mainProject.posts.mapper.PostMapper;
@@ -25,10 +27,12 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    private final MemberService memberService;
     private final PostMapper mapper;
 
-    public PostController(PostService postService, PostMapper mapper) {
+    public PostController(PostService postService, MemberService memberService, PostMapper mapper) {
         this.postService = postService;
+        this.memberService = memberService;
         this.mapper = mapper;
     }
 
@@ -58,6 +62,24 @@ public class PostController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.postToPostResponse(post)),
         HttpStatus.OK);
+    }
+
+    @GetMapping("/member/{member_id}")
+    public ResponseEntity getMemberPost(@PathVariable("member_id") @Positive long memberId,
+                                   @Positive @RequestParam(defaultValue = "1") int page) {
+
+        Member member = memberService.getMemberById(memberId);
+
+        Pageable pageable = PageRequest.of(page, 15, Sort.by("createdAt").descending());
+
+        Page<Post> pagePosts = postService.getPostsByMember(member, pageable);
+
+        List<Post> posts = pagePosts.getContent();
+        List<PostDto.ResponseDto> responseDto = mapper.postListToPostResponseList(posts);
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(responseDto, pagePosts),
+                HttpStatus.OK);
     }
 
     /**
