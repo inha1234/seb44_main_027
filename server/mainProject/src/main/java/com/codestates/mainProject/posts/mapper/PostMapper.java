@@ -16,7 +16,8 @@ public interface PostMapper {
     @Mapping(target = "member.memberId", source = "memberId")
     Post postRequestToPost(PostDto.RequestDto postRequest); /** PostDto.Request(POST, PUT) 객체를 Post 엔티티로 매핑 */
 
-
+    @Mapping(target = "memberId", source = "member.memberId")
+    @Mapping(target = "userName", source = "member.userName")
     @Mapping(target = "postId", source = "postId")
     @Mapping(target = "title", source = "title")
     @Mapping(target = "content", source = "content")
@@ -31,4 +32,5 @@ public interface PostMapper {
                 .map(this::postToPostResponse)
                 .collect(Collectors.toList());
     }
+
 }

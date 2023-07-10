@@ -37,6 +37,12 @@ public class PostDto {
     @NoArgsConstructor
 //    @Builder
     public static class ResponseDto {
+        private long memberId;
+
+        private String userName;
+
+//        private String userImageUrl;
+
         private long postId;
 
         private String title;

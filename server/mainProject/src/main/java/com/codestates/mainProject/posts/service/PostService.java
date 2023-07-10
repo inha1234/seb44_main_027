@@ -2,12 +2,15 @@ package com.codestates.mainProject.posts.service;
 
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
+import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.posts.entity.Post;
 import com.codestates.mainProject.posts.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,34 +21,35 @@ import java.util.Optional;
 @Transactional
 public class PostService {
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, MemberRepository memberRepository) {
         this.postRepository = postRepository;
+        this.memberRepository = memberRepository;
     }
 
     /** 게시글 생성 */
     public Post createPost(Post post) {
-        /* JWT토큰정보를 이용한 사용자 인증
+        /** JWT토큰정보를 이용한 사용자 인증 */
         String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Optional<Post> verifiedMember = memberRepository.findByEmail(principal);
+        Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
 
         Member member = verifiedMember.
-                orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION_CREATING_POST));
+                orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
 
         post.setMember(member);
         member.addPost(post);
-        */
         return postRepository.save(post);
     }
 
     /** 게시글 수정 */
     public Post updatePost(Post post) {
         Post findPost = findVerifiedPost(post.getPostId());
-        /* JWT토큰정보를 이용한 사용자 인증
+        /** JWT토큰정보를 이용한 사용자 인증 */
         String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION_UPDATEING_POST);
-        */
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+
         Optional.ofNullable(post.getTitle())
                 .ifPresent(title -> findPost.setTitle(title));
         Optional.ofNullable(post.getContent())
@@ -80,14 +84,19 @@ public class PostService {
         return postRepository.findByCategory(category, pageRequest);
     }
 
+    public Page<Post> getPostsByMember(Member member, Pageable pageable) {
+        Pageable pageRequest = PageRequest.of(pageable.getPageNumber() - 1,
+                pageable.getPageSize(), Sort.by("createdAt").descending());
+        return postRepository.findByMember(member, pageRequest);
+    }
+
     /** 게시글 삭제 */
     public void deletePost(long postId) {
         Post findPost = findVerifiedPost(postId);
-        /* JWT토큰정보를 이용한 사용자 인증
+        /** JWT토큰정보를 이용한 사용자 인증 */
         String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION_DELETING_POST);
-        */
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         postRepository.deleteById(postId);
     }
 

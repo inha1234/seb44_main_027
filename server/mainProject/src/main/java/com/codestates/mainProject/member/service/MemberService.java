@@ -1,6 +1,5 @@
 package com.codestates.mainProject.member.service;
 
-
 import com.codestates.mainProject.authority.util.AuthorityUtil;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.entity.Member;
@@ -119,5 +118,10 @@ public class MemberService {
         Long memberId = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)).getMemberId();
         return memberId;
+    }
+
+    public Member getMemberById(long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 }
