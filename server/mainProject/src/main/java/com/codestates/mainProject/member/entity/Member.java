@@ -34,7 +34,6 @@ public class Member extends Auditable {
     @Column(unique = true)
     private String userName;
     @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
     private String password;
     @Column(name = "activity_area")
     private String activityArea;
