@@ -29,10 +29,12 @@ public class Post extends Auditable {
     @Column(nullable = false, updatable = false)
     private String category;
 
-    /* 이미지 업로드, 다운로드 기능 미구현
+    @Column(nullable = true)
+    private long kcal = 0;
+
+    /** 이미지 업로드, 다운로드 기능 미구현 */
     @Column(nullable = false)
     private String imageUrl;
-    */
 
     /* JPA Entity Mapping */
     @ManyToOne
@@ -41,7 +43,6 @@ public class Post extends Auditable {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
-
 
     /*
     @OneToMany(mappedBy = "post", cascade = {CascadeType.ALL})
