@@ -56,6 +56,8 @@ public class MemberService {
 //            Optional.ofNullable(put.getImageUrl())
 //                    .ifPresent(findMember::setImageUrl);
             memberRepository.save(findMember);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         }
     }
 
@@ -70,6 +72,8 @@ public class MemberService {
         Long authenticationMemberId = getMemberId(authentication);
         if(findMember.getMemberId().equals(authenticationMemberId)){
             findMember.setActive(false);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         }
     }
     @Transactional(readOnly = true)
