@@ -1,9 +1,12 @@
 package com.codestates.mainProject.comment.controller;
 
+import com.codestates.mainProject.authority.jwt.JwtTokenizer;
 import com.codestates.mainProject.comment.dto.CommentDto;
 import com.codestates.mainProject.comment.entity.Comment;
 import com.codestates.mainProject.comment.mapper.CommentMapper;
 import com.codestates.mainProject.comment.service.CommentService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +20,7 @@ import javax.validation.Valid;
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper mapper;
+
 
     public CommentController(CommentService commentService, CommentMapper mapper) {
         this.commentService = commentService;
@@ -33,10 +37,8 @@ public class CommentController {
 
     @PutMapping("/{comment-id}")
     public ResponseEntity putComment(@Valid @PathVariable("comment-id") long commentId,
-//                                     @RequestHeader("Authorization") String authToken,
                                      @Valid @RequestBody CommentDto.Put commentPutDto) {
         commentPutDto.setCommentId(commentId);
-//        long memberId = extractMemberIdFromAuthToken(authToken); // 헤더에 있는 토큰에서 memberId를 추출하는 메소드
         Comment comment = commentService.updateComment(mapper.commentPutToComment(commentPutDto));
 
 
@@ -44,20 +46,14 @@ public class CommentController {
     }
 
     @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteComment(@Valid @PathVariable("comment-id") long commentId
-//                                        @RequestHeader("Authorization") String authToken
-    ) {
+    public ResponseEntity deleteComment(@Valid @PathVariable("comment-id") long commentId) {
 
-//        long memberId = extractMemberIdFromAuthToken(authToken);
+
 
         commentService.deleteComment(commentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    private Long extractMemberIdFromAuthToken(String authToken) {
-//
-//
-//        return null;
-//    }
+
 }

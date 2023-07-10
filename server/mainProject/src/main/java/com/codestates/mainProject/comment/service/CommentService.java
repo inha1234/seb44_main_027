@@ -6,6 +6,8 @@ import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,18 +23,24 @@ public class CommentService {
     }
 
     public Comment createComment(Comment comment) {
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
+
+        Member member = verifiedMember.
+                orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
+
+        comment.setMember(member);
 
         return commentRepository.save(comment);
     }
 
-    public Comment updateComment(
-//            long memberId,
-            Comment comment) {
+    public Comment updateComment(Comment comment) {
         Comment findComment = findVerifiedComment(comment.getCommentId());
 
-//        if(!isAuthorized(memberId, comment.getCommentId())) {
-//            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
-//        }
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        if (!findComment.getMember().getEmail().equals(principal))
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+
 
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
@@ -40,14 +48,11 @@ public class CommentService {
         return commentRepository.save(findComment);
     }
 
-    public void deleteComment(
-//            long memberId,
-            long commentId) {
+    public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);
-
-//        if(!isAuthorized(memberId, commentId)) {
-//            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
-//        }
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        if (!findComment.getMember().getEmail().equals(principal))
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
 
         commentRepository.delete(findComment);
     }
@@ -60,11 +65,4 @@ public class CommentService {
 
         return findComment;
     }
-
-//    private boolean isAuthorized(long memberId, long commentId) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
-//
-//        return comment.getMember().getMemberId().equals(memberId);
-//    }
 }
