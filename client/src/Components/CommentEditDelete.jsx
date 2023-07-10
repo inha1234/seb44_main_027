@@ -1,15 +1,21 @@
-import React from 'react';
+import React , {useState}from 'react';
 import { Btn } from './CommentEditDelete.style';
 import axios from 'axios';
+import useUpdatePost from '../utils/hooks/useUpdatePost';
+import { useSelector } from 'react-redux';
 
 function CommentEditDelete({ commentId, memberId, setIsEdit }) {
-  // 로그인된 사용자의 멤버아이디
-  const loginId = sessionStorage.getItem('memberId');
+  const loginId = sessionStorage.getItem('memberId') + "";
   const accessToken = sessionStorage.getItem('token');
   const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
+  const data = useSelector(state => state.postData.data.data);
+  const [isLoding, setIsLoding] = useState(true)
+  const [update] = useUpdatePost(data.postId, setIsLoding);
+  memberId = memberId + "";
+
 
   // 댓글 삭제 API
-  const DeletData = () => {
+  const DeleteData = () => {
     axios
       .delete(url, {
         headers: {
@@ -18,6 +24,7 @@ function CommentEditDelete({ commentId, memberId, setIsEdit }) {
       })
       .then((response) => {
         console.log(response.data);
+        update();
       })
       .catch((error) => {
         throw error;
@@ -29,7 +36,7 @@ function CommentEditDelete({ commentId, memberId, setIsEdit }) {
 
     // 로그인된 사용자와 게시글의 작성자가 같으면 삭제요청가능
     if (memberId === loginId && confirmValue) {
-      DeletData();
+      DeleteData();
     }
   };
 

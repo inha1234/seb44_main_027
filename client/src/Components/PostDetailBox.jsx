@@ -3,49 +3,37 @@ import { Container, PostImg, PostBody } from './PostDetailBox.style';
 import PostContent from './PostContent';
 import PostComment from './PostComment';
 import PostCommentInput from './PostCommentInput';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import useUpdatePost from '../utils/hooks/useUpdatePost';
 
-function PostDatailBox({ postId }) {
-  const url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const accessToken = sessionStorage.getItem('token');
 
-  // GET API
-  const getData = () => {
-    setLoading(true);
-    axios
-      .get(url, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        setData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  };
+
+function PostDatailBox({postId}) {
+  console.log('리렌더링 확인');
+  const [isLoding, setIsLodig] = useState(true);
+  const [update] = useUpdatePost(postId, setIsLodig);
 
   useEffect(() => {
-    getData();
+    update();
   }, []);
 
+  const data = useSelector(state => state.postData.data.data);
+
+
+  if(!isLoding){
   return (
     <Container>
       <PostImg>
-        <img src={data.imageUrl} alt="게시글 이미지" />
+        <img src={data && data.imageUrl} alt="게시글 이미지" />
       </PostImg>
       <PostBody>
-        <PostContent data={data} />
-        <PostComment comments={data.comments} />
-        <PostCommentInput postId={postId} />
-        {/*로그인된 멤버의 프로필 prop 전달 */}
+        <PostContent />
+        <PostComment />
+        <PostCommentInput />
       </PostBody>
     </Container>
   );
+  }
 }
 
 export default PostDatailBox;

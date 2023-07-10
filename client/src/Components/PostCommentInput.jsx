@@ -1,11 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { InputContainer } from './PostCommentInput.style';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import useUpdatePost from '../utils/hooks/useUpdatePost';
 
-function PostCommentInput({ postId }) {
+
+
+function PostCommentInput() {
   const accessToken = sessionStorage.getItem('token');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
+  const data = useSelector(state => state.postData.data.data);
+  const [isLoding, setIsLodig] = useState(true);
+  const [update] = useUpdatePost(data.postId, setIsLodig);
+
+
 
   // 로그인된 사용자의 멤버아이디
   const loginId = sessionStorage.getItem('memberId');
@@ -18,7 +27,7 @@ function PostCommentInput({ postId }) {
           url,
           {
             memberId: loginId,
-            postsId: postId,
+            postsId: data.postId,
             content: commentText,
           },
           {
@@ -29,6 +38,7 @@ function PostCommentInput({ postId }) {
         )
         .then((response) => {
           console.log(response.data);
+          update();
         })
         .catch((error) => {
           throw error;
@@ -38,6 +48,7 @@ function PostCommentInput({ postId }) {
 
   const handleClick = () => {
     postData();
+
   };
 
   const textarea = useRef();
@@ -51,9 +62,7 @@ function PostCommentInput({ postId }) {
   return (
     <InputContainer>
       <img
-        src={
-          'https://cdn.pixabay.com/photo/2016/03/26/22/13/man-1281562_1280.jpg' /* 로그인된 멤버의 프로필이미지*/
-        }
+        src={data.userImageUrl}
         alt="내 프로필이미지"
       />
       <div>

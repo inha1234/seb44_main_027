@@ -31,7 +31,7 @@ function ShareBoard({ type }) {
         }
       )
       .then((response) => {
-        setData(response.data);
+        setData(response.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -42,6 +42,7 @@ function ShareBoard({ type }) {
   useEffect(() => {
     getData();
   }, []);
+
 
   return (
     <BoardBox>
@@ -55,8 +56,8 @@ function ShareBoard({ type }) {
       </Title>
       <CardList>
         {data &&
-          data.posts &&
-          data.posts.map((item) => <Carditem key={item.postId} item={item} />)}
+          data.data &&
+          data.data.map((item) => <Carditem key={item.postId} item={item} />)}
       </CardList>
     </BoardBox>
   );

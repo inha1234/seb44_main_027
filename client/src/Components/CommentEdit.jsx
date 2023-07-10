@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Edit, Btn } from './CommentEdit.style';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import useUpdatePost from '../utils/hooks/useUpdatePost';
 
-function CommentEdit({ item, setIsEdit }) {
+function CommentEdit({ CommentItem, setIsEdit }) {
+  const data = useSelector(state => state.postData.data.data);
   const accessToken = sessionStorage.getItem('token');
-  const url = `${import.meta.env.VITE_API_URL}/comments/${item.commentId}`;
-  const [commentText, setCommentText] = useState(item.content);
+  const url = `${import.meta.env.VITE_API_URL}/comments/${CommentItem.commentId}`;
+  const [commentText, setCommentText] = useState(CommentItem.content);
+  const [isLoding, setIsLoding] = useState(true)
+  const [update] = useUpdatePost(data.postId, setIsLoding);
 
   // 댓글 수정 API
   const EditData = () => {
@@ -23,6 +28,7 @@ function CommentEdit({ item, setIsEdit }) {
       )
       .then((response) => {
         console.log(response.data);
+        update();
       })
       .catch((error) => {
         throw error;
@@ -42,6 +48,7 @@ function CommentEdit({ item, setIsEdit }) {
     if (confirmValue) {
       EditData();
       setIsEdit(false);
+
     }
   };
   return (

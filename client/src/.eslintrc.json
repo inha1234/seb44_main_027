@@ -19,6 +19,18 @@
     },
     "rules": {
       "react/react-in-jsx-scope": 0,
-      "react/jsx-uses-react": 0
+      // "react/jsx-uses-react": 0, //주석제거
+      // 아래제거
+      "no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "none",
+          "ignoreRestSiblings": false,
+          "caughtErrors": "none",
+        },
+      ],
+      "react/jsx-uses-react": "off",
+      "react/jsx-uses-vars": "error",
     }
   }

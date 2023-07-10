@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { Item } from './PostCommentItem.style';
 import CommentContent from './CommentContent';
 import CommentEdit from './CommentEdit';
+import { useSelector } from 'react-redux';
 
-function PostCommentItem({ item }) {
+
+function PostCommentItem({ CommentItem }) {
   const [isEdit, setIsEdit] = useState(false);
+
 
   return (
     <Item.Container>
-      <Item.Profile src={item.userImageUrl} alt="작성자 프로필" />
+      <Item.Profile src={CommentItem.userImageUrl} alt="작성자 프로필" />
       {isEdit ? (
-        <CommentEdit item={item} setIsEdit={setIsEdit} />
+        <CommentEdit CommentItem={CommentItem} setIsEdit={setIsEdit} />
       ) : (
-        <CommentContent item={item} setIsEdit={setIsEdit} />
+        <CommentContent CommentItem={CommentItem} setIsEdit={setIsEdit} />
       )}
     </Item.Container>
   );
