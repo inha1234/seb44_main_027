@@ -54,19 +54,18 @@ server:
     encoding:
       force-response: true
 jwt:
-#  key: ${JWT_SECRET_KEY}
-  key: mySecretKey026mySecretKey026mySecretKey026 # ${JWT_SECRET_KEY}
+  key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
-#cloud:
-#  aws:
-#    s3:
-#      bucket:
-#    credentials:
-#      access-key:
-#      secret-key:
-#    region:
-#      static: ap-northeast-2
-#      auto: false
-#    stack:
-#      auto: false
+cloud:
+  aws:
+    s3:
+      bucket:
+    credentials:
+      access-key: ${ACCESS-KEY}
+      secret-key: ${SECRET-KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
