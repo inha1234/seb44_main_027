@@ -1,7 +1,7 @@
 package com.codestates.mainProject.member.service;
 
 
-import com.codestates.mainProject.Authority.util.AuthorityUtil;
+import com.codestates.mainProject.authority.util.AuthorityUtil;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.mapper.MemberMapper;
@@ -35,6 +35,7 @@ public class MemberService {
 
     public void createMember(MemberDto.Post post){
         findExist(post.getEmail(), FIND_EMAIL_KEY);
+        findExist(post.getUserName(), FIND_USER_NAME_KEY);
         Member member = memberMapper.memberPostDtoToMember(post);
         List<String> roles = authorityUtil.createRoles();
         member.setRoles(roles);

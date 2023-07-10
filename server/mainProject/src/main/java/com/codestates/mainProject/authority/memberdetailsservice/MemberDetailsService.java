@@ -1,6 +1,6 @@
-package com.codestates.mainProject.Authority.memberdetailsservice;
+package com.codestates.mainProject.authority.memberdetailsservice;
 
-import com.codestates.mainProject.Authority.util.AuthorityUtil;
+import com.codestates.mainProject.authority.util.AuthorityUtil;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;

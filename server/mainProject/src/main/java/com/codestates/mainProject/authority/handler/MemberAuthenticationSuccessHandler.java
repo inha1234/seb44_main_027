@@ -1,4 +1,4 @@
-package com.codestates.mainProject.Authority.handler;
+package com.codestates.mainProject.authority.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

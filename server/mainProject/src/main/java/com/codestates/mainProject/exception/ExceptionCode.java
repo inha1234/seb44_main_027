@@ -10,7 +10,7 @@ public enum ExceptionCode {
     POST_NOT_FOUND(404, "post not found"),
     CREWING_NOT_FOUND(404, "crewing not found"),
     COMMENT_NOT_FOUND(404, "comment not found"),
-    NO_PERMISSION(401, "you have no permission"),
+    NO_PERMISSION(403, "you have no permission"),
     FOLLOW_NOT_FOUND(404, "follow not found"),
     FOLLOW_SAME_ID(409, "FollowerId and FollowingId cannot be the same"),
     FOLLOW_EXIST(409, "follow exists");

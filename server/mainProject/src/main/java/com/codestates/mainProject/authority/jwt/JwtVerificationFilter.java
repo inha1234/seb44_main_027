@@ -1,6 +1,6 @@
-package com.codestates.mainProject.Authority.jwt;
+package com.codestates.mainProject.authority.jwt;
 
-import com.codestates.mainProject.Authority.util.AuthorityUtil;
+import com.codestates.mainProject.authority.util.AuthorityUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

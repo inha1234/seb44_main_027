@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -19,12 +21,12 @@ public class MemberController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity signUpMember(@RequestBody MemberDto.Post post){
+    public ResponseEntity signUpMember(@Valid @RequestBody MemberDto.Post post){
         memberService.createMember(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PutMapping("/{member_id}")
-    public ResponseEntity putMember(Authentication authentication, @PathVariable("member_id") long memberId, @RequestBody MemberDto.Put put){
+    public ResponseEntity putMember(Authentication authentication, @PathVariable("member_id") long memberId, @Valid @RequestBody MemberDto.Put put){
         memberService.putMember(authentication, memberId,put);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -41,7 +43,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/findExist")
-    public ResponseEntity findExist(@RequestBody MemberDto.Exist exist){
+    public ResponseEntity findExist(@Valid @RequestBody MemberDto.Exist exist){
         memberService.findExist(exist);
         return new ResponseEntity<>(HttpStatus.OK);
     }

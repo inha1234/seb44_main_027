@@ -1,11 +1,11 @@
 package com.codestates.mainProject.config;
 
-import com.codestates.mainProject.Authority.handler.MemberAuthenticationFailureHandler;
-import com.codestates.mainProject.Authority.handler.MemberAuthenticationSuccessHandler;
-import com.codestates.mainProject.Authority.jwt.JwtAuthenticationFilter;
-import com.codestates.mainProject.Authority.jwt.JwtTokenizer;
-import com.codestates.mainProject.Authority.jwt.JwtVerificationFilter;
-import com.codestates.mainProject.Authority.util.AuthorityUtil;
+import com.codestates.mainProject.authority.handler.MemberAuthenticationFailureHandler;
+import com.codestates.mainProject.authority.handler.MemberAuthenticationSuccessHandler;
+import com.codestates.mainProject.authority.jwt.JwtAuthenticationFilter;
+import com.codestates.mainProject.authority.jwt.JwtTokenizer;
+import com.codestates.mainProject.authority.jwt.JwtVerificationFilter;
+import com.codestates.mainProject.authority.util.AuthorityUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
