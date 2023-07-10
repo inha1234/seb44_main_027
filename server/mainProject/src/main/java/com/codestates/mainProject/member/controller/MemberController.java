@@ -9,8 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-
-
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -28,6 +26,7 @@ public class MemberController {
     @PutMapping("/{member_id}")
     public ResponseEntity putMember(Authentication authentication, @PathVariable("member_id") long memberId, @RequestBody MemberDto.Put put){
         memberService.putMember(authentication, memberId,put);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

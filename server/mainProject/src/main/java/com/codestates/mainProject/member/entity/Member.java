@@ -1,6 +1,9 @@
 package com.codestates.mainProject.member.entity;
 
 import com.codestates.mainProject.audit.Auditable;
+import com.codestates.mainProject.follow.entity.Follow;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.codestates.mainProject.posts.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +34,7 @@ public class Member extends Auditable {
     @Column(unique = true)
     private String userName;
     @NotBlank
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
     private String password;
     @Column(name = "activity_area")
     private String activityArea;
@@ -38,4 +42,18 @@ public class Member extends Auditable {
 //    private String ImageUrl;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+//    @OneToMany(mappedBy = "member") // 댓글과 유저는 단방향 매핑이라 필요 없는 부분일수도
+//    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "follower")
+    private List<Follow> followers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "following")
+    private List<Follow> following = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
+    public void addPost(Post post) {
+        posts.add(post);
+    }
 }
