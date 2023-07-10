@@ -72,7 +72,7 @@ public class CommentDto {
         private LocalDateTime modifiedAt;
 
         public void setMember(Member member) {
-            this.userName = member.getUsername();
+            this.userName = member.getUserName();
             this.memberId = member.getMemberId();
         }
 
