@@ -19,8 +19,8 @@
     },
     "rules": {
       "react/react-in-jsx-scope": 0,
-      // "react/jsx-uses-react": 0, //주석제거
-      // 아래제거
+      // "react/jsx-uses-react": 0, // 원래 상태로 되돌리려면 해당 줄의 주석 처리를 해제해주세요. 
+      // 사용되지 않는 props, import react 오류 줄 제거를 위한 설정을 추가하였습니다. 문제 시 아래의 내용은 삭제하셔도 됩니다.
       "no-unused-vars": [
         "error",
         {

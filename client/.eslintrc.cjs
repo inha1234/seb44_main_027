@@ -11,7 +11,8 @@ module.exports = {
   plugins: ["react"],
   rules: {
     "react/prop-types": "off",
-    // 아래 제거
+
+    // 사용되지 않는 props, import react 오류 줄 제거를 위한 설정을 추가하였습니다. 문제 시 아래의 내용은 삭제하셔도 됩니다.
     "no-unused-vars": [
       "error",
       {
