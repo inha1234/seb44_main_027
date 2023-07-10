@@ -27,19 +27,21 @@ public class Member extends Auditable {
     private Long memberId;
     @Email(message = "이메일 형식이 아닙니다.")
     @NotBlank
-    @Column(unique = true, length = 100)
+    @Column(unique = true)
     private String email;
     @Size(max = 8, message = "유저 네임은 8글자를 넘길 수 없습니다.")
     @NotBlank
-    private String username;
+    @Column(unique = true)
+    private String userName;
     @NotBlank
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,100}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
     private String password;
-    @Column(name = "activity_area", length = 100)
+    @Column(name = "activity_area")
     private String activityArea;
     private boolean active = true;
 //    private String ImageUrl;
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 //    @OneToMany(mappedBy = "member") // 댓글과 유저는 단방향 매핑이라 필요 없는 부분일수도
 //    private List<Comment> comments = new ArrayList<>();
 
@@ -54,5 +56,4 @@ public class Member extends Auditable {
     public void addPost(Post post) {
         posts.add(post);
     }
-
 }
