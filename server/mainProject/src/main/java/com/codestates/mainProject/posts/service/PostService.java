@@ -31,14 +31,14 @@ public class PostService {
     /** 게시글 생성 */
     public Post createPost(Post post) {
         /** JWT토큰정보를 이용한 사용자 인증 */
-        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+       /* String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
 
         Member member = verifiedMember.
                 orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
 
         post.setMember(member);
-        member.addPost(post);
+        member.addPost(post);*/
         return postRepository.save(post);
     }
 
@@ -46,9 +46,9 @@ public class PostService {
     public Post updatePost(Post post) {
         Post findPost = findVerifiedPost(post.getPostId());
         /** JWT토큰정보를 이용한 사용자 인증 */
-        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        /*String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
 
         Optional.ofNullable(post.getTitle())
                 .ifPresent(title -> findPost.setTitle(title));
@@ -56,10 +56,8 @@ public class PostService {
                 .ifPresent(content -> findPost.setContent(content));
         Optional.ofNullable(post.getCategory())
                 .ifPresent(category -> findPost.setTitle(category));
-        /* 이미지 업로드, 다운로드 기능 미구현
         Optional.ofNullable(post.getImageUrl())
-                .ifPresent(imageUrl -> findPost.setContent(imageUrl));
-        */
+                .ifPresent(imageUrl -> findPost.setImageUrl(imageUrl));
         return postRepository.save(findPost);
     }
 
@@ -94,9 +92,9 @@ public class PostService {
     public void deletePost(long postId) {
         Post findPost = findVerifiedPost(postId);
         /** JWT토큰정보를 이용한 사용자 인증 */
-        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        /*String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
         postRepository.deleteById(postId);
     }
 

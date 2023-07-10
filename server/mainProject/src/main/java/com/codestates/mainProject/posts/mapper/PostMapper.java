@@ -22,7 +22,8 @@ public interface PostMapper {
     @Mapping(target = "title", source = "title")
     @Mapping(target = "content", source = "content")
     @Mapping(target = "category", source = "category")
-//    @Mapping(target = "imageUrl", source = "imageUrl")
+    @Mapping(target = "kcal", source = "kcal")
+    @Mapping(target = "imageUrl", source = "imageUrl")
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "modifiedAt", source = "modifiedAt")
     PostDto.ResponseDto postToPostResponse(Post post); /** Post 엔티티를 PostDto.Response 으로 매핑 */
