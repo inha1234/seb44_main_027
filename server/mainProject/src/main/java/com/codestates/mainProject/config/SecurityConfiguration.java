@@ -66,7 +66,6 @@ public class SecurityConfiguration{
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("Authorization");
-//        configuration.addExposedHeader("RefreshToken");
         configuration.addExposedHeader("Refresh");
         configuration.setAllowCredentials(true);
 

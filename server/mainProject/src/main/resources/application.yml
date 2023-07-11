@@ -18,7 +18,7 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 #config:
-  #domain: {}
+#  domain: {}
 ---
 spring:
   profiles: dev

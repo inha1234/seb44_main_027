@@ -53,8 +53,8 @@ public class MemberService {
                     .ifPresent(password -> findMember.setPassword(encodePassword(password)));
             Optional.ofNullable(put.getActivityArea())
                     .ifPresent(findMember::setActivityArea);
-//            Optional.ofNullable(put.getImageUrl())
-//                    .ifPresent(findMember::setImageUrl);
+            Optional.ofNullable(put.getImageUrl())
+                    .ifPresent(findMember::setImageUrl);
             memberRepository.save(findMember);
         } else {
             throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);

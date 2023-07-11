@@ -44,6 +44,9 @@ public class MemberDetailsService implements UserDetailsService {
             setPassword(member.getPassword());
             setRoles(member.getRoles());
             setActivityArea(member.getActivityArea());
+            if(!member.isActive()){
+                throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+            }
         }
 
         @Override

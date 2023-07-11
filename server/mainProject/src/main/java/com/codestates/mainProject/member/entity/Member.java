@@ -2,9 +2,7 @@ package com.codestates.mainProject.member.entity;
 
 import com.codestates.mainProject.audit.Auditable;
 import com.codestates.mainProject.follow.entity.Follow;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.codestates.mainProject.posts.entity.Post;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +10,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +35,7 @@ public class Member extends Auditable {
     @Column(name = "activity_area")
     private String activityArea;
     private boolean active = true;
-//    private String ImageUrl;
+    private String imageUrl;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 //    @OneToMany(mappedBy = "member") // 댓글과 유저는 단방향 매핑이라 필요 없는 부분일수도
