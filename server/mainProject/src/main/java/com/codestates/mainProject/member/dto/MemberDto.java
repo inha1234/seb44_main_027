@@ -25,8 +25,7 @@ public class MemberDto {
         @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
         private String password;
         private String activityArea;
-
-//        private String ImageUrl;
+        private String imageUrl;
     }
     @Getter
     @Setter
@@ -37,7 +36,7 @@ public class MemberDto {
         @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[@#$%^&+=`~!*()_;'|-])(?=\\S+$).{8,}$", message = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이여야 합니다.")
         private String password;
         private String activityArea;
-//        private String ImageUrl;
+        private String imageUrl;
     }
     @Getter
     @Setter
@@ -57,7 +56,7 @@ public class MemberDto {
         private String email;
         private String userName;
         private String activityArea;
-//    private String ImageUrl;
+        private String imageUrl;
         private LocalDateTime createdAt;
     }
 }
