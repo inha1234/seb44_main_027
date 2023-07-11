@@ -17,8 +17,7 @@ function PostDatailBox({postId}) {
     update();
   }, []);
 
-  const data = useSelector(state => state.postData.data.data);
-
+  const data = useSelector(state => state.postData.data);
 
   if(!isLoding){
   return (
@@ -27,9 +26,9 @@ function PostDatailBox({postId}) {
         <img src={data && data.imageUrl} alt="게시글 이미지" />
       </PostImg>
       <PostBody>
-        <PostContent />
-        <PostComment />
-        <PostCommentInput />
+        <PostContent data={data}/>
+        <PostComment data={data}/>
+        <PostCommentInput data={data}/>
       </PostBody>
     </Container>
   );
