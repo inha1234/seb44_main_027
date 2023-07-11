@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
 function CommentEdit({ CommentData, setIsEdit }) {
-  const accessToken = sessionStorage.getItem('token');
+  const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments/${CommentData.commentId}`;
   const [commentText, setCommentText] = useState(CommentData.content);
   const [isLoding, setIsLoding] = useState(true)

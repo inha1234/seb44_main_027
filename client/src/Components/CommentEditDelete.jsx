@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 function CommentEditDelete({ CommentData, commentId, setIsEdit }) {
   const loginId = sessionStorage.getItem('memberId') + "";
   const memberId = CommentData.memberId + "";
-  const accessToken = sessionStorage.getItem('token');
+  const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
   const [isLoding, setIsLoding] = useState(true)
   const [update] = useUpdatePost(CommentData.postId, setIsLoding);

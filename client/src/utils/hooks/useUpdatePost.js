@@ -7,7 +7,7 @@ import postDataSlice from '../../redux/reducers/postDataSlice';
 
 function useUpdatePost(postId, setIsLodig) {
   const url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
-  const accessToken = sessionStorage.getItem('token');
+  const accessToken = sessionStorage.getItem('authToken');
   const dispatch = useDispatch();
 
   const update = () => {

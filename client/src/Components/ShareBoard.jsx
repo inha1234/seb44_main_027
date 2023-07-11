@@ -11,7 +11,7 @@ function ShareBoard({ type }) {
     BTN_DIET: '식단 게시글 만들기',
   };
 
-  const accessToken = sessionStorage.getItem('token');
+  const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/posts`;
 
   const [data, setData] = useState([]);

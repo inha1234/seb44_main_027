@@ -6,7 +6,7 @@ import useUpdatePost from '../utils/hooks/useUpdatePost';
 
 
 function PostCommentInput({data}) {
-  const accessToken = sessionStorage.getItem('token');
+  const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
   const [isLoding, setIsLodig] = useState(true);
@@ -25,7 +25,7 @@ function PostCommentInput({data}) {
           url,
           {
             memberId: loginId,
-            postsId: data.postId,
+            postId: data.postId,
             content: commentText,
           },
           {
@@ -35,10 +35,11 @@ function PostCommentInput({data}) {
           }
         )
         .then((response) => {
-          console.log(response.data);
+          console.log('Response:', response.data);
           update();
         })
         .catch((error) => {
+          console.error('Response Error:', error);
           throw error;
         });
     }
