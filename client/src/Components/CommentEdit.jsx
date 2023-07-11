@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Edit, Btn } from './CommentEdit.style';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
 function CommentEdit({ CommentData, setIsEdit }) {
@@ -14,7 +13,7 @@ function CommentEdit({ CommentData, setIsEdit }) {
   // 댓글 수정 API
   const EditData = () => {
     axios
-      .delete(
+      .put(
         url,
         {
           content: commentText,
@@ -42,6 +41,14 @@ function CommentEdit({ CommentData, setIsEdit }) {
     setIsEdit(false);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleClickEdit();
+    }
+  };
+
+
   const handleClickEdit = () => {
     const confirmValue = confirm('정말로 수정하시겠습니까?');
     if (confirmValue) {
@@ -52,7 +59,7 @@ function CommentEdit({ CommentData, setIsEdit }) {
   };
   return (
     <Edit.Container>
-      <Edit.Textarea type="text" value={commentText} onChange={handleChange} />
+      <Edit.Textarea type="text" value={commentText} onChange={handleChange} onKeyDown={handleKeyDown}  />
       <Btn.Container>
         <Btn.Edit onClick={handleClickEdit}>수정</Btn.Edit>
         <Btn.Cancel onClick={handleClickCancel}>취소</Btn.Cancel>

@@ -5,13 +5,15 @@ import { useSelector } from 'react-redux';
 
 function PostComment({data}) {
 
+  const newistData = [...data.comments].reverse();
+
     return (
       <CommentContainer>
         <CommentList>
           <ul>
             {data.comments &&
-              data.comments.map((CommentData) => (
-                <PostCommentItem key={CommentData.memberId} CommentData={CommentData} />
+              newistData.map((CommentData) => (
+                <PostCommentItem key={CommentData.commentId} CommentData={CommentData} />
               ))}
           </ul>
         </CommentList>
