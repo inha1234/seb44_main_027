@@ -66,7 +66,7 @@ public class CommentDto {
         private long postId;
 //        private long crewingId;
         private String userName;
-//        private String imageUrl;
+        private String imageUrl;
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
@@ -74,6 +74,7 @@ public class CommentDto {
         public void setMember(Member member) {
             this.userName = member.getUserName();
             this.memberId = member.getMemberId();
+            this.imageUrl = member.getImageUrl();
         }
 
         public void setPost(Post post) {
