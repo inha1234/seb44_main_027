@@ -3,12 +3,15 @@ import { Card } from './Carditem.style';
 import PostDetailModal from './PostDetailModal';
 
 function Carditem({ item }) {
+
   const [isModal, setIsModal] = useState(false);
 
   const hendleClick = () => {
     setIsModal(!isModal);
     window.history.pushState({}, '', `/posts/${item.postId}`);
   };
+
+  
 
 
   return (

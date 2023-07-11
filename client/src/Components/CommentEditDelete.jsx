@@ -4,15 +4,13 @@ import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import { useSelector } from 'react-redux';
 
-function CommentEditDelete({ commentId, memberId, setIsEdit }) {
+function CommentEditDelete({ CommentData, commentId, setIsEdit }) {
   const loginId = sessionStorage.getItem('memberId') + "";
+  const memberId = CommentData.memberId + "";
   const accessToken = sessionStorage.getItem('token');
   const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
-  const data = useSelector(state => state.postData.data.data);
   const [isLoding, setIsLoding] = useState(true)
-  const [update] = useUpdatePost(data.postId, setIsLoding);
-  memberId = memberId + "";
-
+  const [update] = useUpdatePost(CommentData.postId, setIsLoding);
 
   // 댓글 삭제 API
   const DeleteData = () => {
@@ -23,7 +21,7 @@ function CommentEditDelete({ commentId, memberId, setIsEdit }) {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("댓글 삭제 요청이 완료되었습니다.");
         update();
       })
       .catch((error) => {

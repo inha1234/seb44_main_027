@@ -1,16 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { InputContainer } from './PostCommentInput.style';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
 
 
-function PostCommentInput() {
+function PostCommentInput({data}) {
   const accessToken = sessionStorage.getItem('token');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
-  const data = useSelector(state => state.postData.data.data);
   const [isLoding, setIsLodig] = useState(true);
   const [update] = useUpdatePost(data.postId, setIsLodig);
 

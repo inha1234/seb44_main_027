@@ -4,14 +4,10 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-function PostEditDelete() {
-  const data = useSelector(state => state.postData.data.data);
-  // const loginId = sessionStorage.getItem('memberId') + "";
-  const loginId = "MEM_1"
+function PostEditDelete( {data}) {
+  const loginId = sessionStorage.getItem('memberId') + "";
   const memberId = data.memberId + "";
   const accessToken = sessionStorage.getItem('token');
-  const navigate = useNavigate();
-
   const url = `${import.meta.env.VITE_API_URL}/posts/${data.postId}`;
 
   // 게시글 삭제 API

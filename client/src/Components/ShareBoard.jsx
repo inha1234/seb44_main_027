@@ -43,6 +43,7 @@ function ShareBoard({ type }) {
     getData();
   }, []);
 
+  console.log(data);
 
   return (
     <BoardBox>
@@ -55,9 +56,7 @@ function ShareBoard({ type }) {
         </Btn>
       </Title>
       <CardList>
-        {data &&
-          data.data &&
-          data.data.map((item) => <Carditem key={item.postId} item={item} />)}
+        {data && data.map((item) => <Carditem key={item.postId} item={item} />)}
       </CardList>
     </BoardBox>
   );
