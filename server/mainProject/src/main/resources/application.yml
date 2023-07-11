@@ -13,7 +13,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
-    url: jdbc:mysql://database-seb44pre026.csggyq8nma3x.ap-northeast-2.rds.amazonaws.com:3306/project?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://{RDS_ENDPOINT}:3306/project?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
