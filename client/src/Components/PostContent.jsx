@@ -7,10 +7,15 @@ import {
   AuthorInfo,
 } from './PostContent.style';
 import PostEditDelete from './PostEditDelete';
+import { useSelector } from 'react-redux';
 
-function PostContent({ data }) {
-  // 로그인된 사용자의 멤버아이디
-  const loginId = sessionStorage.getItem('memberId');
+function PostContent() {
+
+  const data = useSelector(state => state.postData.data.data);
+  const loginId = sessionStorage.getItem('memberId') + "";
+  const memberId = data.memberId + "";
+
+
 
   return (
     <PostContainer>
@@ -27,7 +32,7 @@ function PostContent({ data }) {
 
         {
           /* 본인이 작성한 게시물에 대해서만 수정/삭제 버튼을 표시 */
-          loginId === data.memberId ? (
+          loginId === memberId ? (
             <PostEditDelete postId={data.postId} memberId={data.memberId} />
           ) : undefined
         }

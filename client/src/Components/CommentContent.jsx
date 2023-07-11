@@ -1,25 +1,28 @@
 import React from 'react';
 import { Item, Content, Info } from './CommentContent.style';
 import CommentEditDelete from './CommentEditDelete';
+import { useSelector } from 'react-redux';
 
-function CommentContent({ item, setIsEdit }) {
-  // 로그인된 사용자의 멤버아이디
+
+function CommentContent({ CommentItem, setIsEdit }) {
   const loginId = sessionStorage.getItem('memberId');
+  const memberId = CommentItem.memberId + "";
+
 
   return (
     <Item.Content>
       <Content.Info>
-        <Info.Name>{item.userName}</Info.Name>
-        <Info.Content>{item.content}</Info.Content>
-        {loginId === item.memberId ? (
+        <Info.Name>{CommentItem.userName}</Info.Name>
+        <Info.Content>{CommentItem.content}</Info.Content>
+        {loginId === memberId ? (
           <CommentEditDelete
-            commentId={item.commentId}
-            memberId={item.memberId}
+            commentId={CommentItem.commentId}
+            memberId={CommentItem.memberId}
             setIsEdit={setIsEdit}
           />
         ) : undefined}
       </Content.Info>
-      <Content.CreateAt>{item.createAt}</Content.CreateAt>
+      <Content.CreateAt>{CommentItem.createAt}</Content.CreateAt>
     </Item.Content>
   );
 }
