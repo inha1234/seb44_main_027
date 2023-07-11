@@ -70,16 +70,20 @@ public class PostService {
 
     /** 게시글 전체 조회 */
     public Page<Post> getPosts(Pageable pageable) {
-        Pageable pageRequest = PageRequest.of(pageable.getPageNumber() - 1,
-                pageable.getPageSize(), Sort.by("createdAt").descending());
-        return postRepository.findAll(pageRequest);
+        return postRepository.findAll(pageable);
     }
 
     /** 카테고리별 게시글 전체 조회 */
     public Page<Post> getPostsByCategory(String category, Pageable pageable) {
-        Pageable pageRequest = PageRequest.of(pageable.getPageNumber() - 1,
-                pageable.getPageSize(), Sort.by("createdAt").descending());
-        return postRepository.findByCategory(category, pageRequest);
+        return postRepository.findByCategory(category, pageable);
+    }
+
+    public Page<Post> getPostsByIdLessThan(Long lastPostId, Pageable pageable) {
+        return postRepository.findByPostIdLessThan(lastPostId, pageable);
+    }
+
+    public Page<Post> getPostsByCategoryAndIdLessThan(String category, Long lastPostId, Pageable pageable) {
+        return postRepository.findByCategoryAndPostIdLessThan(category, lastPostId, pageable);
     }
 
     public Page<Post> getPostsByMember(Member member, Pageable pageable) {
