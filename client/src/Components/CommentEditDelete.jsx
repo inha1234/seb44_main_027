@@ -2,7 +2,6 @@ import React , {useState}from 'react';
 import { Btn } from './CommentEditDelete.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
-import { useSelector } from 'react-redux';
 
 function CommentEditDelete({ CommentData, commentId, setIsEdit }) {
   const loginId = sessionStorage.getItem('memberId') + "";
