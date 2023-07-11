@@ -1,13 +1,11 @@
 import React from 'react';
 import { AuthorityBtn } from './PostEditDelete.style';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 function PostEditDelete( {data}) {
   const loginId = sessionStorage.getItem('memberId') + "";
   const memberId = data.memberId + "";
-  const accessToken = sessionStorage.getItem('token');
+  const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/posts/${data.postId}`;
 
   // 게시글 삭제 API

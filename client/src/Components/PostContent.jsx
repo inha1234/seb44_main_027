@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   PostContainer,
   Author,
@@ -10,7 +10,6 @@ import PostEditDelete from './PostEditDelete';
 
 function PostContent({data}) {
 
-  console.log(data);
 
     const loginId = sessionStorage.getItem('memberId') + ""; 
     const memberId = data.memberId + "" ;
