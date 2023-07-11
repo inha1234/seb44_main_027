@@ -60,7 +60,8 @@ public class SecurityConfiguration{
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://main027.s3-website.ap-northeast-2.amazonaws.com/"));
+//        configuration.setAllowedOrigins(Arrays.asList("http://main027.s3-website.ap-northeast-2.amazonaws.com/"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://main027.s3-website.ap-northeast-2.amazonaws.com"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
