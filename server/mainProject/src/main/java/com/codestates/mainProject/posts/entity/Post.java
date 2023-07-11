@@ -32,7 +32,6 @@ public class Post extends Auditable {
     @Column(nullable = true)
     private long kcal = 0;
 
-    /** 이미지 업로드, 다운로드 기능 미구현 */
     @Column(nullable = false)
     private String imageUrl;
 

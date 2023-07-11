@@ -18,6 +18,7 @@ public interface PostMapper {
 
     @Mapping(target = "memberId", source = "member.memberId")
     @Mapping(target = "userName", source = "member.userName")
+    @Mapping(target = "userImageUrl", source = "member.imageUrl")
     @Mapping(target = "postId", source = "postId")
     @Mapping(target = "title", source = "title")
     @Mapping(target = "content", source = "content")

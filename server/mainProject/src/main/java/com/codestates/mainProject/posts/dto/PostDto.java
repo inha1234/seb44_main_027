@@ -43,7 +43,7 @@ public class PostDto {
 
         private String userName;
 
-//        private String userImageUrl;
+        private String userImageUrl;
 
         private long postId;
 
