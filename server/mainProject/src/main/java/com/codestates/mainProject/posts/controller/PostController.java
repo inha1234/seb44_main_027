@@ -1,6 +1,7 @@
 package com.codestates.mainProject.posts.controller;
 
 import com.codestates.mainProject.dto.MultiResponseDto;
+import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.dto.SingleResponseDto;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.service.MemberService;
@@ -89,22 +90,36 @@ public class PostController {
      * @param category 조회할 카테고리 (해당 파라미터가 존재할 경우만 적용)
      */
     @GetMapping
-    public ResponseEntity getPosts(@RequestParam(required = false) String category,
-                                   @Positive @RequestParam(defaultValue = "1") int page) {
+    public ResponseEntity getPosts(@RequestParam(value = "category", required = false) String category,
+                                   @Positive @RequestParam(defaultValue = "1") int page,
+                                   @RequestParam(required = false) Long lastPostId) {
 
-        Pageable pageable = PageRequest.of(page, 15, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("createdAt").descending());
         Page<Post> pagePosts;
         if (category == null || category.isEmpty()) {
-            pagePosts = postService.getPosts(pageable);
+            if (lastPostId != null) {
+                pagePosts = postService.getPostsByIdLessThan(lastPostId, pageable);
+            } else {
+                pagePosts = postService.getPosts(pageable);
+            }
         } else {
-            pagePosts = postService.getPostsByCategory(category, pageable);
+            if (lastPostId != null) {
+                pagePosts = postService.getPostsByCategoryAndIdLessThan(category, lastPostId, pageable);
+            } else {
+                pagePosts = postService.getPostsByCategory(category, pageable);
+            }
         }
         List<Post> posts = pagePosts.getContent();
         List<PostDto.ResponseDto> responseDto = mapper.postListToPostResponseList(posts);
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(responseDto, pagePosts),
-                HttpStatus.OK);
+        MultiResponseDto<PostDto.ResponseDto> multiResponseDto;
+        if (pagePosts.hasNext()) {
+            multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, pagePosts.getTotalElements(), pagePosts.getTotalPages(), true));
+        } else {
+            multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, pagePosts.getTotalElements(), pagePosts.getTotalPages(), false));
+        }
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{post_id}")
