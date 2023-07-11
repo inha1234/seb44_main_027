@@ -66,7 +66,7 @@ public class FollowService {
             FollowDto.Members members = new FollowDto.Members();
             members.setUserName(member.getUserName());
             members.setMemberId(member.getMemberId());
-
+            members.setImageUrl(member.getImageUrl());
             followers.add(members);
         }
         return followers;
@@ -88,6 +88,7 @@ public class FollowService {
             FollowDto.Members members = new FollowDto.Members();
             members.setUserName(member.getUserName());
             members.setMemberId(member.getMemberId());
+            members.setImageUrl(member.getImageUrl());
 
             followings.add(members);
         }
