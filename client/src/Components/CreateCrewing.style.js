@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import styled from 'styled-components';
 
 const MakeCrew = {
@@ -7,11 +8,25 @@ const MakeCrew = {
     justify-content: center;
     height: 100vh;
   `,
+  Save: styled.div`
+    background-color: none;
+    z-index: 10;
+    bottom: 10%;
+    position: absolute;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 50%;
+  `,
+  Cropperstyle: styled.div`
+    z-index: 1;
+    height: 90%;
+  `,
   Makepage: styled.div`
     margin: 0 auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    width: 800px;
+    width: 900px;
     height: 600px;
     padding: 20px;
     display: flex;
@@ -25,7 +40,7 @@ const MakeCrew = {
     > button {
       margin: 5px;
       padding: 13px 25px;
-      margin-left: 460px;
+      margin-left: 615px;
       background-color: #000;
       color: #fff;
       border: none;
@@ -51,7 +66,7 @@ const MakeCrew = {
     cursor: pointer;
   `,
   Main: styled.div`
-    width: 620px;
+    width: 750px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -61,8 +76,8 @@ const MakeCrew = {
   Img: styled.div`
     border: 2px dashed #c1c1c1;
     border-radius: 5px;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     display: inline-block;
     display: flex;
     flex-direction: column;
@@ -80,6 +95,7 @@ const MakeCrew = {
   `,
 
   Input: styled.div`
+    width: 328px;
     position: relative;
     display: inline-block;
     text-align: left;
@@ -89,7 +105,7 @@ const MakeCrew = {
       text-align: left;
     }
     input {
-      width: 95%;
+      width: 100%;
       padding: 5px;
       border: 1px solid #cccccc;
       border-radius: 4px;
@@ -100,7 +116,7 @@ const MakeCrew = {
       box-shadow: 0 0 5px rgba(180, 180, 180, 0.5);
     }
     textarea {
-      width: 95%;
+      width: 100%;
       height: 120px;
       padding: 5px;
       border: 1px solid #ccc;
@@ -118,8 +134,8 @@ const MakeCrew = {
     input.check {
       display: inline-block;
       position: absolute;
-      top: 352px;
-      left: -65px;
+      top: 0px;
+      left: 0px;
     }
     input.check:focus {
       box-shadow: none;
