@@ -65,13 +65,4 @@ public class MemberController {
         MultiResponseDto response = memberService.findPosts(memberId, category, page, size, lastPostId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    //    @PostMapping("/test")
-//    public ResponseEntity test(Authentication authentication, @RequestBody MemberDto.Post post){
-//        String jws = authentication.toString().replace("Bearer","");
-//        String encode = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-//        Map<String, Object> claims = jwtTokenizer.getClaims(jws, encode).getBody();
-//        long MemberId = (long) claims.get("memberId");
-//        System.out.println("MemberId = " + MemberId);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 }
