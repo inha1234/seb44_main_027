@@ -134,8 +134,8 @@ const MakeCrew = {
     input.check {
       display: inline-block;
       position: absolute;
-      top: 0px;
-      left: 0px;
+      bottom: 20px;
+      left: -100px;
     }
     input.check:focus {
       box-shadow: none;

@@ -15,6 +15,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Copper from 'react-easy-crop';
 import imageCompression from 'browser-image-compression';
+import { format } from 'date-fns';
 
 const StyledDatePicker = styled(DatePicker)`
   width: 328px !important;
@@ -110,16 +111,15 @@ export default function CreateCrewing() {
         );
         compressedImage = await imageCompression(convertedImage, options);
       }
-
+      const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
       // FormData 생성 및 압축된 사진 추가
       const postData = new FormData();
       postData.append('title', title);
       postData.append('content', content);
-      postData.append('activity', activity);
-      postData.append('deadline', deadline);
-      postData.append('number', number);
-      postData.append('image', compressedImage, 'compressedImage.jpg');
-      postData.append('category', 'diet'); // 카테고리 추가
+      postData.append('activityDate', activity);
+      postData.append('deadLine', formattedDeadline);
+      postData.append('maxPeople', number);
+      postData.append('imageUrl', compressedImage, 'compressedImage.jpg');
 
       axios
         .post('API 주소', postData)

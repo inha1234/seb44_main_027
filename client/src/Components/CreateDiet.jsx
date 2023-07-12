@@ -105,7 +105,7 @@ export default function CreateDiet() {
       postData.append('title', title);
       postData.append('content', content);
       postData.append('kcal', kcal);
-      postData.append('image', compressedImage, 'compressedImage.jpg');
+      postData.append('imageUrl', compressedImage, 'compressedImage.jpg');
       postData.append('category', 'diet'); // 카테고리 추가
 
       axios

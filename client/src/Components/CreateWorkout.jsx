@@ -102,7 +102,7 @@ export default function CreateWorkout() {
       const postData = new FormData();
       postData.append('title', title);
       postData.append('content', content);
-      postData.append('image', compressedImage, 'compressedImage.jpg');
+      postData.append('imageUrl', compressedImage, 'compressedImage.jpg');
       postData.append('category', 'workOut'); // 카테고리 추가
 
       axios
