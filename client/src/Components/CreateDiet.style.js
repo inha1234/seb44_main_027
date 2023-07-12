@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import styled from 'styled-components';
 
 const MakeEat = {
@@ -6,6 +7,20 @@ const MakeEat = {
     align-items: center;
     justify-content: center;
     height: 100vh;
+  `,
+  Save: styled.div`
+    background-color: none;
+    z-index: 10;
+    bottom: 10%;
+    position: absolute;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 50%;
+  `,
+  Cropperstyle: styled.div`
+    z-index: 1;
+    height: 90%;
   `,
   Makepage: styled.div`
     margin: 0 auto;
@@ -79,10 +94,6 @@ const MakeEat = {
       cursor: pointer;
     }
   `,
-  Insertimg: styled.div`
-    border: 1px solid;
-  `,
-  Insert: styled.img``,
   Input: styled.div`
     display: inline-block;
     text-align: left;
