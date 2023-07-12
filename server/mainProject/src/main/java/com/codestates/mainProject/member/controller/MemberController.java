@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +57,21 @@ public class MemberController {
     }
 
     @GetMapping("/getMyPosts/{member_id}")
-    public ResponseEntity getMyPosts(@PathVariable("member_id") long memberId,@RequestParam(value = "category") String category,
-                                     @RequestParam(value = "page") int page, @RequestParam(value = "size") int size/* 가장 최신의 lastpostsId */){
-        MultiResponseDto response = memberService.findPosts(memberId, category, page, size);
+    public ResponseEntity getMyPosts(@PathVariable("member_id") long memberId,
+                                     @RequestParam(value = "category") String category,
+                                     @Positive @RequestParam(value = "page", defaultValue = "1") int page,
+                                     @Positive @RequestParam(value = "size", defaultValue = "15") int size,
+                                     @Positive @RequestParam(value = "idx",required = false) Long lastPostId){
+        MultiResponseDto response = memberService.findPosts(memberId, category, page, size, lastPostId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    //    @PostMapping("/test")
+//    public ResponseEntity test(Authentication authentication, @RequestBody MemberDto.Post post){
+//        String jws = authentication.toString().replace("Bearer","");
+//        String encode = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+//        Map<String, Object> claims = jwtTokenizer.getClaims(jws, encode).getBody();
+//        long MemberId = (long) claims.get("memberId");
+//        System.out.println("MemberId = " + MemberId);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }

@@ -1,6 +1,7 @@
 package com.codestates.mainProject.posts.service;
 
 import com.codestates.mainProject.dto.MultiResponseDto;
+import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;
@@ -106,12 +107,18 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    public MultiResponseDto getMyPosts(Member member, String category, int page, int size){
+    public MultiResponseDto getMyPosts(Member member, String category, int page, int size, Long lastPostId){
         Pageable pageRequest = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
-        Page<Post> findPage = postRepository.findByMemberAndCategory(member, category, pageRequest);
+        Page<Post> findPage;
+        if(lastPostId == null){
+            findPage = postRepository.findByMemberAndCategory(member, category, pageRequest);
+        } else {
+            findPage = postRepository.findByMemberAndCategoryAndPostIdLessThan(member, category, lastPostId, pageRequest);
+        }
         List<Post> listPost = findPage.getContent();
+        PageInfo pageInfo = new PageInfo(page,findPage.getSize(),findPage.getTotalElements(),findPage.getTotalPages(), findPage.hasNext());
         List<PostDto.ResponseDto> responseDto = mapper.postListToPostResponseList(listPost);
-        return new MultiResponseDto(responseDto,findPage);
+        return new MultiResponseDto(responseDto,pageInfo);
     }
 
     /** 게시글 존재하는지 확인 */

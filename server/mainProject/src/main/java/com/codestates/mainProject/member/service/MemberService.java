@@ -94,17 +94,17 @@ public class MemberService {
         }
     }
 
-    public MultiResponseDto findPosts(long memberId, String category, int page, int size){
+    public MultiResponseDto findPosts(long memberId, String category, int page, int size, Long lastPostId){
         Member member = findMember(memberId);
         if(category.equals(FIND_DIET_KEY)||category.equals(FIND_WORKOUT_KEY)){
-            MultiResponseDto responses = postService.getMyPosts(member, category, page, size);
+            MultiResponseDto responses = postService.getMyPosts(member, category, page, size, lastPostId);
             return responses;
         } else if(category.equals(FIND_CREWING_KEY)){
 //미구현(member,page,size)
+            return null;
         } else {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
         }
-        return null;
     }
 
     private String encodePassword(String password){
