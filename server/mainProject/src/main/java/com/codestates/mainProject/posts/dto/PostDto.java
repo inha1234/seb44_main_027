@@ -55,7 +55,7 @@ public class PostDto {
 
         private long kcal;
 
-        private String  imageUrl;
+        private String imageUrl;
 
         private LocalDateTime createdAt;
 

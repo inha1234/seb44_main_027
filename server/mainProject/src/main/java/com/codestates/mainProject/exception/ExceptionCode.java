@@ -15,7 +15,8 @@ public enum ExceptionCode {
     FOLLOW_SAME_ID(409, "FollowerId and FollowingId cannot be the same"),
     FOLLOW_EXIST(409, "follow exists"),
     UPLOAD_FAIL(401, "s3 file upload failed"),
-    DOWNLOAD_FAIL(401, "s3 file download failed");
+    DOWNLOAD_FAIL(401, "s3 file download failed"),
+    CATEGORY_NOT_FOUND(404, "category not found");
 
 
     @Getter

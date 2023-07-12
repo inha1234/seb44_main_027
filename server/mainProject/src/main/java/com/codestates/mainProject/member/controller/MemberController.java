@@ -1,22 +1,30 @@
 package com.codestates.mainProject.member.controller;
 
 
+import com.codestates.mainProject.authority.jwt.JwtTokenizer;
+import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.service.MemberService;
+import org.apache.http.auth.AUTH;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
+    private final JwtTokenizer jwtTokenizer;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, JwtTokenizer jwtTokenizer) {
         this.memberService = memberService;
+        this.jwtTokenizer = jwtTokenizer;
     }
 
     @PostMapping("/signUp")
@@ -37,7 +45,7 @@ public class MemberController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @DeleteMapping("/{member_id}")
-    public ResponseEntity deleteMember(Authentication authentication,@PathVariable("member_id") long memberId){
+    public ResponseEntity deleteMember(Authentication authentication, @PathVariable("member_id") long memberId){
         memberService.deleteMember(authentication, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -45,5 +53,12 @@ public class MemberController {
     public ResponseEntity findExist(@Valid @RequestBody MemberDto.Exist exist){
         memberService.findExist(exist);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/getMyPosts/{member_id}")
+    public ResponseEntity getMyPosts(@PathVariable("member_id") long memberId,@RequestParam(value = "category") String category,
+                                     @RequestParam(value = "page") int page, @RequestParam(value = "size") int size/* 가장 최신의 lastpostsId */){
+        MultiResponseDto response = memberService.findPosts(memberId, category, page, size);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
