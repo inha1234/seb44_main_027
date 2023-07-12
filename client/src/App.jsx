@@ -13,6 +13,8 @@ import CreateCrewingPage from './Pages/CreateCrewingPage.jsx';
 import Workout from './Pages/Workout';
 import Diet from './Pages/Diet';
 import PostDetail from './Pages/PostDetail';
+import Crewing from './Pages/Crewing';
+import CrewingDetail from './Pages/CrewingDetail';
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -37,6 +39,8 @@ function App() {
             <Route path="/workout" element={<Workout />} />
             <Route path="/diet" element={<Diet />} />
             <Route path="/posts/:postId" element={<PostDetail />} />
+            <Route path="/crewing" element={<Crewing />} />
+            <Route path="/crewing/:postId" element={<CrewingDetail />} />
           </Routes>
         </Router>
       </Provider>

@@ -1,17 +1,17 @@
-import React , {useState}from 'react';
+import React, { useState } from 'react';
 import { Btn } from './CommentEditDelete.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
 function CommentEditDelete({ CommentData, commentId, setIsEdit }) {
-  const loginId = sessionStorage.getItem('memberId') + "";
-  const memberId = CommentData.memberId + "";
+  const loginId = sessionStorage.getItem('memberId') + '';
+  const memberId = CommentData.memberId + '';
   const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
-  const [isLoding, setIsLoding] = useState(true)
+  const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(CommentData.postId, setIsLoding);
 
-  // 댓글 삭제 API
+  // 게시글 댓글 삭제 API
   const DeleteData = () => {
     axios
       .delete(url, {
@@ -20,7 +20,7 @@ function CommentEditDelete({ CommentData, commentId, setIsEdit }) {
         },
       })
       .then((response) => {
-        console.log("댓글 삭제 요청이 완료되었습니다.");
+        console.log('댓글 삭제 요청이 완료되었습니다.');
         update();
       })
       .catch((error) => {

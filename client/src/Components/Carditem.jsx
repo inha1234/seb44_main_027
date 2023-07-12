@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from './Carditem.style';
 import PostDetailModal from './PostDetailModal';
 
 function Carditem({ item }) {
-
   const [isModal, setIsModal] = useState(false);
 
   const hendleClick = () => {
@@ -11,16 +10,17 @@ function Carditem({ item }) {
     window.history.pushState({}, '', `/posts/${item.postId}`);
   };
 
-  
-
-
   return (
     <>
       <Card onClick={hendleClick}>
         <img src={item.imageUrl} alt="카드이미지" />
       </Card>
       {isModal ? (
-        <PostDetailModal postId={item.postId} setIsModal={setIsModal} />
+        <PostDetailModal
+          postId={item.postId}
+          type={'share'}
+          setIsModal={setIsModal}
+        />
       ) : undefined}
     </>
   );

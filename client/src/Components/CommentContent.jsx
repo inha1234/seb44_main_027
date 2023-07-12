@@ -3,11 +3,9 @@ import { Item, Content, Info } from './CommentContent.style';
 import CommentEditDelete from './CommentEditDelete';
 import { useSelector } from 'react-redux';
 
-
 function CommentContent({ CommentData, setIsEdit }) {
-  const loginId = sessionStorage.getItem('memberId') + "";
-  const memberId = CommentData.memberId + "";
-
+  const loginId = sessionStorage.getItem('memberId') + '';
+  const memberId = CommentData.memberId + '';
 
   return (
     <Item.Content>
