@@ -9,6 +9,7 @@ function Main() {
       <Link to="create">만들기</Link>
       <Link to="workout">식단</Link>
       <Link to="diet">운동</Link>
+      <Link to="profile/1234">유저프로필</Link>
     </>
   );
 }
