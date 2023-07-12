@@ -1,5 +1,6 @@
 package com.codestates.mainProject.comment.dto;
 
+import com.codestates.mainProject.crewing.entity.Crewing;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.posts.entity.Post;
 import lombok.AllArgsConstructor;
@@ -15,15 +16,14 @@ public class CommentDto {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class PostDto {
         @Positive
         private long memberId;
 
-        @Positive
         private long postId;
-//
-//        @Positive
-//        private long crewingId;
+
+        private long crewingId;
 
         @NotBlank(message = "댓글 내용은 필수로 기입해야합니다.")
         private String content;
@@ -40,11 +40,11 @@ public class CommentDto {
             return post;
         }
 
-//        public Crewing getCrewing() {
-//            Crewing crewing = new Crewing();
-//            crewing.setCrewingId(crweingId);
-//            return crewing;
-//        }
+        public Crewing getCrewing() {
+            Crewing crewing = new Crewing();
+            crewing.setCrewingId(crewingId);
+            return crewing;
+        }
 
     }
 
@@ -63,8 +63,8 @@ public class CommentDto {
     public static class Response {
         private long commentId;
         private long memberId;
-        private long postId;
-//        private long crewingId;
+        private Post post;
+        private Crewing crewing;
         private String userName;
         private String imageUrl;
         private String content;
@@ -78,11 +78,11 @@ public class CommentDto {
         }
 
         public void setPost(Post post) {
-            this.postId = post.getPostId();
+            this.post = post;
         }
 
-//        public void setCrewing(Crewing crewing) {
-//            this.crewingId = crewing.getCrewingId();
-//        }
+        public void setCrewing(Crewing crewing) {
+            this.crewing = crewing;
+        }
     }
 }
