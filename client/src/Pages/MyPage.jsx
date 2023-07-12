@@ -29,8 +29,8 @@ function MyPage() {
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'Username',
-    totalPostsCount: 10,
-  }); // Mockup data
+    totalPostsCount: 0,
+  });
   const [userFollowInfo, setUserFollowInfo] = useState({});
   const [userFollowerList, setUserFollowerList] = useState(
     new Array(5).fill({})
@@ -38,7 +38,7 @@ function MyPage() {
   const [userFollowingList, setUserFollowingList] = useState(
     new Array(3).fill({})
   ); // Mockup data
-  /*
+
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/members/${memberId}`)
@@ -84,7 +84,6 @@ function MyPage() {
       })
       .catch((error) => console.log(error));
   }, [memberId]);
-  */
 
   return (
     <ProfilePageBody>

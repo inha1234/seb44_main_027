@@ -40,7 +40,6 @@ function UserProfile() {
     new Array(3).fill({})
   ); // Mockup data
 
-  /*
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/members/${memberId}`)
@@ -86,7 +85,6 @@ function UserProfile() {
       })
       .catch((error) => console.log(error));
   }, [memberId]);
-  */
 
   return (
     <ProfilePageBody>
