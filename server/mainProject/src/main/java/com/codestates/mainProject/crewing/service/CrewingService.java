@@ -1,13 +1,16 @@
 package com.codestates.mainProject.crewing.service;
 
+import com.codestates.mainProject.crewing.dto.CrewingDto;
 import com.codestates.mainProject.crewing.entity.Crewing;
 import com.codestates.mainProject.crewing.entity.CrewingMembers;
+import com.codestates.mainProject.crewing.mapper.CrewingMapper;
 import com.codestates.mainProject.crewing.repository.CrewingRepository;
+import com.codestates.mainProject.dto.MultiResponseDto;
+import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.repository.MemberRepository;
-import com.codestates.mainProject.posts.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,10 +28,12 @@ public class CrewingService {
     private final CrewingRepository crewingRepository;
 
     private final MemberRepository memberRepository;
+    private final CrewingMapper mapper;
 
-    public CrewingService(CrewingRepository crewingRepository, MemberRepository memberRepository) {
+    public CrewingService(CrewingRepository crewingRepository, MemberRepository memberRepository, CrewingMapper mapper) {
         this.crewingRepository = crewingRepository;
         this.memberRepository = memberRepository;
+        this.mapper = mapper;
     }
 
     /** 게시글 생성 */
@@ -98,6 +104,20 @@ public class CrewingService {
         if (!findPost.getMember().getEmail().equals(principal))
             throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
         crewingRepository.deleteById(crewingId);
+    }
+
+    public MultiResponseDto getMyCrewings(Member member, int page, int size, Long lastPostId){
+        Pageable pageRequest = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
+        Page<Crewing> findPage;
+        if(lastPostId == null){
+            findPage = crewingRepository.findByMember(member,pageRequest);
+        } else {
+            findPage = crewingRepository.findByMemberAndCrewingIdLessThan(member, lastPostId, pageRequest);
+        }
+        List<Crewing> listCrewing = findPage.getContent();
+        PageInfo pageInfo = new PageInfo(page,findPage.getSize(),findPage.getTotalElements(),findPage.getTotalPages(), findPage.hasNext());
+        List<CrewingDto.ResponseDto> responseDto = mapper.crewingListToCrewingResponseList(listCrewing);
+        return new MultiResponseDto(responseDto,pageInfo);
     }
 
     /** 게시글 존재하는지 확인 */
