@@ -1,12 +1,15 @@
 package com.codestates.mainProject.member.service;
 
 import com.codestates.mainProject.authority.util.AuthorityUtil;
+import com.codestates.mainProject.crewing.service.CrewingService;
+import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.mapper.MemberMapper;
 import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
+import com.codestates.mainProject.posts.service.PostService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,14 +25,21 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityUtil authorityUtil;
+    private final PostService postService;
+    private final CrewingService crewingService;
     private final String FIND_EMAIL_KEY = "email";
     private final String FIND_USER_NAME_KEY = "userName";
+    private final String FIND_DIET_KEY = "diet";
+    private final String FIND_WORKOUT_KEY = "workOut";
+    private final String FIND_CREWING_KEY = "crewing";
 
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil) {
+    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil, PostService postService, CrewingService crewingService) {
         this.memberRepository = memberRepository;
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtil = authorityUtil;
+        this.postService = postService;
+        this.crewingService = crewingService;
     }
 
     public void createMember(MemberDto.Post post){
@@ -87,6 +97,18 @@ public class MemberService {
         }
     }
 
+    public MultiResponseDto findPosts(long memberId, String category, int page, int size, Long lastPostId){
+        Member member = findMember(memberId);
+        if(category.equals(FIND_DIET_KEY)||category.equals(FIND_WORKOUT_KEY)){
+            MultiResponseDto responses = postService.getMyPosts(member, category, page, size, lastPostId);
+            return responses;
+        } else if(category.equals(FIND_CREWING_KEY)){
+            MultiResponseDto responses = crewingService.getMyCrewings(member, page, size, lastPostId);
+            return responses;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
+        }
+    }
 
     private String encodePassword(String password){
         String encodePassword = passwordEncoder.encode(password);

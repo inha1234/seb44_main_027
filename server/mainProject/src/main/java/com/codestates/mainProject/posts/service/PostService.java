@@ -1,20 +1,23 @@
 package com.codestates.mainProject.posts.service;
 
+import com.codestates.mainProject.dto.MultiResponseDto;
+import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.repository.MemberRepository;
+import com.codestates.mainProject.posts.dto.PostDto;
 import com.codestates.mainProject.posts.entity.Post;
+import com.codestates.mainProject.posts.mapper.PostMapper;
 import com.codestates.mainProject.posts.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,10 +25,12 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+    private final PostMapper mapper;
 
-    public PostService(PostRepository postRepository, MemberRepository memberRepository) {
+    public PostService(PostRepository postRepository, MemberRepository memberRepository, PostMapper mapper) {
         this.postRepository = postRepository;
         this.memberRepository = memberRepository;
+        this.mapper = mapper;
     }
 
     /** 게시글 생성 */
@@ -100,6 +105,20 @@ public class PostService {
         if (!findPost.getMember().getEmail().equals(principal))
             throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
         postRepository.deleteById(postId);
+    }
+
+    public MultiResponseDto getMyPosts(Member member, String category, int page, int size, Long lastPostId){
+        Pageable pageRequest = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
+        Page<Post> findPage;
+        if(lastPostId == null){
+            findPage = postRepository.findByMemberAndCategory(member, category, pageRequest);
+        } else {
+            findPage = postRepository.findByMemberAndCategoryAndPostIdLessThan(member, category, lastPostId, pageRequest);
+        }
+        List<Post> listPost = findPage.getContent();
+        PageInfo pageInfo = new PageInfo(page,findPage.getSize(),findPage.getTotalElements(),findPage.getTotalPages(), findPage.hasNext());
+        List<PostDto.ResponseDto> responseDto = mapper.postListToPostResponseList(listPost);
+        return new MultiResponseDto(responseDto,pageInfo);
     }
 
     /** 게시글 존재하는지 확인 */
