@@ -61,7 +61,7 @@ public class MemberController {
                                      @RequestParam(value = "category") String category,
                                      @Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                      @Positive @RequestParam(value = "size", defaultValue = "15") int size,
-                                     @Positive @RequestParam(value = "idx",required = false) Long lastPostId){
+                                     @Positive @RequestParam(value = "lastPostId",required = false) Long lastPostId){
         MultiResponseDto response = memberService.findPosts(memberId, category, page, size, lastPostId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

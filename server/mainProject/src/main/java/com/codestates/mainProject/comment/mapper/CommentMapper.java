@@ -30,7 +30,7 @@ public interface CommentMapper {
         commentResponseDto.setCommentId(comment.getCommentId());
         commentResponseDto.setMember(comment.getMember());
         commentResponseDto.setPost(comment.getPost());
-//        commentResponseDto.setCrewing(comment.getCrewing());
+        commentResponseDto.setCrewing(comment.getCrewing());
         commentResponseDto.setContent(comment.getContent());
         commentResponseDto.setCreatedAt(comment.getCreatedAt());
         commentResponseDto.setModifiedAt(comment.getModifiedAt());
