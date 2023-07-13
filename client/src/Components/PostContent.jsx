@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  PostContainer,
-  Author,
-  Title,
-  Text,
-  AuthorInfo,
-} from './PostContent.style';
+import { PostContainer, Author, Title, AuthorInfo } from './PostContent.style';
 import PostEditDelete from './PostEditDelete';
 import PostContentText from './PostContentText';
 
