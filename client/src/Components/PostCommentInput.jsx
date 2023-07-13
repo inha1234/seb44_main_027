@@ -3,9 +3,7 @@ import { InputContainer } from './PostCommentInput.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
-
-
-function PostCommentInput({data}) {
+function PostCommentInput({ data, type }) {
   const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
@@ -23,7 +21,7 @@ function PostCommentInput({data}) {
           url,
           {
             memberId: loginId,
-            postId: data.postId,
+            postId: type === 'share' ? data.postId : data.crewingId,
             content: commentText,
           },
           {
@@ -44,7 +42,6 @@ function PostCommentInput({data}) {
 
   const handleClick = () => {
     postData();
-
   };
   const textarea = useRef();
 
@@ -56,10 +53,7 @@ function PostCommentInput({data}) {
 
   return (
     <InputContainer>
-      <img
-        src={data.userImageUrl}
-        alt="내 프로필이미지"
-      />
+      <img src={data.userImageUrl} alt="내 프로필이미지" />
       <div>
         <textarea
           ref={textarea}

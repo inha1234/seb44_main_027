@@ -15,6 +15,8 @@ import Diet from './Pages/Diet';
 import PostDetail from './Pages/PostDetail';
 import MyPage from './Pages/MyPage';
 import UserProfile from './Pages/UserProfile';
+import Crewing from './Pages/Crewing';
+import CrewingDetail from './Pages/CrewingDetail';
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -41,6 +43,8 @@ function App() {
             <Route path="/posts/:postId" element={<PostDetail />} />
             <Route path="/mypage/*" element={<MyPage />} />
             <Route path="/profile/:memberId/*" element={<UserProfile />} />
+            <Route path="/crewing" element={<Crewing />} />
+            <Route path="/crewing/:postId" element={<CrewingDetail />} />
           </Routes>
         </Router>
       </Provider>

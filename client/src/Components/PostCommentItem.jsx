@@ -4,10 +4,8 @@ import CommentContent from './CommentContent';
 import CommentEdit from './CommentEdit';
 import { useSelector } from 'react-redux';
 
-
 function PostCommentItem({ CommentData }) {
   const [isEdit, setIsEdit] = useState(false);
-
 
   return (
     <Item.Container>
@@ -21,4 +19,4 @@ function PostCommentItem({ CommentData }) {
   );
 }
 
-export default PostCommentItem; 
+export default PostCommentItem;

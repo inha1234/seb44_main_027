@@ -1,10 +1,10 @@
 import React from 'react';
-import { Main, Container } from './PostDetail.style';
+import { Main, Container } from './CrewingDetail.style';
 import PostDatailBox from '../Components/PostDetailBox.jsx';
 import { useParams } from 'react-router-dom';
 import Nav from '../Components/Nav';
 
-function PostDetail() {
+function CrewingDetail() {
   const { postId } = useParams();
 
   return (
@@ -12,11 +12,11 @@ function PostDetail() {
       <Nav />
       <Main>
         <Container>
-          <PostDatailBox postId={postId} type={'share'} />
+          <PostDatailBox postId={postId} type={'crewing'} />
         </Container>
       </Main>
     </>
   );
 }
 
-export default PostDetail;
+export default CrewingDetail;
