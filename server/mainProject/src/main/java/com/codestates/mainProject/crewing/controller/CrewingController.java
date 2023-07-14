@@ -8,17 +8,22 @@ import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.dto.SingleResponseDto;
 import com.codestates.mainProject.member.service.MemberService;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -104,6 +109,32 @@ public class CrewingController {
     }
 
     @GetMapping
+    public ResponseEntity getCrewings(@RequestParam(value = "activityArea", required = false) String activityArea,
+                                   @Positive @RequestParam(defaultValue = "1") int page,
+                                   @RequestParam(required = false) Long lastCrewingId) {
+
+        Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("createdAt").descending());
+
+        Page<Crewing> pageCrewings;
+        if (activityArea == null || activityArea.isEmpty()) {
+            pageCrewings = (lastCrewingId != null) ?
+                    crewingService.getCrewingsByIdLessThan(lastCrewingId, pageable) :
+                    crewingService.getCrewings(pageable);
+        } else {
+            pageCrewings = (lastCrewingId != null) ?
+                    crewingService.getCrewingsByActivityAreaAndIdLessThan(activityArea, lastCrewingId, pageable) :
+                    crewingService.getCrewingsByActivityArea(activityArea, pageable);
+        }
+
+        List<CrewingDto.ResponseDto> responseDto = mapper.crewingListToCrewingResponseList(pageCrewings.getContent());
+        PageInfo pageInfo =
+                new PageInfo(page, 15, pageCrewings.getTotalElements(), pageCrewings.getTotalPages(), pageCrewings.hasNext());
+        MultiResponseDto<CrewingDto.ResponseDto> multiResponseDto = new MultiResponseDto<>(responseDto, pageInfo);
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
+    }
+
+/*    @GetMapping
     public ResponseEntity getPosts(@Positive @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(required = false) Long lastCrewingId) {
 
@@ -118,7 +149,8 @@ public class CrewingController {
         MultiResponseDto<CrewingDto.ResponseDto> multiResponseDto = new MultiResponseDto<>(responseDto, pageInfo);
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
-    }
+    }*/
+
 
     @DeleteMapping("/{crewing_id}")
     public ResponseEntity deleteCrewing(@PathVariable("crewing_id") @Positive long crewingId) {
