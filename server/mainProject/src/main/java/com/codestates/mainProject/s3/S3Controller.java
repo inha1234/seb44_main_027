@@ -61,30 +61,6 @@ public class S3Controller {
         return ResponseEntity.ok(imagePathList);
     }
 
-    @GetMapping("/download")
-    public ResponseEntity<Resource> download(@RequestParam("imageUrl") String imageUrl) {
-        try {
-            S3Object s3Object = amazonS3Client.getObject(s3Bucket, imageUrl);
-            S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
-
-            // 파일 다운로드를 위한 Resource 객체 생성
-            ByteArrayResource resource = new ByteArrayResource(IOUtils.toByteArray(objectInputStream));
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; imageUrl=\"" + imageUrl + "\"");
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(s3Object.getObjectMetadata().getContentLength())
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(resource);
-        } catch (IOException e) {
-            // 파일 다운로드 과정에서 예외 발생
-            e.printStackTrace();
-            throw new BusinessLogicException(ExceptionCode.DOWNLOAD_FAIL);
-        }
-    }
-
 }
 
 

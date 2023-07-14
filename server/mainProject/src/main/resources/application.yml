@@ -60,7 +60,7 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket:
+      bucket: ${BUCKET}
     credentials:
       access-key: ${ACCESS-KEY}
       secret-key: ${SECRET-KEY}

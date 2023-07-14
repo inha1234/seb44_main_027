@@ -11,6 +11,7 @@ import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.repository.MemberRepository;
+import com.codestates.mainProject.posts.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -94,6 +95,15 @@ public class CrewingService {
     /** 게시글 전체 조회 */
     public Page<Crewing> getCrewings(Pageable pageable) {
         return crewingRepository.findAll(pageable);
+    }
+
+    /** 활동지역별 게시글 전체 조회 */
+    public Page<Crewing> getCrewingsByActivityArea(String activityArea, Pageable pageable) {
+        return crewingRepository.findByActivityArea(activityArea, pageable);
+    }
+
+    public Page<Crewing> getCrewingsByActivityAreaAndIdLessThan(String activityArea, Long lastCrewingId, Pageable pageable) {
+        return crewingRepository.findByActivityAreaAndCrewingIdLessThan(activityArea, lastCrewingId, pageable);
     }
 
     /** 게시글 삭제 */

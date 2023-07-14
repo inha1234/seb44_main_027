@@ -32,8 +32,11 @@ public class CrewingDto {
         @PositiveOrZero(message = "회원 ID는 0 또는 양수 값이어야 합니다.")
         private long memberId;
 
-        @NotBlank(message = "게시글 사진주소를 입력하세요")
+        @NotBlank(message = "크루잉 사진주소를 입력하세요")
         private String imageUrl;
+
+        @NotBlank(message = "크루잉 활동지역을 입력하세요")
+        private String activityArea;
 
         @NotBlank(message = "크루잉활동 날짜를 입력하세요")
         private String activityDate;
@@ -58,6 +61,8 @@ public class CrewingDto {
 
         private String content;
 
+        private String activityArea;
+
         private int maxPeople;
 
         private int currentPeople;
@@ -66,7 +71,7 @@ public class CrewingDto {
 
         private boolean isCompleted;
 
-        private String  imageUrl;
+        private String imageUrl;
 
         private String activityDate;
 

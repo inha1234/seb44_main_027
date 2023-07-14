@@ -51,6 +51,9 @@ public class Crewing extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column(nullable = false)
+    private String activityArea;
+
     @OneToMany(mappedBy = "crewing")
     private List<CrewingMembers> crewingMembers = new ArrayList<>();
 
@@ -60,5 +63,4 @@ public class Crewing extends Auditable {
 
     @OneToMany(mappedBy = "crewing", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
-
 }
