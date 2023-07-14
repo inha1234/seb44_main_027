@@ -8,7 +8,7 @@ function PostCommentInput({ data, type }) {
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
   const [isLoding, setIsLodig] = useState(true);
-  const [update] = useUpdatePost(data.postId, setIsLodig);
+  const [update] = useUpdatePost(data.postId, type, setIsLodig);
 
   // 로그인된 사용자의 멤버아이디
   const loginId = sessionStorage.getItem('memberId');

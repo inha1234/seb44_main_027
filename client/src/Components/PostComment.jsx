@@ -2,7 +2,7 @@ import React from 'react';
 import PostCommentItem from './PostCommentItem';
 import { CommentContainer, CommentList } from './PostComment.style';
 
-function PostComment({ data }) {
+function PostComment({ data, type }) {
   const newistData = [...data.comments].reverse();
 
   return (
@@ -14,6 +14,7 @@ function PostComment({ data }) {
               <PostCommentItem
                 key={CommentData.commentId}
                 CommentData={CommentData}
+                type={type}
               />
             ))}
         </ul>

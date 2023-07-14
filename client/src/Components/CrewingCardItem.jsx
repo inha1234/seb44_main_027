@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card } from './CrewingCardItem.style';
 import PostDetailModal from './PostDetailModal';
 
-function CardItem({ item }) {
+function CrewingCardItem({ item }) {
   const [isModal, setIsModal] = useState(false);
 
   const hendleClick = () => {
@@ -36,4 +36,4 @@ function CardItem({ item }) {
   );
 }
 
-export default CardItem;
+export default CrewingCardItem;
