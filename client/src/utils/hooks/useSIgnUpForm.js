@@ -26,7 +26,7 @@ const useSignUpForm = (messages) => {
 
   useEffect(() => {
     if (emailTouched) {
-      const emailRegex = /\S+@\S+\.\S+/;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       setEmailError(!emailRegex.test(email));
     }
 
@@ -54,7 +54,6 @@ const useSignUpForm = (messages) => {
     confirmPassword,
     confirmPasswordTouched,
   ]);
-
   const handleCheckEmailDuplicate = () => {
     checkEmailDuplicate(email)
       .then(() => {
