@@ -18,6 +18,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UsernameModal from '../Components/UsernameModal';
+import DeleteModal from '../Components/DeleteModal';
 function Settings() {
   //   const memberId = sessionStorage.getItem(memberId);
   const memberId = 3;
@@ -50,10 +51,18 @@ function Settings() {
   return (
     <>
       <Nav />
+
       {isModalOpen.username && (
         <UsernameModal
           isModalOpen={isModalOpen.username}
           handleModalToggle={() => toggleModal('username')}
+          memberId={memberId}
+        />
+      )}
+      {isModalOpen.delete && (
+        <DeleteModal
+          isModalOpen={isModalOpen.delete}
+          handleModalToggle={() => toggleModal('delete')}
           memberId={memberId}
         />
       )}
@@ -82,7 +91,9 @@ function Settings() {
             </UsernameSection>
           </UserProfileContainer>
           <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>
-          <DeleteAccountButton>회원 탈퇴</DeleteAccountButton>
+          <DeleteAccountButton onClick={() => toggleModal('delete')}>
+            회원 탈퇴
+          </DeleteAccountButton>
         </SettingsMain>
       </SettingsMainContainer>
     </>

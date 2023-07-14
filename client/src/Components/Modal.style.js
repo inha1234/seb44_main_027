@@ -51,6 +51,7 @@ export const PasswordModalContainer = styled.section`
 `;
 
 export const DeleteModalContainer = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;

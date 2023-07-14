@@ -26,11 +26,13 @@ function UsernameModal({ isModalOpen, handleModalToggle, memberId }) {
   };
 
   const handleChangeButtonClick = () => {
+    const authToken = sessionStorage.getItem('authToken');
+
     axios
       .put(
         `${import.meta.env.VITE_API_URL}/members/${memberId}`, // API endpoint
         { userName: newUsername }, // 요청 본문
-        { headers: { Authorization: sessionStorage.getItem('authToken') } } // 요청 헤더
+        { headers: { Authorization: authToken } } // 요청 헤더
       )
       .then((response) => {
         if (response.status === 200) {
