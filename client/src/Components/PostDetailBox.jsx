@@ -25,7 +25,7 @@ function PostDatailBox({ postId, type }) {
         </PostImg>
         <PostBody>
           <PostContent data={data} type={type} />
-          <PostComment data={data} />
+          <PostComment data={data} type={type} />
           <PostCommentInput data={data} type={type} />
         </PostBody>
       </Container>

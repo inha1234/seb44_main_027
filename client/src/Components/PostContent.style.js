@@ -59,19 +59,3 @@ export const Title = styled.div`
   margin-bottom: 16px;
   margin-top: 34px;
 `;
-
-export const Text = styled.div`
-  padding-right: 20px;
-  font-size: 14px;
-  color: #000;
-  line-height: 1.4;
-  font-weight: normal;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    background: #ccc;
-  }
-`;

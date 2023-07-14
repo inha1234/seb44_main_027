@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BoardBox, Title, CardList, Btn } from './CrewingBoard.style.js';
 import CrewingCardItem from './CrewingCardItem.jsx';
-import axios from 'axios';
+import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
 
 function CrewingBoard() {
   const MESSAGE = {
@@ -9,33 +9,26 @@ function CrewingBoard() {
     BTN_CREWING: '크루원 모집하기',
   };
 
-  const accessToken = sessionStorage.getItem('authToken');
+  // get 요청 url
   const url = `${import.meta.env.VITE_API_URL}/crewing`;
 
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  // GET API
-  const getData = () => {
-    setLoading(true);
-    axios
-      .get(url, {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        setData(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        throw error;
-      });
-  };
+  // 무한스크롤 API
+  const [data, setData] = useState([]); // getData 함수를 통해 받아온 데이터의 상태 (Carditem에 전달 될 데이터)
+  const [page, setPage] = useState(0); // page 상태에 따라 api 요청에 lastPostId params를 추가 (page가 1일 경우 lastPostId 쿼리 없이 데이터 요청, 1일 아닐 경우 lastPostId 쿼리를 추가하여 데이터 요청)
+  const [ref, inView, getData, isLoadEnd] = useInfiniteScroll({
+    url,
+    category: 'crewing',
+    data,
+    setData,
+    page,
+  });
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (inView) {
+      getData();
+      setPage(page + 1);
+    }
+  }, [inView]);
 
   return (
     <BoardBox>
