@@ -1,31 +1,28 @@
 package com.codestates.mainProject.member.controller;
 
 
-import com.codestates.mainProject.authority.jwt.JwtTokenizer;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.member.dto.MemberDto;
 import com.codestates.mainProject.member.service.MemberService;
-import org.apache.http.auth.AUTH;
-import org.springframework.data.domain.Pageable;
+import com.codestates.mainProject.utils.redis.service.RedisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-    private final JwtTokenizer jwtTokenizer;
+    private final RedisService redisService;
 
-    public MemberController(MemberService memberService, JwtTokenizer jwtTokenizer) {
+    public MemberController(MemberService memberService, RedisService redisService) {
         this.memberService = memberService;
-        this.jwtTokenizer = jwtTokenizer;
+        this.redisService = redisService;
     }
 
     @PostMapping("/signUp")
@@ -36,10 +33,8 @@ public class MemberController {
     @PutMapping("/{member_id}")
     public ResponseEntity putMember(Authentication authentication, @PathVariable("member_id") long memberId, @Valid @RequestBody MemberDto.Put put){
         memberService.putMember(authentication, memberId,put);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
     @GetMapping("/{member_id}")
     public ResponseEntity getMember(@PathVariable("member_id") long memberId){
         MemberDto.Response response = memberService.getMember(memberId);
@@ -64,5 +59,10 @@ public class MemberController {
                                      @Positive @RequestParam(value = "lastPostId",required = false) Long lastPostId){
         MultiResponseDto response = memberService.findPosts(memberId, category, page, size, lastPostId);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PostMapping("/logOut")
+    public ResponseEntity memberLogOut(HttpServletRequest request){
+        redisService.setBackList(request.getHeader("Authorization").replace("Bearer ", ""),"로그아웃", 30);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

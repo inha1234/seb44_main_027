@@ -8,6 +8,7 @@ import com.codestates.mainProject.authority.jwt.JwtAuthenticationFilter;
 import com.codestates.mainProject.authority.jwt.JwtTokenizer;
 import com.codestates.mainProject.authority.jwt.JwtVerificationFilter;
 import com.codestates.mainProject.authority.util.AuthorityUtil;
+import com.codestates.mainProject.utils.redis.service.RedisService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,10 +31,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration{
     private final JwtTokenizer jwtTokenizer;
     private final AuthorityUtil authorityUtil;
+    private final RedisService redisService;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtil = authorityUtil;
+        this.redisService = redisService;
     }
 
     @Bean
@@ -55,6 +58,7 @@ public class SecurityConfiguration{
                .and()
                .authorizeHttpRequests(authorize -> authorize
                        .antMatchers(HttpMethod.POST, "/members").permitAll()
+                       .antMatchers(HttpMethod.POST, "/members/logOut").hasRole("USER")
                        .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")
 //                       .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
@@ -89,7 +93,7 @@ public class SecurityConfiguration{
            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil);
+           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil, redisService);
 
            builder
                    .addFilter(jwtAuthenticationFilter)
