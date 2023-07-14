@@ -5,11 +5,15 @@ export const ModalBackdrop = styled.section`
   position: fixed;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 `;
 
 export const ProfileModalContainer = styled.section`
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,6 +26,7 @@ export const ProfileModalContainer = styled.section`
 `;
 
 export const UsernameModalContainer = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,7 +68,9 @@ export const ModalButton = styled.button`
   border: none;
   color: white;
   background-color: black;
+  border-radius: 6px;
   font-size: 16px;
+  margin: 40px;
   cursor: pointer;
   &:disabled {
     background-color: darkgray;
@@ -76,8 +83,22 @@ export const ModalInput = styled.input`
   width: 476px;
   height: 60px;
   border: 1px solid #7a7a7a;
+  border-radius: 4px;
   font-size: 14px;
   padding: 20px;
+  margin: 9px;
+`;
+
+export const InvalidInputIndicator = styled.section`
+  width: 476px;
+  height: 16px;
+  color: crimson;
+  padding-left: 10px;
+`;
+
+export const ModalHeadingContainer = styled.section`
+  margin-bottom: 30px;
+  margin-top: 20px;
 `;
 
 export const ModalHeading = styled.section`
@@ -98,13 +119,14 @@ export const ModalSubHeading = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 `;
 
 export const ModalCloseButton = styled(FontAwesomeIcon)`
-  font-size: 15px;
-  color: black;
   position: absolute;
-  top: ${({ top }) => top || '40px'};
-  right: ${({ right }) => right || '40px'};
+  font-size: 20px;
+  color: black;
+  top: ${({ top }) => top || '20px'};
+  right: ${({ right }) => right || '20px'};
   cursor: pointer;
 `;

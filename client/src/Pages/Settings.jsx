@@ -5,6 +5,7 @@ import {
   PasswordChangeButton,
   ProfileImageChangeButton,
   ProfileImageContainer,
+  ProfileImageWrapper,
   SettingsMain,
   SettingsMainContainer,
   SettingsTitle,
@@ -16,9 +17,14 @@ import {
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import UsernameModal from '../Components/UsernameModal';
 function Settings() {
-  const memberId = sessionStorage.getItem(memberId);
-  const [user, setUser] = useState({});
+  //   const memberId = sessionStorage.getItem(memberId);
+  const memberId = 3;
+  const [user, setUser] = useState({
+    imageUrl: '/images/defaultprofile.png',
+    username: 'default',
+  });
 
   useEffect(() => {
     axios
@@ -44,19 +50,33 @@ function Settings() {
   return (
     <>
       <Nav />
+      {isModalOpen.username && (
+        <UsernameModal
+          isModalOpen={isModalOpen.username}
+          handleModalToggle={() => toggleModal('username')}
+          memberId={memberId}
+        />
+      )}
       <SettingsMainContainer>
         <SettingsMain>
           <SettingsTitle>프로필 편집</SettingsTitle>
           <UserProfileContainer>
-            <ProfileImageChangeButton>
-              <FontAwesomeIcon icon={faPen} />
-            </ProfileImageChangeButton>
-            <ProfileImageContainer>
-              <img src={user.imageUrl} alt={'userProfileImage'} />
-            </ProfileImageContainer>
+            <ProfileImageWrapper>
+              <ProfileImageChangeButton>
+                <FontAwesomeIcon icon={faPen} />
+              </ProfileImageChangeButton>
+              <ProfileImageContainer>
+                <img
+                  style={{ width: '100%' }}
+                  src={user.imageUrl}
+                  alt={'userProfileImage'}
+                />
+              </ProfileImageContainer>
+            </ProfileImageWrapper>
+
             <UsernameSection>
               <UsernameContainer>{user.username}</UsernameContainer>
-              <UsernameChangeButton>
+              <UsernameChangeButton onClick={() => toggleModal('username')}>
                 <FontAwesomeIcon icon={faPen} />
               </UsernameChangeButton>
             </UsernameSection>
