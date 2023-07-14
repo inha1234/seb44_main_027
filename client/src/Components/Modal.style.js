@@ -13,7 +13,7 @@ export const ModalBackdrop = styled.section`
 `;
 
 export const ProfileModalContainer = styled.section`
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,6 +39,7 @@ export const UsernameModalContainer = styled.section`
 `;
 
 export const PasswordModalContainer = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,6 +111,7 @@ export const ModalHeading = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 `;
 
 export const ModalSubHeading = styled.section`
@@ -121,6 +123,7 @@ export const ModalSubHeading = styled.section`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
+  text-align: center;
 `;
 
 export const ModalCloseButton = styled(FontAwesomeIcon)`

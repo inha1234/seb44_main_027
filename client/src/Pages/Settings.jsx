@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UsernameModal from '../Components/UsernameModal';
 import DeleteModal from '../Components/DeleteModal';
+import PasswordModal from '../Components/PasswordModal';
 function Settings() {
   //   const memberId = sessionStorage.getItem(memberId);
   const memberId = 3;
@@ -59,6 +60,13 @@ function Settings() {
           memberId={memberId}
         />
       )}
+      {isModalOpen.password && (
+        <PasswordModal
+          isModalOpen={isModalOpen.password}
+          handleModalToggle={() => toggleModal('password')}
+          memberId={memberId}
+        />
+      )}
       {isModalOpen.delete && (
         <DeleteModal
           isModalOpen={isModalOpen.delete}
@@ -90,7 +98,9 @@ function Settings() {
               </UsernameChangeButton>
             </UsernameSection>
           </UserProfileContainer>
-          <PasswordChangeButton>비밀번호 변경</PasswordChangeButton>
+          <PasswordChangeButton onClick={() => toggleModal('password')}>
+            비밀번호 변경
+          </PasswordChangeButton>
           <DeleteAccountButton onClick={() => toggleModal('delete')}>
             회원 탈퇴
           </DeleteAccountButton>
