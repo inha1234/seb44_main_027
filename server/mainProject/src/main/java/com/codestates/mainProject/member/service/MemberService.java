@@ -1,6 +1,7 @@
 package com.codestates.mainProject.member.service;
 
 import com.codestates.mainProject.authority.util.AuthorityUtil;
+import com.codestates.mainProject.crewing.repository.CrewingRepository;
 import com.codestates.mainProject.crewing.service.CrewingService;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.member.dto.MemberDto;
@@ -9,6 +10,7 @@ import com.codestates.mainProject.member.mapper.MemberMapper;
 import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
+import com.codestates.mainProject.posts.repository.PostRepository;
 import com.codestates.mainProject.posts.service.PostService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,8 @@ import java.util.Optional;
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
+    private final CrewingRepository crewingRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityUtil authorityUtil;
@@ -33,13 +37,15 @@ public class MemberService {
     private final String FIND_WORKOUT_KEY = "workOut";
     private final String FIND_CREWING_KEY = "crewing";
 
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil, PostService postService, CrewingService crewingService) {
+    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil, PostService postService, CrewingService crewingService, PostRepository postRepository, CrewingRepository crewingRepository) {
         this.memberRepository = memberRepository;
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtil = authorityUtil;
         this.postService = postService;
         this.crewingService = crewingService;
+        this.postRepository = postRepository;
+        this.crewingRepository = crewingRepository;
     }
 
     public void createMember(MemberDto.Post post){
@@ -71,10 +77,11 @@ public class MemberService {
         }
     }
 
-    @Transactional(readOnly = true)
     public MemberDto.Response getMember(long memberId){
         Member member = findMember(memberId);
-        return memberMapper.memberToMemberResponseDto(member);
+        MemberDto.Response response = memberMapper.memberToMemberResponseDto(member);
+        response.setPostCount(postRepository.countByMember(member)+crewingRepository.countByMember(member));
+        return response;
     }
 
     public void deleteMember(Authentication authentication,long memberId){
