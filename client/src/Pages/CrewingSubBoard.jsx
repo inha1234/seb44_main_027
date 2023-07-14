@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CrewingCardItem from '../Components/CrewingCardItem';
 import { CardList } from '../Components/ShareBoard.style';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
+import Loding from '../Components/Loding';
 
 function CrewingSubBoard({ memberId }) {
   // get 요청 url
