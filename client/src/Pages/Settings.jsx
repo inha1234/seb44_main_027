@@ -21,8 +21,7 @@ import UsernameModal from '../Components/UsernameModal';
 import DeleteModal from '../Components/DeleteModal';
 import PasswordModal from '../Components/PasswordModal';
 function Settings() {
-  //   const memberId = sessionStorage.getItem(memberId);
-  const memberId = 3;
+  const memberId = sessionStorage.getItem(memberId);
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'default',
@@ -36,7 +35,7 @@ function Settings() {
         console.log(user);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState({
     profile: false,
@@ -92,7 +91,7 @@ function Settings() {
             </ProfileImageWrapper>
 
             <UsernameSection>
-              <UsernameContainer>{user.username}</UsernameContainer>
+              <UsernameContainer>{user.userName}</UsernameContainer>
               <UsernameChangeButton onClick={() => toggleModal('username')}>
                 <FontAwesomeIcon icon={faPen} />
               </UsernameChangeButton>
