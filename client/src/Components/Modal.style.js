@@ -112,6 +112,7 @@ export const ModalHeading = styled.section`
   justify-content: center;
   align-items: center;
   text-align: center;
+  line-height: 1.5;
 `;
 
 export const ModalSubHeading = styled.section`
