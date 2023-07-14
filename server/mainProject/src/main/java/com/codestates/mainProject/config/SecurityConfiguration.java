@@ -8,6 +8,7 @@ import com.codestates.mainProject.authority.jwt.JwtAuthenticationFilter;
 import com.codestates.mainProject.authority.jwt.JwtTokenizer;
 import com.codestates.mainProject.authority.jwt.JwtVerificationFilter;
 import com.codestates.mainProject.authority.util.AuthorityUtil;
+import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.utils.redis.service.RedisService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,11 +33,13 @@ public class SecurityConfiguration{
     private final JwtTokenizer jwtTokenizer;
     private final AuthorityUtil authorityUtil;
     private final RedisService redisService;
+    private final MemberRepository memberRepository;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService, MemberRepository memberRepository) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtil = authorityUtil;
         this.redisService = redisService;
+        this.memberRepository = memberRepository;
     }
 
     @Bean
@@ -93,7 +96,7 @@ public class SecurityConfiguration{
            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil, redisService);
+           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil, redisService, memberRepository);
 
            builder
                    .addFilter(jwtAuthenticationFilter)

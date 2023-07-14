@@ -47,7 +47,7 @@ public class MemberController {
     }
     @PostMapping("/findExist")
     public ResponseEntity findExist(@Valid @RequestBody MemberDto.Exist exist){
-        memberService.findExist(exist);
+        memberService.findMemberByExist(exist);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

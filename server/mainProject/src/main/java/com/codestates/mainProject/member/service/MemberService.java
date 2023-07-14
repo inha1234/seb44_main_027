@@ -12,6 +12,7 @@ import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.posts.repository.PostRepository;
 import com.codestates.mainProject.posts.service.PostService;
+import com.codestates.mainProject.utils.redis.service.RedisService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,21 +32,25 @@ public class MemberService {
     private final AuthorityUtil authorityUtil;
     private final PostService postService;
     private final CrewingService crewingService;
+    private final RedisService redisService;
     private final String FIND_EMAIL_KEY = "email";
     private final String FIND_USER_NAME_KEY = "userName";
     private final String FIND_DIET_KEY = "diet";
     private final String FIND_WORKOUT_KEY = "workOut";
     private final String FIND_CREWING_KEY = "crewing";
 
-    public MemberService(MemberRepository memberRepository, MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil, PostService postService, CrewingService crewingService, PostRepository postRepository, CrewingRepository crewingRepository) {
+    public MemberService(MemberRepository memberRepository, PostRepository postRepository, CrewingRepository crewingRepository,
+                         MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil,
+                         PostService postService, CrewingService crewingService, RedisService redisService) {
         this.memberRepository = memberRepository;
+        this.postRepository = postRepository;
+        this.crewingRepository = crewingRepository;
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtil = authorityUtil;
         this.postService = postService;
         this.crewingService = crewingService;
-        this.postRepository = postRepository;
-        this.crewingRepository = crewingRepository;
+        this.redisService = redisService;
     }
 
     public void createMember(MemberDto.Post post){
@@ -80,7 +85,7 @@ public class MemberService {
     public MemberDto.Response getMember(long memberId){
         Member member = findMember(memberId);
         MemberDto.Response response = memberMapper.memberToMemberResponseDto(member);
-        response.setPostCount(postRepository.countByMember(member)+crewingRepository.countByMember(member));
+        response.setTotalPostCount(postRepository.countByMember(member)+crewingRepository.countByMember(member));
         return response;
     }
 
@@ -94,7 +99,7 @@ public class MemberService {
         }
     }
     @Transactional(readOnly = true)
-    public void findExist(MemberDto.Exist exist){
+    public void findMemberByExist(MemberDto.Exist exist){
         if(!(exist.getEmail()==null) && exist.getUserName()==null){
             findExist(exist.getEmail(), FIND_EMAIL_KEY);
         } else if (!(exist.getUserName()==null) && exist.getEmail()==null) {
