@@ -21,7 +21,7 @@ import UsernameModal from '../Components/UsernameModal';
 import DeleteModal from '../Components/DeleteModal';
 import PasswordModal from '../Components/PasswordModal';
 function Settings() {
-  const memberId = sessionStorage.getItem(memberId);
+  const memberId = sessionStorage.getItem('memberId');
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'default',
