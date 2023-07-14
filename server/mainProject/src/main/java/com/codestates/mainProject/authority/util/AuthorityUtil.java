@@ -1,4 +1,4 @@
-package com.codestates.mainProject.Authority.util;
+package com.codestates.mainProject.authority.util;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

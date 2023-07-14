@@ -1,4 +1,4 @@
-package com.codestates.mainProject.Authority.jwt;
+package com.codestates.mainProject.authority.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

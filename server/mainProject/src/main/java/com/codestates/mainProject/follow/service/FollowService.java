@@ -64,9 +64,9 @@ public class FollowService {
                     .orElseThrow(() -> new BusinessLogicException(ExceptionCode.FOLLOW_NOT_FOUND));
 
             FollowDto.Members members = new FollowDto.Members();
-            members.setUsername(member.getUsername());
+            members.setUserName(member.getUserName());
             members.setMemberId(member.getMemberId());
-
+            members.setImageUrl(member.getImageUrl());
             followers.add(members);
         }
         return followers;
@@ -86,8 +86,9 @@ public class FollowService {
                     .orElseThrow(() -> new BusinessLogicException(ExceptionCode.FOLLOW_NOT_FOUND));
 
             FollowDto.Members members = new FollowDto.Members();
-            members.setUsername(member.getUsername());
+            members.setUserName(member.getUserName());
             members.setMemberId(member.getMemberId());
+            members.setImageUrl(member.getImageUrl());
 
             followings.add(members);
         }

@@ -25,11 +25,13 @@ public class PostDto {
         @NotBlank(message = "게시글 카테고리를 입력하세요")
         private String category;
 
+        private long kcal;
+
         @PositiveOrZero(message = "회원 ID는 0 또는 양수 값이어야 합니다.")
         private long memberId;
 
-//        @NotBlank(message = "게시글 사진주소를 입력하세요")
-//        private String imageUrl;
+        @NotBlank(message = "게시글 사진주소를 입력하세요")
+        private String imageUrl;
     }
 
     @Getter
@@ -37,6 +39,12 @@ public class PostDto {
     @NoArgsConstructor
 //    @Builder
     public static class ResponseDto {
+        private long memberId;
+
+        private String userName;
+
+        private String userImageUrl;
+
         private long postId;
 
         private String title;
@@ -45,7 +53,9 @@ public class PostDto {
 
         private String category;
 
-//        private String  imageUrl;
+        private long kcal;
+
+        private String imageUrl;
 
         private LocalDateTime createdAt;
 

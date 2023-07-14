@@ -1,4 +1,4 @@
-package com.codestates.mainProject.Authority.handler;
+package com.codestates.mainProject.authority.handler;
 
 import com.codestates.mainProject.response.ErrorResponse;
 import com.google.gson.Gson;

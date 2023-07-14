@@ -1,6 +1,6 @@
-package com.codestates.mainProject.Authority.jwt;
+package com.codestates.mainProject.authority.jwt;
 
-import com.codestates.mainProject.Authority.loginDto.LoginDto;
+import com.codestates.mainProject.authority.loginDto.LoginDto;
 import com.codestates.mainProject.member.entity.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
-        response.setHeader("Authorization", "Bearer" + accessToken);
+        response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);

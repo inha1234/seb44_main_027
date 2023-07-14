@@ -1,4 +1,4 @@
-package com.codestates.mainProject.Authority.loginDto;
+package com.codestates.mainProject.authority.loginDto;
 
 import lombok.Getter;
 

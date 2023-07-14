@@ -1,6 +1,11 @@
-package com.codestates.mainProject.Authority.jwt;
+package com.codestates.mainProject.authority.jwt;
 
-import com.codestates.mainProject.Authority.util.AuthorityUtil;
+import com.codestates.mainProject.authority.util.AuthorityUtil;
+import com.codestates.mainProject.exception.BusinessLogicException;
+import com.codestates.mainProject.exception.ExceptionCode;
+import com.codestates.mainProject.utils.redis.service.RedisService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,16 +23,32 @@ import java.util.Map;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final AuthorityUtil authorityUtil;
+    private final RedisService redisService;
 
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil) {
+    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtil = authorityUtil;
+        this.redisService = redisService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
-        Map<String, Object> claims = verifyJws(request);
-        setAuthenticationToContext(claims);
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException{
+        try{
+            if(redisService.hasKeyBlackList(request.getHeader("Authorization").replace("Bearer ",""))){
+                throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+            }
+            Map<String, Object> claims = verifyJws(request);
+            setAuthenticationToContext(claims);
+        } catch (SignatureException se){
+            request.setAttribute("exception", se);
+        } catch (ExpiredJwtException ee) {
+            request.setAttribute("exception", ee);
+        } catch (Exception e){
+            request.setAttribute("exception", e);
+        }
+
 
         filterChain.doFilter(request,response);
     }
@@ -36,7 +57,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException{
         String authorization = request.getHeader("Authorization");
 
-        return authorization == null || !authorization.startsWith("Bearer");
+        return authorization == null || !authorization.startsWith("Bearer ");
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request){
