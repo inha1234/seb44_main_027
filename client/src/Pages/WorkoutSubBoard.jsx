@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Carditem from '../Components/Carditem';
 import { CardList } from '../Components/ShareBoard.style';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
+import Loding from '../Components/Loding';
 
 function WorkoutSubBoard({ memberId }) {
   // get 요청 url
