@@ -58,5 +58,6 @@ public class MemberDto {
         private String activityArea;
         private String imageUrl;
         private LocalDateTime createdAt;
+        private long totalPostCount;
     }
 }

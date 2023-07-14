@@ -38,6 +38,7 @@ public class Member extends Auditable {
     private String activityArea;
     private boolean active = true;
     private String imageUrl;
+    private long postCount;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 //    @OneToMany(mappedBy = "member") // 댓글과 유저는 단방향 매핑이라 필요 없는 부분일수도

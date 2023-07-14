@@ -25,12 +25,12 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
-    private final PostMapper mapper;
+    private final PostMapper postmapper;
 
-    public PostService(PostRepository postRepository, MemberRepository memberRepository, PostMapper mapper) {
+    public PostService(PostRepository postRepository, MemberRepository memberRepository, PostMapper postmapper) {
         this.postRepository = postRepository;
         this.memberRepository = memberRepository;
-        this.mapper = mapper;
+        this.postmapper = postmapper;
     }
 
     /** 게시글 생성 */
@@ -117,7 +117,7 @@ public class PostService {
         }
         List<Post> listPost = findPage.getContent();
         PageInfo pageInfo = new PageInfo(page,findPage.getSize(),findPage.getTotalElements(),findPage.getTotalPages(), findPage.hasNext());
-        List<PostDto.ResponseDto> responseDto = mapper.postListToPostResponseList(listPost);
+        List<PostDto.ResponseDto> responseDto = postmapper.postListToPostResponseList(listPost);
         return new MultiResponseDto(responseDto,pageInfo);
     }
 

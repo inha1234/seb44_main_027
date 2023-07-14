@@ -29,12 +29,12 @@ public class CrewingService {
     private final CrewingRepository crewingRepository;
 
     private final MemberRepository memberRepository;
-    private final CrewingMapper mapper;
+    private final CrewingMapper crewingmapper;
 
-    public CrewingService(CrewingRepository crewingRepository, MemberRepository memberRepository, CrewingMapper mapper) {
+    public CrewingService(CrewingRepository crewingRepository, MemberRepository memberRepository, CrewingMapper crewingmapper) {
         this.crewingRepository = crewingRepository;
         this.memberRepository = memberRepository;
-        this.mapper = mapper;
+        this.crewingmapper = crewingmapper;
     }
 
     /** 게시글 생성 */
@@ -126,7 +126,7 @@ public class CrewingService {
         }
         List<Crewing> listCrewing = findPage.getContent();
         PageInfo pageInfo = new PageInfo(page,findPage.getSize(),findPage.getTotalElements(),findPage.getTotalPages(), findPage.hasNext());
-        List<CrewingDto.ResponseDto> responseDto = mapper.crewingListToCrewingResponseList(listCrewing);
+        List<CrewingDto.ResponseDto> responseDto = crewingmapper.crewingListToCrewingResponseList(listCrewing);
         return new MultiResponseDto(responseDto,pageInfo);
     }
 

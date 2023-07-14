@@ -69,3 +69,7 @@ cloud:
       auto: false
     stack:
       auto: false
+spring:
+  redis:
+    host: localhost
+    port: 6379

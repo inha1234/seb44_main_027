@@ -16,4 +16,5 @@ public interface CrewingRepository extends JpaRepository<Crewing, Long> {
     Page<Crewing> findByMemberAndCrewingIdLessThan(Member member, Long idx, Pageable pageable);
     Page<Crewing> findByActivityArea(String activityArea, Pageable pageable);
     Page<Crewing> findByActivityAreaAndCrewingIdLessThan(String activityArea, Long crewingId, Pageable pageable);
+    long countByMember(Member member);
 }
