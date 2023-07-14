@@ -100,7 +100,7 @@ function MyPage() {
             </ProfilePictureContainer>
             <UserInfoContainer>
               <UsernameSection>
-                <UsernameContainer>{user.username}</UsernameContainer>
+                <UsernameContainer>{user.userName}</UsernameContainer>
                 <Link to="/settings" style={{ color: 'black' }}>
                   <FontAwesomeIcon icon={faGear} />
                 </Link>

@@ -1,28 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   checkEmailDuplicate,
   checkNicknameDuplicate,
   signUpNewUser,
-} from "../signUpService";
-import defaultProfile from "/images/defaultprofile.png";
-import { useNavigate } from "react-router-dom";
+} from '../signUpService';
+import defaultProfile from '/images/defaultprofile.png';
+import { useNavigate } from 'react-router-dom';
 
 const useSignUpForm = (messages) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [emailTouched, setEmailTouched] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState('');
   const [nicknameTouched, setNicknameTouched] = useState(false);
   const [nicknameError, setNicknameError] = useState(false);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [formStep, setFormStep] = useState(0);
-  const [activityArea, setActivityArea] = useState("");
+  const [activityArea, setActivityArea] = useState('');
 
   useEffect(() => {
     if (emailTouched) {
@@ -31,7 +31,7 @@ const useSignUpForm = (messages) => {
     }
 
     if (nicknameTouched) {
-      const nicknameRegex = /^[a-zA-Z0-9]{1,8}$/;
+      const nicknameRegex = /^[가-힣a-zA-Z0-9]{1,8}$/;
       setNicknameError(!nicknameRegex.test(nickname));
     }
 
@@ -98,7 +98,7 @@ const useSignUpForm = (messages) => {
       .then((response) => {
         if (response.status === 201) {
           alert(messages.SIGNUP_SUCCESS);
-          navigate("/login");
+          navigate('/login');
         } else {
           alert(messages.SIGNUP_FAIL);
           window.location.reload();
