@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   InputAreaShort,
   InputHeading,
@@ -15,28 +15,27 @@ import {
   LoginLinkMessage,
   LoginLink,
   ActivityAreaSelect,
-} from "./SignUpForm.style";
+} from './SignUpForm.style';
 
-import useSignUpForm from "../utils/hooks/useSIgnUpForm";
+import useSignUpForm from '../utils/hooks/useSIgnUpForm';
 
 const MESSAGES = {
-  EMAIL_SUCCESS: "사용할 수 있는 이메일입니다",
-  EMAIL_DUPLICATE: "이미 등록된 이메일입니다",
-  EMAIL_ERROR: "오류가 발생했습니다. 다시 시도해주세요",
-  NICKNAME_SUCCESS: "사용할 수 있는 닉네임입니다",
-  NICKNAME_DUPLICATE: "이미 등록된 닉네임입니다",
-  SIGNUP_SUCCESS: "성공적으로 회원가입되었습니다! 로그인해주세요.",
-  SIGNUP_FAIL: "입력된 정보가 잘못되었습니다. 다시 시도해주세요.",
-  SIGNUP_ERROR: "오류가 발생했습니다. 회원가입을 다시 시도해주세요",
-  EMAIL_PLACEHOLDER: "이메일을 입력해주세요",
-  NICKNAME_PLACEHOLDER: "닉네임을 입력해주세요",
-  CHECK_DUPLICATE: "중복 확인",
-  EMAIL_INVALID: "이메일 형식이 올바르지 않습니다.",
-  NICKNAME_INVALID:
-    "닉네임은 1-8자의 영문 대소문자와 숫자로 이루어져야 합니다.",
+  EMAIL_SUCCESS: '사용할 수 있는 이메일입니다',
+  EMAIL_DUPLICATE: '이미 등록된 이메일입니다',
+  EMAIL_ERROR: '오류가 발생했습니다. 다시 시도해주세요',
+  NICKNAME_SUCCESS: '사용할 수 있는 닉네임입니다',
+  NICKNAME_DUPLICATE: '이미 등록된 닉네임입니다',
+  SIGNUP_SUCCESS: '성공적으로 회원가입되었습니다! 로그인해주세요.',
+  SIGNUP_FAIL: '입력된 정보가 잘못되었습니다. 다시 시도해주세요.',
+  SIGNUP_ERROR: '오류가 발생했습니다. 회원가입을 다시 시도해주세요',
+  EMAIL_PLACEHOLDER: '이메일을 입력해주세요',
+  NICKNAME_PLACEHOLDER: '닉네임을 입력해주세요',
+  CHECK_DUPLICATE: '중복 확인',
+  EMAIL_INVALID: '이메일 형식이 올바르지 않습니다.',
+  NICKNAME_INVALID: '닉네임은 최대 8자이며, 공백과 특수문자가 없어야 합니다.',
   PASSWORD_INVALID:
-    "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이어야 합니다.",
-  CONFIRM_PASSWORD_INVALID: "비밀번호가 일치하지 않습니다.",
+    '비밀번호는 영문, 숫자, 특수문자를 포함하여 8자리 이상이어야 합니다.',
+  CONFIRM_PASSWORD_INVALID: '비밀번호가 일치하지 않습니다.',
 };
 
 function SignUpForm() {
@@ -69,13 +68,13 @@ function SignUpForm() {
   } = useSignUpForm(MESSAGES);
 
   const errorMessage = {
-    email: emailError && emailTouched ? MESSAGES.EMAIL_INVALID : "",
-    nickname: nicknameError && nicknameTouched ? MESSAGES.NICKNAME_INVALID : "",
-    password: passwordError && passwordTouched ? MESSAGES.PASSWORD_INVALID : "",
+    email: emailError && emailTouched ? MESSAGES.EMAIL_INVALID : '',
+    nickname: nicknameError && nicknameTouched ? MESSAGES.NICKNAME_INVALID : '',
+    password: passwordError && passwordTouched ? MESSAGES.PASSWORD_INVALID : '',
     confirmPassword:
       confirmPasswordError && confirmPasswordTouched
         ? MESSAGES.CONFIRM_PASSWORD_INVALID
-        : "",
+        : '',
   };
 
   return (

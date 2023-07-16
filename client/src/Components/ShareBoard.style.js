@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const BoardBox = styled.main`
   box-sizing: border-box;
@@ -38,12 +39,13 @@ export const CardList = styled.section`
   }
 `;
 
-export const Btn = styled.button`
+export const Btn = styled(Link)`
   border-radius: 8px;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   background-color: #1a1a1a;
   color: #fff;
+  text-decoration: none;
   cursor: pointer;
 `;

@@ -1,20 +1,26 @@
-import React from "react";
-import PostCommentItem from "./PostCommentItem";
-import { CommentContainer,CommentList } from "./PostComment.style";
+import React from 'react';
+import PostCommentItem from './PostCommentItem';
+import { CommentContainer, CommentList } from './PostComment.style';
 
-function PostComment ({ comments }){
+function PostComment({ data, type }) {
+  const newistData = [...data.comments].reverse();
 
-  //댓글리스트 pops로 받아오기
-  console.log(comments)
   return (
     <CommentContainer>
       <CommentList>
         <ul>
-          {comments.map( item => <PostCommentItem key={item.memberId} item={item}/>)}
+          {data.comments &&
+            newistData.map((CommentData) => (
+              <PostCommentItem
+                key={CommentData.commentId}
+                CommentData={CommentData}
+                type={type}
+              />
+            ))}
         </ul>
       </CommentList>
     </CommentContainer>
-  )
+  );
 }
 
 export default PostComment;
