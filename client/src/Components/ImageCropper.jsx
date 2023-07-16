@@ -9,6 +9,7 @@ const ImageCropper = ({
   onCropChange,
   onZoomChange,
   onCropComplete,
+  cropShape = 'rect',
 }) => {
   return (
     <ImageCropperStyle.Cropperstyle>
@@ -20,6 +21,7 @@ const ImageCropper = ({
         onCropChange={onCropChange}
         onZoomChange={onZoomChange}
         onCropComplete={onCropComplete}
+        cropShape={cropShape}
       />
     </ImageCropperStyle.Cropperstyle>
   );

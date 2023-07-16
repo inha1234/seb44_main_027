@@ -20,6 +20,8 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import UsernameModal from '../Components/UsernameModal';
 import DeleteModal from '../Components/DeleteModal';
 import PasswordModal from '../Components/PasswordModal';
+import ProfileModal from '../Components/ProfileModal';
+
 function Settings() {
   const memberId = sessionStorage.getItem('memberId');
   const [user, setUser] = useState({
@@ -51,7 +53,13 @@ function Settings() {
   return (
     <>
       <Nav />
-
+      {isModalOpen.profile && (
+        <ProfileModal
+          isModalOpen={isModalOpen.profile}
+          handleModalToggle={() => toggleModal('profile')}
+          memberId={memberId}
+        />
+      )}
       {isModalOpen.username && (
         <UsernameModal
           isModalOpen={isModalOpen.username}
@@ -78,7 +86,7 @@ function Settings() {
           <SettingsTitle>프로필 편집</SettingsTitle>
           <UserProfileContainer>
             <ProfileImageWrapper>
-              <ProfileImageChangeButton>
+              <ProfileImageChangeButton onClick={() => toggleModal('profile')}>
                 <FontAwesomeIcon icon={faPen} />
               </ProfileImageChangeButton>
               <ProfileImageContainer>

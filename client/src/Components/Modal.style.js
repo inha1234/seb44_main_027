@@ -135,3 +135,85 @@ export const ModalCloseButton = styled(FontAwesomeIcon)`
   right: ${({ right }) => right || '20px'};
   cursor: pointer;
 `;
+
+export const ButtonContainer = styled.section`
+  display: flex;
+  position: absolute;
+  bottom: 10%;
+  z-index: 10;
+  bottom: 0;
+`;
+
+export const SaveButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: limegreen;
+    color: white;
+  }
+`;
+
+export const CancelButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  padding: 8px;
+  border-radius: 50%;
+  margin: 5px;
+  border: none;
+  &:hover {
+    background-color: red;
+    color: white;
+  }
+`;
+
+export const ProfileModalImageTemplate = styled.section`
+  border: 2px dashed #c1c1c1;
+  border-radius: 70%;
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+`;
+
+export const ProfileModalCroppedImage = styled.section`
+  border: none;
+  border-radius: 70%;
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+`;
+
+export const UploadArea = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
