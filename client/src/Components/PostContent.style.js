@@ -8,7 +8,7 @@ export const PostContainer = styled.section`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #dbdbdb;
+  border-bottom: ${({ edit }) => (edit ? 'none' : '1px solid #dbdbdb')};
 `;
 
 export const Author = styled.div`
@@ -59,3 +59,45 @@ export const Title = styled.div`
   margin-bottom: 16px;
   margin-top: 34px;
 `;
+
+export const EditStyle = {
+  Container: styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+    align-items: center;
+  `,
+  CancelBtn: styled.button`
+    font-size: 14px;
+    color: #737373;
+    border: 0;
+    background-color: #fff;
+    margin-right: 20px;
+  `,
+  Title: styled.input`
+    width: 100%;
+    margin-top: 40px;
+    height: 30px;
+    padding: 14px;
+  `,
+
+  Content: styled.textarea`
+    width: 100%;
+    margin-top: 16px;
+    height: 80px;
+    padding: 14px;
+    resize: none;
+  `,
+
+  EditBtn: styled.button`
+    width: 138px;
+    height: 60px;
+    font-size: 16px;
+    margin-top: 16px;
+    color: #fff;
+    background-color: #222;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+  `,
+};

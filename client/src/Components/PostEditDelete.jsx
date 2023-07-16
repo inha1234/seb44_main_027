@@ -2,7 +2,7 @@ import React from 'react';
 import { AuthorityBtn } from './PostEditDelete.style';
 import axios from 'axios';
 
-function PostEditDelete({ data, type }) {
+function PostEditDelete({ data, type, setIsEdit }) {
   const loginId = sessionStorage.getItem('memberId') + '';
   const memberId = data.memberId + '';
   const accessToken = sessionStorage.getItem('authToken');
@@ -57,9 +57,13 @@ function PostEditDelete({ data, type }) {
     }
   };
 
+  const handleClickEdit = () => {
+    setIsEdit(true);
+  };
+
   return (
     <AuthorityBtn.Container>
-      <AuthorityBtn.Edit>수정</AuthorityBtn.Edit>
+      <AuthorityBtn.Edit onClick={handleClickEdit}>수정</AuthorityBtn.Edit>
       <AuthorityBtn.Delete onClick={handleClickDelete}>
         삭제
       </AuthorityBtn.Delete>
