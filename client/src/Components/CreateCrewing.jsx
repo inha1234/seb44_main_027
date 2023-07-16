@@ -36,6 +36,10 @@ export default function CreateCrewing() {
   const [zoom, setZoom] = useState(1);
   const [showCropper, setShowCropper] = useState(false);
   const [croppedImage, setCroppedImage] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // 이미지 URL 상태 변수
+  const [isRecruitChecked, setIsRecruitChecked] = useState(false);
+  const [number, setNumber] = useState('');
+  const [maxPeople, setMaxPeople] = useState(999); // 기본값 999로 설정
 
   const onCropComplete = (cropAreaPercentage, cropperAreaPixels) => {
     console.log(cropAreaPercentage, cropperAreaPixels);
@@ -73,11 +77,54 @@ export default function CreateCrewing() {
         cropperArea.height
       );
 
-      canvas.toBlob((blob) => {
-        const croppedImageUrl = URL.createObjectURL(blob); // Blob URL로 변환
-        setCroppedImage(croppedImageUrl);
-        setShowCropper(false);
-      }, 'image/jpeg');
+      const processCroppedImage = (blob) => {
+        return new Promise((resolve, reject) => {
+          const croppedImageUrl = URL.createObjectURL(blob);
+          setCroppedImage(croppedImageUrl);
+          setShowCropper(false);
+
+          // 사진 크기 조정 및 압축
+          const options = {
+            maxSizeMB: 1, // 최대 파일 크기 (메가바이트 단위)
+            maxWidthOrHeight: 1652, // 사진의 최대 가로 또는 세로 크기
+            useWebWorker: true, // 웹 워커를 사용하여 더 빠른 압축 활성화
+          };
+
+          // 이미지를 Blob으로 변환
+          fetch(croppedImageUrl)
+            .then((res) => res.blob())
+            .then((convertedImage) => imageCompression(convertedImage, options))
+            .then((compressedImage) => {
+              // FormData 생성 및 압축된 사진 추가
+              const uploadData = new FormData();
+              uploadData.append(
+                'image',
+                compressedImage,
+                'compressedImage.jpg'
+              );
+              console.log(uploadData);
+
+              // S3로 이미지 업로드
+              axios
+                .post(`${import.meta.env.VITE_API_URL}/s3/upload`, uploadData)
+                .then((response) => {
+                  console.log('이미지 업로드 완료:', response.data);
+                  setUploadedImageUrl(response.data.imageUrl); // 이미지 URL 저장
+                  resolve();
+                })
+                .catch((error) => {
+                  console.error('이미지 업로드 실패:', error);
+                  reject(error);
+                });
+            })
+            .catch((error) => {
+              console.error('이미지 처리 실패:', error);
+              reject(error);
+            });
+        });
+      };
+
+      canvas.toBlob(processCroppedImage, 'image/jpeg');
     }
   };
   const handleTitleChange = (e) => {
@@ -89,61 +136,40 @@ export default function CreateCrewing() {
   };
 
   const handleNumberChange = (e) => {
-    setNumber(e.target.value);
+    const num = e.target.value;
+    setNumber(num);
+    setMaxPeople(isRecruitChecked && num !== '' ? parseInt(num) : 999);
   };
+
   const handleFormSubmit = async () => {
-    // 사진 크기 조정 및 압축
-    const options = {
-      maxSizeMB: 1, // 최대 파일 크기 (메가바이트 단위)
-      maxWidthOrHeight: 800, // 사진의 최대 가로 또는 세로 크기
-      useWebWorker: true, // 웹 워커를 사용하여 더 빠른 압축 활성화
-    };
+    const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
+    const postData = new FormData();
+    postData.append('title', title);
+    postData.append('content', content);
+    postData.append('activityDate', activity);
+    postData.append('deadLine', formattedDeadline);
+    postData.append('maxPeople', maxPeople);
+    postData.append('imageUrl', uploadedImageUrl);
 
-    try {
-      let compressedImage = null;
-
-      if (croppedImage instanceof Blob) {
-        compressedImage = await imageCompression(croppedImage, options);
-      } else {
-        // 이미지를 Blob으로 변환
-        const convertedImage = await fetch(croppedImage).then((res) =>
-          res.blob()
-        );
-        compressedImage = await imageCompression(convertedImage, options);
-      }
-      const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
-      // FormData 생성 및 압축된 사진 추가
-      const postData = new FormData();
-      postData.append('title', title);
-      postData.append('content', content);
-      postData.append('activityDate', activity);
-      postData.append('deadLine', formattedDeadline);
-      postData.append('maxPeople', number);
-      postData.append('imageUrl', compressedImage, 'compressedImage.jpg');
-
-      axios
-        .post('API 주소', postData)
-        .then((response) => {
-          console.log(response.data);
-          navigate('/');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    axios
+      .post(`${import.meta.env.VITE_SERVER_URL}/crewing`, postData)
+      .then((response) => {
+        console.log('게시물 작성 완료:', response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('게시물 작성 실패:', error);
+      });
   };
-
-  const [isRecruitChecked, setIsRecruitChecked] = useState(false);
-  const [number, setNumber] = useState('');
 
   const handleRecruitChange = (e) => {
-    setIsRecruitChecked(e.target.checked);
+    const checked = e.target.checked;
+    setIsRecruitChecked(checked);
 
     // 체크 해제 시 인원 입력값 초기화
-    if (!e.target.checked) {
+    if (!checked) {
       setNumber('');
+      setMaxPeople(999);
     }
   };
 
