@@ -10,6 +10,8 @@ import PostEditDelete from './PostEditDelete';
 import PostContentText from './PostContentText';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import axios from 'axios';
+import CrewingContent from './CrewingContent';
+import formatTime from '../utils/formatTime';
 
 function PostContent({ data, type, isEdit, setIsEdit }) {
   const [title, setTitle] = useState(data.title);
@@ -98,10 +100,9 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
     }
     setIsEdit(false);
   };
-  console.log(data);
 
   return (
-    <PostContainer edit={!!isEdit}>
+    <PostContainer edit={isEdit.toString()} type={type}>
       <Author>
         <AuthorInfo.Container>
           <AuthorInfo.Profile to={`/members/${data.memberId}`}>
@@ -110,7 +111,9 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
           <AuthorInfo.AuthorName to={`/members/${data.memberId}`}>
             {data.userName}
           </AuthorInfo.AuthorName>
-          <AuthorInfo.CreateAt>{data.createdAt}</AuthorInfo.CreateAt>
+          <AuthorInfo.CreateAt>
+            {formatTime(data.createdAt)}
+          </AuthorInfo.CreateAt>
         </AuthorInfo.Container>
 
         {
@@ -129,6 +132,9 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
         <>
           <Title>{title}</Title>
           <PostContentText data={data} type={type} />
+          {type === 'crewing' ? (
+            <CrewingContent data={data} type={type} />
+          ) : undefined}
         </>
       ) : (
         <EditStyle.Container>

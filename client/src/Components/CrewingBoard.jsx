@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BoardBox, Title, CardList, Btn } from './CrewingBoard.style.js';
 import CrewingCardItem from './CrewingCardItem.jsx';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
+import Loding from './Loding.jsx';
 
 function CrewingBoard() {
   const MESSAGE = {
@@ -10,7 +11,7 @@ function CrewingBoard() {
   };
 
   // get 요청 url
-  const url = `${import.meta.env.VITE_API_URL}/crewing`;
+  const url = `${import.meta.env.VITE_API_URL}/crewings`;
 
   // 무한스크롤 API
   const [data, setData] = useState([]); // getData 함수를 통해 받아온 데이터의 상태 (Carditem에 전달 될 데이터)
@@ -42,6 +43,11 @@ function CrewingBoard() {
             <CrewingCardItem key={item.crewingId} item={item} />
           ))}
       </CardList>
+      {isLoadEnd ? undefined : (
+        <div ref={ref}>
+          <Loding />
+        </div>
+      )}
     </BoardBox>
   );
 }

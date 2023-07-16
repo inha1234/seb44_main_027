@@ -9,7 +9,7 @@ function useUpdatePost(postId, type, setIsLodig) {
   let url = '';
 
   if (type === 'crewing') {
-    url = `${import.meta.env.VITE_API_URL}/crewing/${postId}`;
+    url = `${import.meta.env.VITE_API_URL}/crewings/${postId}`;
   } else if (type === 'share') {
     url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
   }
