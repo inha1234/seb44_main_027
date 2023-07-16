@@ -56,6 +56,16 @@ export const NavMenuName = styled.section`
   margin-left: 16px;
 `;
 
+export const ButtonContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 16px;
+`;
+
 export const CreateButton = styled(NavLink)`
   display: flex;
   align-items: center;
@@ -63,8 +73,7 @@ export const CreateButton = styled(NavLink)`
   height: 55px;
   background-color: black;
   color: white;
-  margin-top: auto;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border-radius: 6px;
   padding: 16px;
   text-decoration: none;
@@ -74,4 +83,24 @@ export const CreateButtonName = styled.section`
   font-size: 16px;
   margin-left: 16px;
   margin-top: 4px;
+`;
+
+export const LogoutButton = styled.button`
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  width: 290px;
+  height: 55px;
+  background-color: white;
+  color: black;
+  margin-top: auto;
+  margin-bottom: 24px;
+  border-radius: 6px;
+  padding: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f6f6f6;
+  }
 `;
