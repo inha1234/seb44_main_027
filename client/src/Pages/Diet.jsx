@@ -1,7 +1,8 @@
 import React from 'react';
 import ShareBoard from '../Components/ShareBoard';
-import { Main, Profile } from './Diet.style';
+import { Main } from './Diet.style';
 import Nav from '../Components/Nav';
+import MyProfile from '../Components/MyProfile';
 
 function Diet() {
   return (
@@ -9,7 +10,7 @@ function Diet() {
       <Nav>nav</Nav>
       <Main>
         <ShareBoard type={'diet'} />
-        <Profile></Profile>
+        <MyProfile />
       </Main>
     </>
   );
