@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 
 export const PostContainer = styled.section`
   width: 530px;
-  max-height: 300px;
+  max-height: ${({ type }) => (type === 'crewing' ? '480px' : '300px')};
   padding: 30px 10px 30px 30px;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  border-bottom: ${({ edit }) => (edit ? 'none' : '1px solid #dbdbdb')};
+  border-bottom: ${({ edit }) =>
+    edit === 'true' ? 'none' : '1px solid #dbdbdb'};
 `;
 
 export const Author = styled.div`
