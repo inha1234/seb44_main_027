@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from './CrewingCardItem.style';
 import PostDetailModal from './PostDetailModal';
-import formatTime from '../utils/formetTime';
+import formatTime from '../utils/formatTime';
 
 function CrewingCardItem({ item }) {
   const [isModal, setIsModal] = useState(false);

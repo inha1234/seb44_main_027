@@ -11,7 +11,7 @@ import PostContentText from './PostContentText';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import axios from 'axios';
 import CrewingContent from './CrewingContent';
-import formatTime from '../utils/formetTime';
+import formatTime from '../utils/formatTime';
 
 function PostContent({ data, type, isEdit, setIsEdit }) {
   const [title, setTitle] = useState(data.title);
