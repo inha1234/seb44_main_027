@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from './CrewingCardItem.style';
 import PostDetailModal from './PostDetailModal';
+import formatTime from '../utils/formetTime';
 
 function CrewingCardItem({ item }) {
   const [isModal, setIsModal] = useState(false);
@@ -20,7 +21,9 @@ function CrewingCardItem({ item }) {
           <Card.Author>
             <Card.AuthorProfile src={item.userImageUrl} alt="작성자 프로필" />
             <Card.AuthorName>{item.userName}</Card.AuthorName>
-            <Card.AuthorCreateAt>{item.createdAt}</Card.AuthorCreateAt>
+            <Card.AuthorCreateAt>
+              {formatTime(item.createdAt)}
+            </Card.AuthorCreateAt>
           </Card.Author>
           <Card.Title>{item.title}</Card.Title>
         </Card.Info>

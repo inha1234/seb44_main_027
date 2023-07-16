@@ -11,6 +11,7 @@ import PostContentText from './PostContentText';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import axios from 'axios';
 import CrewingContent from './CrewingContent';
+import formatTime from '../utils/formetTime';
 
 function PostContent({ data, type, isEdit, setIsEdit }) {
   const [title, setTitle] = useState(data.title);
@@ -110,7 +111,9 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
           <AuthorInfo.AuthorName to={`/members/${data.memberId}`}>
             {data.userName}
           </AuthorInfo.AuthorName>
-          <AuthorInfo.CreateAt>{data.createdAt}</AuthorInfo.CreateAt>
+          <AuthorInfo.CreateAt>
+            {formatTime(data.createdAt)}
+          </AuthorInfo.CreateAt>
         </AuthorInfo.Container>
 
         {
