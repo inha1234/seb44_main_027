@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { PostContainer, Author, Title, AuthorInfo } from './PostContent.style';
+import {
+  PostContainer,
+  Author,
+  Title,
+  AuthorInfo,
+  EditStyle,
+} from './PostContent.style';
 import PostEditDelete from './PostEditDelete';
 import PostContentText from './PostContentText';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
@@ -15,7 +21,8 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
   }`;
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(data.postId, type, setIsLoding);
-  const loginId = sessionStorage.getItem('memberId') + '';
+  // const loginId = sessionStorage.getItem('memberId') + '';
+  const loginId = 2 + '';
   const memberId = data.memberId + '';
   const url = type === 'crewing' ? EditCrewingUrl : EditPostUrl;
 
@@ -61,7 +68,7 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
   console.log(data);
 
   return (
-    <PostContainer>
+    <PostContainer edit={!!isEdit}>
       <Author>
         <AuthorInfo.Container>
           <AuthorInfo.Profile to={`/members/${data.memberId}`}>
@@ -75,11 +82,15 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
 
         {
           /* 본인이 작성한 게시물에 대해서만 수정/삭제 버튼을 표시 */
-          loginId === memberId ? (
+          loginId === memberId && !isEdit ? (
             <PostEditDelete data={data} type={type} setIsEdit={setIsEdit} />
           ) : undefined
         }
-        {isEdit ? <button onClick={handleClickCancel}>취소</button> : undefined}
+        {isEdit ? (
+          <EditStyle.CancelBtn onClick={handleClickCancel}>
+            취소
+          </EditStyle.CancelBtn>
+        ) : undefined}
       </Author>
       {!isEdit ? (
         <>
@@ -87,11 +98,19 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
           <PostContentText data={data} type={type} />
         </>
       ) : (
-        <>
-          <input value={title} onChange={handleChangeTitle}></input>
-          <input value={content} onChange={handleChangeContent}></input>
-          <button onClick={handleClickEdit}>수정완료</button>
-        </>
+        <EditStyle.Container>
+          <EditStyle.Title
+            value={title}
+            onChange={handleChangeTitle}
+          ></EditStyle.Title>
+          <EditStyle.Content
+            value={content}
+            onChange={handleChangeContent}
+          ></EditStyle.Content>
+          <EditStyle.EditBtn onClick={handleClickEdit}>
+            수정완료
+          </EditStyle.EditBtn>
+        </EditStyle.Container>
       )}
     </PostContainer>
   );
