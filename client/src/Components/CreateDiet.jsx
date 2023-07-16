@@ -2,11 +2,7 @@
 import React, { useState } from 'react';
 import MakeEat from './CreateDiet.style.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faImage,
-  faArrowLeft,
-  faCheck,
-} from '@fortawesome/free-solid-svg-icons';
+import { faImage, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Copper from 'react-easy-crop';
@@ -23,6 +19,7 @@ export default function CreateDiet() {
   const [zoom, setZoom] = useState(1);
   const [showCropper, setShowCropper] = useState(false);
   const [croppedImage, setCroppedImage] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // 추가: 이미지 URL 상태 변수
 
   const onCropComplete = (cropAreaPercentage, cropperAreaPixels) => {
     console.log(cropAreaPercentage, cropperAreaPixels);
@@ -39,7 +36,8 @@ export default function CreateDiet() {
       });
     }
   };
-  const onSave = () => {
+
+  const onSave = async () => {
     if (cropperArea) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -61,13 +59,77 @@ export default function CreateDiet() {
         cropperArea.height
       );
 
-      canvas.toBlob((blob) => {
-        const croppedImageUrl = URL.createObjectURL(blob); // Blob URL로 변환
-        setCroppedImage(croppedImageUrl);
-        setShowCropper(false);
-      }, 'image/jpeg');
+      const processCroppedImage = (blob) => {
+        return new Promise((resolve, reject) => {
+          const croppedImageUrl = URL.createObjectURL(blob);
+          setCroppedImage(croppedImageUrl);
+          setShowCropper(false);
+
+          // 사진 크기 조정 및 압축
+          const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1652,
+            useWebWorker: true,
+          };
+
+          // 이미지를 Blob으로 변환
+          fetch(croppedImageUrl)
+            .then((res) => res.blob())
+            .then((convertedImage) => imageCompression(convertedImage, options))
+            .then((compressedImage) => {
+              // FormData 생성 및 압축된 사진 추가
+              const uploadData = new FormData();
+              uploadData.append(
+                'image',
+                compressedImage,
+                'compressedImage.jpg'
+              );
+              console.log(uploadData);
+
+              // S3로 이미지 업로드
+              axios
+                .post(`${import.meta.env.VITE_API_URL}/s3/upload`, uploadData)
+                .then((response) => {
+                  console.log('이미지 업로드 완료:', response.data);
+                  setUploadedImageUrl(response.data.imageUrl); // 이미지 URL 저장
+                  resolve();
+                })
+                .catch((error) => {
+                  console.error('이미지 업로드 실패:', error);
+                  reject(error);
+                });
+            })
+            .catch((error) => {
+              console.error('이미지 처리 실패:', error);
+              reject(error);
+            });
+        });
+      };
+
+      canvas.toBlob(processCroppedImage, 'image/jpeg');
     }
   };
+
+  const handleFormSubmit = async () => {
+    const postData = new FormData();
+    postData.append('title', title);
+    postData.append('content', content);
+    postData.append('kcal', kcal);
+    postData.append('category', 'diet');
+    postData.append('imageUrl', uploadedImageUrl);
+    console.log('imageUrl', uploadedImageUrl);
+
+    axios
+      .post(`${import.meta.env.VITE_SERVER_URL}/posts`, postData)
+      .then((response) => {
+        console.log('게시물 작성 완료:', response.data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('게시물 작성 실패:', error);
+      });
+  };
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -78,48 +140,6 @@ export default function CreateDiet() {
 
   const handleKcalChange = (e) => {
     setKcal(e.target.value);
-  };
-  const handleFormSubmit = async () => {
-    // 사진 크기 조정 및 압축
-    const options = {
-      maxSizeMB: 1, // 최대 파일 크기 (메가바이트 단위)
-      maxWidthOrHeight: 800, // 사진의 최대 가로 또는 세로 크기
-      useWebWorker: true, // 웹 워커를 사용하여 더 빠른 압축 활성화
-    };
-
-    try {
-      let compressedImage = null;
-
-      if (croppedImage instanceof Blob) {
-        compressedImage = await imageCompression(croppedImage, options);
-      } else {
-        // 이미지를 Blob으로 변환
-        const convertedImage = await fetch(croppedImage).then((res) =>
-          res.blob()
-        );
-        compressedImage = await imageCompression(convertedImage, options);
-      }
-
-      // FormData 생성 및 압축된 사진 추가
-      const postData = new FormData();
-      postData.append('title', title);
-      postData.append('content', content);
-      postData.append('kcal', kcal);
-      postData.append('imageUrl', compressedImage, 'compressedImage.jpg');
-      postData.append('category', 'diet'); // 카테고리 추가
-
-      axios
-        .post('API 주소', postData)
-        .then((response) => {
-          console.log(response.data);
-          navigate('/');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
@@ -138,13 +158,7 @@ export default function CreateDiet() {
                 onCropComplete={onCropComplete}
               />
             </MakeEat.Cropperstyle>
-            <MakeEat.Save onClick={onSave}>
-              <FontAwesomeIcon
-                icon={faCheck}
-                size="2x"
-                style={{ color: 'white' }}
-              />
-            </MakeEat.Save>
+            <MakeEat.Save onClick={onSave}>업로드</MakeEat.Save>
           </>
         ) : null}
         <MakeEat.Makepage>
