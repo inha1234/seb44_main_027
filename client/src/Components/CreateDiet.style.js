@@ -1,26 +1,53 @@
 // eslint-disable-next-line import/no-named-as-default
 import styled from 'styled-components';
 
-const MakeEat = {
+const CreateDietStyle = {
   Container: styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
   `,
-  Save: styled.div`
-    background-color: none;
-    z-index: 10;
-    bottom: 10%;
+  ButtonContainer: styled.div`
+    display: flex;
     position: absolute;
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 10%;
+    z-index: 10;
+  `,
+  Cancel: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
     padding: 8px;
     border-radius: 50%;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    &:hover {
+      background-color: red;
+      color: white;
+    }
   `,
-  Cropperstyle: styled.div`
-    z-index: 1;
-    height: 90%;
+  Save: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    padding: 8px;
+    border-radius: 50%;
+    margin: 5px;
+    &:hover {
+      background-color: limegreen;
+      color: white;
+    }
   `,
   Makepage: styled.div`
     margin: 0 auto;
@@ -139,4 +166,4 @@ const MakeEat = {
   `,
 };
 
-export default MakeEat;
+export default CreateDietStyle;
