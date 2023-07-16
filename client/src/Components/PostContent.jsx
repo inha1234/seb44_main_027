@@ -21,21 +21,50 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
   }`;
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(data.postId, type, setIsLoding);
-  // const loginId = sessionStorage.getItem('memberId') + '';
-  const loginId = 2 + '';
+  const loginId = sessionStorage.getItem('memberId') + '';
   const memberId = data.memberId + '';
-  const url = type === 'crewing' ? EditCrewingUrl : EditPostUrl;
 
   // 운동/식단 게시글 수정 API
   const EditPostData = () => {
     axios
       .put(
-        url,
+        EditPostUrl,
         {
           title: title,
           content: content,
           category: data.category,
           imageUrl: data.imageUrl,
+        },
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      )
+      .then((response) => {
+        console.log('수정이 완료되었습니다.');
+        update();
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  // 크루잉 게시글 수정 API
+  const EditCrewingData = () => {
+    axios
+      .put(
+        EditCrewingUrl,
+        {
+          title: title,
+          content: content,
+          maxPeople: data.maxPeople,
+          maxLimit: data.maxLimit,
+          currentPeople: data.currentPeople,
+          imageUrl: data.imageUrl,
+          activityDate: data.activityDate,
+          deadLine: data.deadLine,
+          isCompleted: data.isCompleted,
         },
         {
           headers: {
@@ -62,7 +91,11 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
     setIsEdit(false);
   };
   const handleClickEdit = (e) => {
-    EditPostData();
+    if (type === 'crewing') {
+      EditCrewingData();
+    } else {
+      EditPostData();
+    }
     setIsEdit(false);
   };
   console.log(data);
