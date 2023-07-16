@@ -9,6 +9,7 @@ import useUpdatePost from '../utils/hooks/useUpdatePost';
 function PostDatailBox({ postId, type }) {
   console.log('리렌더링 확인');
   const [isLoding, setIsLodig] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
   const [update] = useUpdatePost(postId, type, setIsLodig);
 
   useEffect(() => {
@@ -24,9 +25,14 @@ function PostDatailBox({ postId, type }) {
           <img src={data && data.imageUrl} alt="게시글 이미지" />
         </PostImg>
         <PostBody>
-          <PostContent data={data} type={type} />
-          <PostComment data={data} type={type} />
-          <PostCommentInput data={data} type={type} />
+          <PostContent
+            data={data}
+            type={type}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+          />
+          {isEdit ? undefined : <PostComment data={data} type={type} />}
+          {isEdit ? undefined : <PostCommentInput data={data} type={type} />}
         </PostBody>
       </Container>
     );
