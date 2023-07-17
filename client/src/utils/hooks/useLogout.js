@@ -6,7 +6,7 @@ const useLogout = () => {
 
   return () => {
     const authToken = sessionStorage.getItem('authToken');
-    const refreshToken = sessionStorage.getItem('refreshToken');
+    // const refreshToken = sessionStorage.getItem('refreshToken');
 
     axios
       .post(
@@ -30,8 +30,8 @@ const useLogout = () => {
       .catch((error) => {
         console.error(error);
         alert('오류가 발생했습니다. 다시 시도해주세요.');
-        sessionStorage.clear();
-        navigate('/login');
+        // sessionStorage.clear();
+        // navigate('/login');
       });
   };
 };
