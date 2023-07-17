@@ -31,9 +31,9 @@ export default function CreateCrewing() {
   const [activity, setActivity] = useState(null);
   const [deadline, setDeadline] = useState('');
   const [showCropper, setShowCropper] = useState(false);
-  const [isRecruitChecked, setIsRecruitChecked] = useState(false);
+  const [isRecruitChecked, setIsRecruitChecked] = useState(true); // 기본값을 true로 변경
   const [number, setNumber] = useState('');
-  const [maxPeople, setMaxPeople] = useState(999); // 기본값 999로 설정
+  const [maxPeople, setMaxPeople] = useState(999);
   const {
     image,
     setImage,
@@ -50,12 +50,12 @@ export default function CreateCrewing() {
 
   const handleSave = async () => {
     await onSave();
-    setShowCropper(false); // 크로퍼 종료
+    setShowCropper(false);
   };
 
   const handleSelectFile = (e) => {
     onSelectFile(e);
-    setShowCropper(true); // 크로퍼 표시
+    setShowCropper(true);
   };
 
   const handleTitleChange = (e) => {
@@ -84,6 +84,7 @@ export default function CreateCrewing() {
       maxPeople: maxPeople,
       imageUrl: uploadedImageUrl,
       memberId: memberId,
+      maxLimit: isRecruitChecked, // 요청에 maxLimit 추가
     };
 
     axios
@@ -104,8 +105,6 @@ export default function CreateCrewing() {
   const handleRecruitChange = (e) => {
     const checked = e.target.checked;
     setIsRecruitChecked(checked);
-
-    // 체크 해제 시 인원 입력값 초기화
     if (!checked) {
       setNumber('');
       setMaxPeople(999);
@@ -152,7 +151,7 @@ export default function CreateCrewing() {
           <CreateCrewingStyle.Main>
             <CreateCrewingStyle.Img>
               {image ? (
-                <img src={croppedImage} alt="Selected" /> // 이미지 표시
+                <img src={croppedImage} alt="Selected" />
               ) : (
                 <>
                   <input
