@@ -42,12 +42,12 @@ export default function CreateDiet() {
 
   const handleFormSubmit = async () => {
     const authToken = sessionStorage.getItem('authToken');
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('kcal', kcal);
-    postData.append('category', 'diet');
-    postData.append('imageUrl', uploadedImageUrl);
+    const postData = {
+      title: title,
+      content: content,
+      kcal: kcal,
+      imageUrl: uploadedImageUrl,
+    };
 
     axios
       .post(`${import.meta.env.VITE_API_URL}/posts`, postData, {

@@ -40,11 +40,12 @@ export default function CreateWorkout() {
 
   const handleFormSubmit = async () => {
     const authToken = sessionStorage.getItem('authToken');
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('category', 'diet');
-    postData.append('imageUrl', uploadedImageUrl);
+    const postData = {
+      title: title,
+      content: content,
+      category: 'diet',
+      imageUrl: uploadedImageUrl,
+    };
 
     axios
       .post(`${import.meta.env.VITE_API_URL}/posts`, postData, {

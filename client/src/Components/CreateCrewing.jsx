@@ -73,17 +73,21 @@ export default function CreateCrewing() {
   };
 
   const handleFormSubmit = async () => {
+    const authToken = sessionStorage.getItem('authToken');
     const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('activityDate', activity);
-    postData.append('deadLine', formattedDeadline);
-    postData.append('maxPeople', maxPeople);
-    postData.append('imageUrl', uploadedImageUrl);
+    const postData = {
+      title: title,
+      content: content,
+      activityDate: activity,
+      deadLine: formattedDeadline,
+      maxPeople: maxPeople,
+      imageUrl: uploadedImageUrl,
+    };
 
     axios
-      .post(`${import.meta.env.VITE_API_URL}/crewing`, postData)
+      .post(`${import.meta.env.VITE_API_URL}/crewing`, postData, {
+        headers: { Authorization: authToken },
+      })
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
         navigate('/');
