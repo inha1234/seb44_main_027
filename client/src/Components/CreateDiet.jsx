@@ -41,6 +41,7 @@ export default function CreateDiet() {
   };
 
   const handleFormSubmit = async () => {
+    const authToken = sessionStorage.getItem('authToken');
     const postData = new FormData();
     postData.append('title', title);
     postData.append('content', content);
@@ -49,7 +50,9 @@ export default function CreateDiet() {
     postData.append('imageUrl', uploadedImageUrl);
 
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL}/posts`, postData)
+      .post(`${import.meta.env.VITE_SERVER_URL}/posts`, postData, {
+        headers: { Authorization: authToken },
+      })
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
         navigate('/');
