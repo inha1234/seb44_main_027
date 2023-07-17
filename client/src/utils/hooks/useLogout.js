@@ -6,7 +6,6 @@ const useLogout = () => {
 
   return () => {
     const authToken = sessionStorage.getItem('authToken');
-    const refreshToken = sessionStorage.getItem('refreshToken');
 
     axios
       .post(
