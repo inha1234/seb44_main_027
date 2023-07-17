@@ -38,14 +38,14 @@ export default function CreateWorkout() {
     setShowCropper(true); // 크로퍼 표시
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = () => {
     const authToken = sessionStorage.getItem('authToken');
     const memberId = sessionStorage.getItem('memberId');
 
     const postData = {
       title: title,
       content: content,
-      category: 'workout',
+      category: 'workOut',
       imageUrl: uploadedImageUrl,
       memberId: memberId,
     };

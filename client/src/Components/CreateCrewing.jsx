@@ -72,7 +72,7 @@ export default function CreateCrewing() {
     setMaxPeople(isRecruitChecked && num !== '' ? parseInt(num) : 999);
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = () => {
     const authToken = sessionStorage.getItem('authToken');
     const memberId = sessionStorage.getItem('memberId');
     const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
