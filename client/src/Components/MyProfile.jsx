@@ -16,7 +16,7 @@ function MyProfile() {
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     userName: 'Username',
-    totalPostsCount: 0,
+    totalPostßCount: 0,
   });
   const [userFollowInfo, setUserFollowInfo] = useState({});
   const [userFollowerList, setUserFollowerList] = useState(
@@ -84,7 +84,7 @@ function MyProfile() {
       <UserStatsContainer>
         <UserStatsItem>
           <UserStatsTitle>Posts</UserStatsTitle>
-          <UserStatsNumber>{user.totalPostsCount}</UserStatsNumber>
+          <UserStatsNumber>{user.totalPostCount}</UserStatsNumber>
         </UserStatsItem>
         <UserStatsItem>
           <UserStatsTitle>Followers</UserStatsTitle>
