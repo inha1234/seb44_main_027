@@ -43,7 +43,7 @@ export default function CreateWorkout() {
     const postData = {
       title: title,
       content: content,
-      category: 'diet',
+      category: 'workout',
       imageUrl: uploadedImageUrl,
     };
 

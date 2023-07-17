@@ -46,6 +46,7 @@ export default function CreateDiet() {
       title: title,
       content: content,
       kcal: kcal,
+      category: 'diet',
       imageUrl: uploadedImageUrl,
     };
 
