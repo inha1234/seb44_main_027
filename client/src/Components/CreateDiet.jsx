@@ -50,7 +50,7 @@ export default function CreateDiet() {
     postData.append('imageUrl', uploadedImageUrl);
 
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL}/posts`, postData, {
+      .post(`${import.meta.env.VITE_API_URL}/posts`, postData, {
         headers: { Authorization: authToken },
       })
       .then((response) => {

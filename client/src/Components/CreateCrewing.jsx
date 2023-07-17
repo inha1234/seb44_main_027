@@ -83,7 +83,7 @@ export default function CreateCrewing() {
     postData.append('imageUrl', uploadedImageUrl);
 
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL}/crewing`, postData)
+      .post(`${import.meta.env.VITE_API_URL}/crewing`, postData)
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
         navigate('/');
