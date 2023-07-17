@@ -9,12 +9,16 @@ const useLogout = () => {
     const refreshToken = sessionStorage.getItem('refreshToken');
 
     axios
-      .post(`${import.meta.env.VITE_API_URL}/members/logOut`, {
-        headers: {
-          Authorization: authToken,
-          Refresh: refreshToken,
-        },
-      })
+      .post(
+        `${import.meta.env.VITE_API_URL}/members/logOut`,
+        {},
+        {
+          headers: {
+            Authorization: authToken,
+            Refresh: refreshToken,
+          },
+        }
+      )
       .then((response) => {
         if (response.status !== 200) {
           throw new Error('Logout request failed');
