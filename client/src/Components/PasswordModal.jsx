@@ -72,7 +72,7 @@ function PasswordModal({ isModalOpen, handleModalToggle, memberId }) {
 
     axios
       .put(
-        `${import.meta.env.VITE_API_URL}/members/${memberId}`,
+        `${import.meta.env.VITE_API_URL}/members/putPassword/${memberId}`,
         { currentPassword: currentPassword, newPassword: newPassword },
         {
           headers: {

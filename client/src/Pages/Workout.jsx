@@ -1,7 +1,8 @@
 import React from 'react';
 import ShareBoard from '../Components/ShareBoard';
-import { Main, Profile } from './Workout.style';
+import { Main } from './Workout.style';
 import Nav from '../Components/Nav';
+import MyProfile from '../Components/MyProfile';
 
 function Workout() {
   return (
@@ -9,7 +10,7 @@ function Workout() {
       <Nav />
       <Main>
         <ShareBoard type={'workout'} />
-        <Profile></Profile>
+        <MyProfile />
       </Main>
     </>
   );

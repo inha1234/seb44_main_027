@@ -40,16 +40,22 @@ export default function CreateDiet() {
     setShowCropper(true); // 크로퍼 표시
   };
 
-  const handleFormSubmit = async () => {
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('kcal', kcal);
-    postData.append('category', 'diet');
-    postData.append('imageUrl', uploadedImageUrl);
+  const handleFormSubmit = () => {
+    const authToken = sessionStorage.getItem('authToken');
+    const memberId = sessionStorage.getItem('memberId');
+    const postData = {
+      title: title,
+      content: content,
+      kcal: kcal,
+      category: 'diet',
+      imageUrl: uploadedImageUrl,
+      memberId: memberId,
+    };
 
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL}/posts`, postData)
+      .post(`${import.meta.env.VITE_API_URL}/posts`, postData, {
+        headers: { Authorization: authToken },
+      })
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
         navigate('/');

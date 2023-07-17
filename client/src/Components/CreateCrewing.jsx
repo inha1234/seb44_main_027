@@ -31,9 +31,9 @@ export default function CreateCrewing() {
   const [activity, setActivity] = useState(null);
   const [deadline, setDeadline] = useState('');
   const [showCropper, setShowCropper] = useState(false);
-  const [isRecruitChecked, setIsRecruitChecked] = useState(false);
+  const [isRecruitChecked, setIsRecruitChecked] = useState(true); // 기본값을 true로 변경
   const [number, setNumber] = useState('');
-  const [maxPeople, setMaxPeople] = useState(999); // 기본값 999로 설정
+  const [maxPeople, setMaxPeople] = useState(999);
   const {
     image,
     setImage,
@@ -50,12 +50,12 @@ export default function CreateCrewing() {
 
   const handleSave = async () => {
     await onSave();
-    setShowCropper(false); // 크로퍼 종료
+    setShowCropper(false);
   };
 
   const handleSelectFile = (e) => {
     onSelectFile(e);
-    setShowCropper(true); // 크로퍼 표시
+    setShowCropper(true);
   };
 
   const handleTitleChange = (e) => {
@@ -72,18 +72,27 @@ export default function CreateCrewing() {
     setMaxPeople(isRecruitChecked && num !== '' ? parseInt(num) : 999);
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = () => {
+    const authToken = sessionStorage.getItem('authToken');
+    const memberId = sessionStorage.getItem('memberId');
     const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
-    const postData = new FormData();
-    postData.append('title', title);
-    postData.append('content', content);
-    postData.append('activityDate', activity);
-    postData.append('deadLine', formattedDeadline);
-    postData.append('maxPeople', maxPeople);
-    postData.append('imageUrl', uploadedImageUrl);
+    const postData = {
+      title: title,
+      content: content,
+      activityDate: activity,
+      deadLine: formattedDeadline,
+      maxPeople: maxPeople,
+      imageUrl: uploadedImageUrl,
+      memberId: memberId,
+      maxLimit: isRecruitChecked, // 요청에 maxLimit 추가
+      activityArea: '선택 안함',
+    };
+    console.log(postData);
 
     axios
-      .post(`${import.meta.env.VITE_SERVER_URL}/crewing`, postData)
+      .post(`${import.meta.env.VITE_API_URL}/crewings`, postData, {
+        headers: { Authorization: authToken },
+      })
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
         navigate('/');
@@ -98,8 +107,6 @@ export default function CreateCrewing() {
   const handleRecruitChange = (e) => {
     const checked = e.target.checked;
     setIsRecruitChecked(checked);
-
-    // 체크 해제 시 인원 입력값 초기화
     if (!checked) {
       setNumber('');
       setMaxPeople(999);
@@ -146,7 +153,7 @@ export default function CreateCrewing() {
           <CreateCrewingStyle.Main>
             <CreateCrewingStyle.Img>
               {image ? (
-                <img src={croppedImage} alt="Selected" /> // 이미지 표시
+                <img src={croppedImage} alt="Selected" />
               ) : (
                 <>
                   <input

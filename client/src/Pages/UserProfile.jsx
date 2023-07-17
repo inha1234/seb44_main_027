@@ -30,7 +30,7 @@ function UserProfile() {
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'Username',
-    totalPostsCount: 10,
+    totalPostCount: 10,
   }); // Mockup data
   const [userFollowInfo, setUserFollowInfo] = useState({});
   const [userFollowerList, setUserFollowerList] = useState(
@@ -109,7 +109,7 @@ function UserProfile() {
               <UserStatsContainer>
                 <UserStatsItem>
                   <UserStatTitle>게시글</UserStatTitle>
-                  <UserStatNumber>{user.totalPostsCount}</UserStatNumber>
+                  <UserStatNumber>{user.totalPostCount}</UserStatNumber>
                 </UserStatsItem>
                 <UserStatsItem>
                   <UserStatTitle>팔로워</UserStatTitle>

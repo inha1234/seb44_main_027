@@ -17,7 +17,7 @@ import {
   ActivityAreaSelect,
 } from './SignUpForm.style';
 
-import useSignUpForm from '../utils/hooks/useSIgnUpForm';
+import useSignUpForm from '../utils/hooks/useSignUpForm';
 
 const MESSAGES = {
   EMAIL_SUCCESS: '사용할 수 있는 이메일입니다',

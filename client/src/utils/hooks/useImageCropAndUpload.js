@@ -71,7 +71,9 @@ function useImageCropAndUpload() {
               axios
                 .post(`${import.meta.env.VITE_API_URL}/s3/upload`, uploadData)
                 .then((response) => {
-                  setUploadedImageUrl(response.data.imageUrl);
+                  console.log(response);
+                  setUploadedImageUrl(response.data[0]);
+                  console.log(uploadedImageUrl);
                   resolve();
                 })
                 .catch((error) => {

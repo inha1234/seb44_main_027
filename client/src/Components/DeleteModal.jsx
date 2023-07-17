@@ -50,8 +50,8 @@ function DeleteModal({ isModalOpen, handleModalToggle, memberId }) {
     const authToken = sessionStorage.getItem('authToken');
 
     axios
-      .delete(
-        `${import.meta.env.VITE_API_URL}/members/${memberId}`,
+      .put(
+        `${import.meta.env.VITE_API_URL}/members/delete/${memberId}`,
         { password: password },
         {
           headers: {
