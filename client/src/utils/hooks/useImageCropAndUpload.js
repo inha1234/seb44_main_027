@@ -72,7 +72,7 @@ function useImageCropAndUpload() {
                 .post(`${import.meta.env.VITE_API_URL}/s3/upload`, uploadData)
                 .then((response) => {
                   console.log(response);
-                  setUploadedImageUrl(response.data.imageUrl);
+                  setUploadedImageUrl(response.data[0]);
                   console.log(uploadedImageUrl);
                   resolve();
                 })
