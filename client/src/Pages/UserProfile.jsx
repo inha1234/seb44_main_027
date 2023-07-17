@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import {
   LinksContainer,
@@ -25,7 +25,9 @@ import Nav from '../Components/Nav';
 import FollowButton from '../Components/FollowButton';
 
 function UserProfile() {
-  const { profileMemberId } = useParams();
+  const navigate = useNavigate();
+  const loggedInUserId = sessionStorage.getItem('memberId');
+  const { memberId: profileMemberId } = useParams();
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'Username',
@@ -39,15 +41,16 @@ function UserProfile() {
     new Array(3).fill({})
   ); // Mockup data
 
-  useEffect(() => {
+  const fetchUser = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/members/${profileMemberId}`)
       .then((res) => {
         setUser(res.data);
-        console.log(user);
       })
       .catch((error) => console.log(error));
+  };
 
+  const fetchFollowInfo = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/counts`, {
         params: {
@@ -56,10 +59,11 @@ function UserProfile() {
       })
       .then((res) => {
         setUserFollowInfo(res.data);
-        console.log(userFollowInfo);
       })
       .catch((error) => console.log(error));
+  };
 
+  const updateFollowerList = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/followers`, {
         params: {
@@ -68,10 +72,11 @@ function UserProfile() {
       })
       .then((res) => {
         setUserFollowerList(res.data);
-        console.log(userFollowerList);
       })
       .catch((error) => console.log(error));
+  };
 
+  const fetchFollowingList = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/followings`, {
         params: {
@@ -80,9 +85,18 @@ function UserProfile() {
       })
       .then((res) => {
         setUserFollowingList(res.data);
-        console.log(userFollowingList);
       })
       .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    if (loggedInUserId === profileMemberId) {
+      navigate('/mypage');
+    }
+    fetchUser();
+    fetchFollowInfo();
+    updateFollowerList();
+    fetchFollowingList();
   }, [profileMemberId]);
 
   return (
@@ -95,18 +109,21 @@ function UserProfile() {
               <img
                 style={{ width: '100%' }}
                 src={user.imageUrl}
-                alt={user.username}
+                alt={user.userName}
               />
             </ProfilePictureContainer>
             <UserInfoContainer>
               <UsernameSection>
-                <UsernameContainer>{user.username}</UsernameContainer>
-                <FollowButton memberId={profileMemberId} />
+                <UsernameContainer>{user.userName}</UsernameContainer>
+                <FollowButton
+                  profileUserId={profileMemberId}
+                  updateFollowerList={updateFollowerList}
+                />
               </UsernameSection>
               <UserStatsContainer>
                 <UserStatsItem>
                   <UserStatTitle>게시글</UserStatTitle>
-                  <UserStatNumber>{user.totalPostsCount}</UserStatNumber>
+                  <UserStatNumber>{user.totalPostCount}</UserStatNumber>
                 </UserStatsItem>
                 <UserStatsItem>
                   <UserStatTitle>팔로워</UserStatTitle>

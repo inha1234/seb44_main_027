@@ -12,6 +12,7 @@ import useUpdatePost from '../utils/hooks/useUpdatePost';
 import axios from 'axios';
 import CrewingContent from './CrewingContent';
 import formatTime from '../utils/formatTime';
+import ProfileLink from '../utils/ProfileLink';
 
 function PostContent({ data, type, isEdit, setIsEdit }) {
   const [title, setTitle] = useState(data.title);
@@ -105,12 +106,20 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
     <PostContainer edit={isEdit.toString()} type={type}>
       <Author>
         <AuthorInfo.Container>
-          <AuthorInfo.Profile to={`/profile/${data.memberId}`}>
-            <img src={data.userImageUrl} alt="게시글 이미지" />
-          </AuthorInfo.Profile>
-          <AuthorInfo.AuthorName to={`/profile/${data.memberId}`}>
-            {data.userName}
-          </AuthorInfo.AuthorName>
+          <ProfileLink
+            profileUserId={data.memberId}
+            element={
+              <AuthorInfo.LinkContainer>
+                <AuthorInfo.Profile to={`/profile/${data.memberId}`}>
+                  <img src={data.userImageUrl} alt="게시글 이미지" />
+                </AuthorInfo.Profile>
+                <AuthorInfo.AuthorName to={`/profile/${data.memberId}`}>
+                  {data.userName}
+                </AuthorInfo.AuthorName>
+              </AuthorInfo.LinkContainer>
+            }
+          />
+
           <AuthorInfo.CreateAt>
             {formatTime(data.createdAt)}
           </AuthorInfo.CreateAt>
