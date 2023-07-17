@@ -83,15 +83,15 @@ function MyProfile() {
       <UsernameContainer>{user.userName}</UsernameContainer>
       <UserStatsContainer>
         <UserStatsItem>
-          <UserStatsTitle>Posts</UserStatsTitle>
+          <UserStatsTitle>게시글</UserStatsTitle>
           <UserStatsNumber>{user.totalPostCount}</UserStatsNumber>
         </UserStatsItem>
         <UserStatsItem>
-          <UserStatsTitle>Followers</UserStatsTitle>
+          <UserStatsTitle>팔로워</UserStatsTitle>
           <UserStatsNumber>{userFollowerList.length}</UserStatsNumber>
         </UserStatsItem>
         <UserStatsItem>
-          <UserStatsTitle>Followings</UserStatsTitle>
+          <UserStatsTitle>팔로잉</UserStatsTitle>
           <UserStatsNumber>{userFollowingList.length}</UserStatsNumber>
         </UserStatsItem>
       </UserStatsContainer>
