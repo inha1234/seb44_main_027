@@ -52,12 +52,12 @@ function DeleteModal({ isModalOpen, handleModalToggle, memberId }) {
     axios
       .delete(
         `${import.meta.env.VITE_API_URL}/members/${memberId}`,
-        { password: password },
         {
           headers: {
             Authorization: authToken,
           },
-        }
+        },
+        { data: { password: password } }
       )
       .then((response) => {
         if (response.status === 200) {
