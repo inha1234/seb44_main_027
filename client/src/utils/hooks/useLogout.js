@@ -15,7 +15,6 @@ const useLogout = () => {
         {
           headers: {
             Authorization: authToken,
-            Refresh: refreshToken,
           },
         }
       )
