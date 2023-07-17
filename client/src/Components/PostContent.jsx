@@ -105,10 +105,10 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
     <PostContainer edit={isEdit.toString()} type={type}>
       <Author>
         <AuthorInfo.Container>
-          <AuthorInfo.Profile to={`/members/${data.memberId}`}>
+          <AuthorInfo.Profile to={`/profile/${data.memberId}`}>
             <img src={data.userImageUrl} alt="게시글 이미지" />
           </AuthorInfo.Profile>
-          <AuthorInfo.AuthorName to={`/members/${data.memberId}`}>
+          <AuthorInfo.AuthorName to={`/profile/${data.memberId}`}>
             {data.userName}
           </AuthorInfo.AuthorName>
           <AuthorInfo.CreateAt>
