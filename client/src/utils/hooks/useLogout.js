@@ -11,7 +11,7 @@ const useLogout = () => {
     axios
       .post(
         `${import.meta.env.VITE_API_URL}/members/logOut`,
-        {},
+        { request: 'logout' },
         {
           headers: {
             Authorization: authToken,
