@@ -16,7 +16,7 @@ function MyProfile() {
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     userName: 'Username',
-    totalPostßCount: 0,
+    totalPostCount: 0,
   });
   const [userFollowInfo, setUserFollowInfo] = useState({});
   const [userFollowerList, setUserFollowerList] = useState(
