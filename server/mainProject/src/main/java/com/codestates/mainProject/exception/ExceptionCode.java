@@ -16,7 +16,7 @@ public enum ExceptionCode {
     FOLLOW_EXIST(409, "follow exists"),
     UPLOAD_FAIL(401, "s3 file upload failed"),
     DOWNLOAD_FAIL(401, "s3 file download failed"),
-    NOT_PASSWORD_MATCH(401, "password does not match"),
+    NOT_PASSWORD_MATCH(400, "password does not match"),
     CATEGORY_NOT_FOUND(404, "category not found");
 
 
