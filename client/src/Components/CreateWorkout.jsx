@@ -40,11 +40,14 @@ export default function CreateWorkout() {
 
   const handleFormSubmit = async () => {
     const authToken = sessionStorage.getItem('authToken');
+    const memberId = sessionStorage.getItem('memberId');
+
     const postData = {
       title: title,
       content: content,
       category: 'workout',
       imageUrl: uploadedImageUrl,
+      memberId: memberId,
     };
 
     axios

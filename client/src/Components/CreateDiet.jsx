@@ -42,12 +42,14 @@ export default function CreateDiet() {
 
   const handleFormSubmit = async () => {
     const authToken = sessionStorage.getItem('authToken');
+    const memberId = sessionStorage.getItem('memberId');
     const postData = {
       title: title,
       content: content,
       kcal: kcal,
       category: 'diet',
       imageUrl: uploadedImageUrl,
+      memberId: memberId,
     };
 
     axios

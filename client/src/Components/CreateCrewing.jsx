@@ -74,6 +74,7 @@ export default function CreateCrewing() {
 
   const handleFormSubmit = async () => {
     const authToken = sessionStorage.getItem('authToken');
+    const memberId = sessionStorage.getItem('memberId');
     const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
     const postData = {
       title: title,
@@ -82,6 +83,7 @@ export default function CreateCrewing() {
       deadLine: formattedDeadline,
       maxPeople: maxPeople,
       imageUrl: uploadedImageUrl,
+      memberId: memberId,
     };
 
     axios
