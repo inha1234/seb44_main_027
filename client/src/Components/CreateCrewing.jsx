@@ -85,7 +85,9 @@ export default function CreateCrewing() {
       imageUrl: uploadedImageUrl,
       memberId: memberId,
       maxLimit: isRecruitChecked, // 요청에 maxLimit 추가
+      activityArea: '선택 안함',
     };
+    console.log(postData);
 
     axios
       .post(`${import.meta.env.VITE_API_URL}/crewings`, postData, {
