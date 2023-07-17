@@ -32,7 +32,12 @@ public class MemberController {
     }
     @PutMapping("/{member_id}")
     public ResponseEntity putMember(Authentication authentication, @PathVariable("member_id") long memberId, @Valid @RequestBody MemberDto.Put put){
-        memberService.putMember(authentication, memberId,put);
+        memberService.putMember(authentication, memberId, put);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping("/putPassword/{member_id}")
+    public ResponseEntity putPassword(Authentication authentication, @PathVariable("member_id") long memberId, @Valid @RequestBody MemberDto.PutPassword put){
+        memberService.putPassword(authentication, memberId, put);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{member_id}")
@@ -41,8 +46,8 @@ public class MemberController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @DeleteMapping("/{member_id}")
-    public ResponseEntity deleteMember(Authentication authentication, @PathVariable("member_id") long memberId){
-        memberService.deleteMember(authentication, memberId);
+    public ResponseEntity deleteMember(Authentication authentication, @PathVariable("member_id") long memberId, @RequestBody MemberDto.Delete delete){
+        memberService.deleteMember(authentication, memberId, delete);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/findExist")
