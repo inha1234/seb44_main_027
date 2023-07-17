@@ -32,7 +32,7 @@ public class S3Controller {
     private String s3Bucket;
 
     @PostMapping("/upload")
-    public ResponseEntity<List<String>> upload(@RequestParam("files") MultipartFile[] multipartFileList) {
+    public ResponseEntity<List<String>> upload(@RequestParam("image") MultipartFile[] multipartFileList) {
         List<String> imagePathList = Arrays.stream(multipartFileList)
                 .map(multipartFile -> {
                     try {

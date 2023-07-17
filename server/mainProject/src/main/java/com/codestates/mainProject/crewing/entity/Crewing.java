@@ -29,7 +29,6 @@ public class Crewing extends Auditable {
     @Column(nullable = false)
     private int maxPeople;
 
-    @Column(nullable = false)
     private int currentPeople;
 
     @Column(nullable = false)
