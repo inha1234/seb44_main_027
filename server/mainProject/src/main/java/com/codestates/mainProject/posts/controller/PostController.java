@@ -3,6 +3,7 @@ package com.codestates.mainProject.posts.controller;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.dto.SingleResponseDto;
+import com.codestates.mainProject.follow.service.FollowService;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.service.MemberService;
 import com.codestates.mainProject.posts.dto.PostDto;
@@ -21,19 +22,21 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/posts")
 @Validated
 public class PostController {
     private final PostService postService;
-
     private final MemberService memberService;
+    private final FollowService followService;
     private final PostMapper mapper;
 
-    public PostController(PostService postService, MemberService memberService, PostMapper mapper) {
+    public PostController(PostService postService, MemberService memberService, FollowService followService, PostMapper mapper) {
         this.postService = postService;
         this.memberService = memberService;
+        this.followService = followService;
         this.mapper = mapper;
     }
 
@@ -117,6 +120,33 @@ public class PostController {
             multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, pagePosts.getTotalElements(), pagePosts.getTotalPages(), true));
         } else {
             multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, pagePosts.getTotalElements(), pagePosts.getTotalPages(), false));
+        }
+
+        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/followingPosts")
+    public ResponseEntity getFollowingPosts(@RequestParam long memberId,
+                                            @RequestParam(defaultValue = "1") int page,
+                                            @RequestParam(required = false) Long lastPostId) {
+        Page<Post> followingPosts;
+        Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("createdAt").descending());
+
+        if (lastPostId != null) {
+            followingPosts = followService.getFollowingPostsAfter(memberId, lastPostId, pageable);
+        } else {
+            followingPosts = followService.getFollowingPosts(memberId, pageable);
+        }
+
+        List<PostDto.ResponseDto> responseDto = followingPosts.stream()
+                .map(post -> mapper.postToPostResponse(post))
+                .collect(Collectors.toList());
+
+        MultiResponseDto<PostDto.ResponseDto> multiResponseDto;
+        if (!followingPosts.isEmpty()) {
+            multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, followingPosts.getTotalElements(), followingPosts.getTotalPages(), true));
+        } else {
+            multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, followingPosts.getTotalElements(), followingPosts.getTotalPages(), false));
         }
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
