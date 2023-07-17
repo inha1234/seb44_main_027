@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import {
   LinksContainer,
@@ -17,20 +17,19 @@ import {
   ProfilePageBody,
   MainContainer,
 } from './ProfilePage.style';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import WorkoutSubBoard from './WorkoutSubBoard';
 import DietSubBoard from './DietSubBoard';
 import CrewingSubBoard from './CrewingSubBoard';
 import Nav from '../Components/Nav';
+import FollowButton from '../Components/FollowButton';
 
 function UserProfile() {
-  const { memberId } = useParams();
+  const { profileMemberId } = useParams();
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'Username',
-    totalPostCount: 10,
+    totalPostsCount: 10,
   }); // Mockup data
   const [userFollowInfo, setUserFollowInfo] = useState({});
   const [userFollowerList, setUserFollowerList] = useState(
@@ -42,7 +41,7 @@ function UserProfile() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/members/${memberId}`)
+      .get(`${import.meta.env.VITE_API_URL}/members/${profileMemberId}`)
       .then((res) => {
         setUser(res.data);
         console.log(user);
@@ -52,7 +51,7 @@ function UserProfile() {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/counts`, {
         params: {
-          memberId: memberId,
+          memberId: profileMemberId,
         },
       })
       .then((res) => {
@@ -64,7 +63,7 @@ function UserProfile() {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/followers`, {
         params: {
-          memberId: memberId,
+          memberId: profileMemberId,
         },
       })
       .then((res) => {
@@ -76,7 +75,7 @@ function UserProfile() {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/followings`, {
         params: {
-          memberId: memberId,
+          memberId: profileMemberId,
         },
       })
       .then((res) => {
@@ -84,7 +83,7 @@ function UserProfile() {
         console.log(userFollowingList);
       })
       .catch((error) => console.log(error));
-  }, [memberId]);
+  }, [profileMemberId]);
 
   return (
     <ProfilePageBody>
@@ -102,14 +101,12 @@ function UserProfile() {
             <UserInfoContainer>
               <UsernameSection>
                 <UsernameContainer>{user.username}</UsernameContainer>
-                <Link to="/settings" style={{ color: 'black' }}>
-                  <FontAwesomeIcon icon={faGear} />
-                </Link>
+                <FollowButton memberId={profileMemberId} />
               </UsernameSection>
               <UserStatsContainer>
                 <UserStatsItem>
                   <UserStatTitle>게시글</UserStatTitle>
-                  <UserStatNumber>{user.totalPostCount}</UserStatNumber>
+                  <UserStatNumber>{user.totalPostsCount}</UserStatNumber>
                 </UserStatsItem>
                 <UserStatsItem>
                   <UserStatTitle>팔로워</UserStatTitle>
@@ -130,12 +127,15 @@ function UserProfile() {
           <Routes>
             <Route
               path="workout"
-              element={<WorkoutSubBoard memberId={memberId} />}
+              element={<WorkoutSubBoard memberId={profileMemberId} />}
             />
-            <Route path="diet" element={<DietSubBoard memberId={memberId} />} />
+            <Route
+              path="diet"
+              element={<DietSubBoard memberId={profileMemberId} />}
+            />
             <Route
               path="crewing"
-              element={<CrewingSubBoard memberId={memberId} />}
+              element={<CrewingSubBoard memberId={profileMemberId} />}
             />
             <Route path="/" element={<Navigate to="workout" replace />} />
           </Routes>
