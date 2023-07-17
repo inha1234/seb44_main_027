@@ -87,7 +87,7 @@ export default function CreateCrewing() {
     };
 
     axios
-      .post(`${import.meta.env.VITE_API_URL}/crewing`, postData, {
+      .post(`${import.meta.env.VITE_API_URL}/crewings`, postData, {
         headers: { Authorization: authToken },
       })
       .then((response) => {
