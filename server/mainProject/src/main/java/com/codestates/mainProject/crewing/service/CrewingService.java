@@ -103,6 +103,7 @@ public class CrewingService {
             throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
         }
         int currentPeople = crewingMembersRepository.countByCrewing(crewing);
+
         if(crewing.getMaxPeople() >= currentPeople){
             applyCrewing(crewingId, apply.getMemberId(),crewing, member, currentPeople);
         } else {
