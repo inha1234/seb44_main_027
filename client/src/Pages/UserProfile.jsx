@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import {
   LinksContainer,
@@ -17,20 +17,21 @@ import {
   ProfilePageBody,
   MainContainer,
 } from './ProfilePage.style';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import WorkoutSubBoard from './WorkoutSubBoard';
 import DietSubBoard from './DietSubBoard';
 import CrewingSubBoard from './CrewingSubBoard';
 import Nav from '../Components/Nav';
+import FollowButton from '../Components/FollowButton';
 
 function UserProfile() {
-  const { memberId } = useParams();
+  const navigate = useNavigate();
+  const loggedInUserId = sessionStorage.getItem('memberId');
+  const { memberId: profileMemberId } = useParams();
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'Username',
-    totalPostCount: 10,
+    totalPostsCount: 10,
   }); // Mockup data
   const [userFollowInfo, setUserFollowInfo] = useState({});
   const [userFollowerList, setUserFollowerList] = useState(
@@ -40,51 +41,63 @@ function UserProfile() {
     new Array(3).fill({})
   ); // Mockup data
 
-  useEffect(() => {
+  const fetchUser = () => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/members/${memberId}`)
+      .get(`${import.meta.env.VITE_API_URL}/members/${profileMemberId}`)
       .then((res) => {
         setUser(res.data);
-        console.log(user);
       })
       .catch((error) => console.log(error));
+  };
 
+  const fetchFollowInfo = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/counts`, {
         params: {
-          memberId: memberId,
+          memberId: profileMemberId,
         },
       })
       .then((res) => {
         setUserFollowInfo(res.data);
-        console.log(userFollowInfo);
       })
       .catch((error) => console.log(error));
+  };
 
+  const updateFollowerList = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/followers`, {
         params: {
-          memberId: memberId,
+          memberId: profileMemberId,
         },
       })
       .then((res) => {
         setUserFollowerList(res.data);
-        console.log(userFollowerList);
       })
       .catch((error) => console.log(error));
+  };
 
+  const fetchFollowingList = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/follows/followings`, {
         params: {
-          memberId: memberId,
+          memberId: profileMemberId,
         },
       })
       .then((res) => {
         setUserFollowingList(res.data);
-        console.log(userFollowingList);
       })
       .catch((error) => console.log(error));
-  }, [memberId]);
+  };
+
+  useEffect(() => {
+    if (loggedInUserId === profileMemberId) {
+      navigate('/mypage');
+    }
+    fetchUser();
+    fetchFollowInfo();
+    updateFollowerList();
+    fetchFollowingList();
+  }, [profileMemberId]);
 
   return (
     <ProfilePageBody>
@@ -96,15 +109,16 @@ function UserProfile() {
               <img
                 style={{ width: '100%' }}
                 src={user.imageUrl}
-                alt={user.username}
+                alt={user.userName}
               />
             </ProfilePictureContainer>
             <UserInfoContainer>
               <UsernameSection>
-                <UsernameContainer>{user.username}</UsernameContainer>
-                <Link to="/settings" style={{ color: 'black' }}>
-                  <FontAwesomeIcon icon={faGear} />
-                </Link>
+                <UsernameContainer>{user.userName}</UsernameContainer>
+                <FollowButton
+                  profileUserId={profileMemberId}
+                  updateFollowerList={updateFollowerList}
+                />
               </UsernameSection>
               <UserStatsContainer>
                 <UserStatsItem>
@@ -130,12 +144,15 @@ function UserProfile() {
           <Routes>
             <Route
               path="workout"
-              element={<WorkoutSubBoard memberId={memberId} />}
+              element={<WorkoutSubBoard memberId={profileMemberId} />}
             />
-            <Route path="diet" element={<DietSubBoard memberId={memberId} />} />
+            <Route
+              path="diet"
+              element={<DietSubBoard memberId={profileMemberId} />}
+            />
             <Route
               path="crewing"
-              element={<CrewingSubBoard memberId={memberId} />}
+              element={<CrewingSubBoard memberId={profileMemberId} />}
             />
             <Route path="/" element={<Navigate to="workout" replace />} />
           </Routes>

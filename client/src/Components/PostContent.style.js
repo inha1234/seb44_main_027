@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
 
 export const PostContainer = styled.section`
   width: 530px;
@@ -31,7 +30,12 @@ export const AuthorInfo = {
     color: #737373;
     margin-left: 10px;
   `,
-  Profile: styled(Link)`
+  LinkContainer: styled.section`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  Profile: styled.section`
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -43,7 +47,7 @@ export const AuthorInfo = {
       aspect-ratio: 1/1;
     }
   `,
-  AuthorName: styled(Link)`
+  AuthorName: styled.section`
     font-size: 16px;
     font-weight: bold;
     color: #000;

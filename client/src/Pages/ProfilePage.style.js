@@ -59,6 +59,8 @@ export const UsernameContainer = styled.section`
 
 export const UserStatsContainer = styled.section`
   display: flex;
+  justify-content: space-between;
+  width: 300px;
   font-size: 20px;
 `;
 
@@ -69,10 +71,12 @@ export const UserStatsItem = styled.section`
 
 export const UserStatTitle = styled.section`
   margin-right: 6px;
+  width: 60px;
 `;
 
 export const UserStatNumber = styled.section`
   font-weight: bold;
+  width: 45px;
 `;
 
 export const LinksContainer = styled.section`
