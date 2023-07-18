@@ -43,6 +43,7 @@ export const UserStatsItem = styled.section`
   align-items: center;
   width: 72px;
   margin: 8px;
+  cursor: default;
 `;
 
 export const UserStatsTitle = styled.section`

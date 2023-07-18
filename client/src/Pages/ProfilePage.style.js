@@ -67,6 +67,7 @@ export const UserStatsContainer = styled.section`
 export const UserStatsItem = styled.section`
   display: flex;
   margin-right: 30px;
+  cursor: default;
 `;
 
 export const UserStatTitle = styled.section`
