@@ -13,6 +13,7 @@ export const SettingsMain = styled.main`
   justify-content: center;
   width: 1024px;
   margin-top: 100px;
+  margin-left: 340px;
 `;
 
 export const SettingsTitle = styled.section`

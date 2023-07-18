@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const SignUpInputContainer = styled.section`
-  width: 345px;
+  min-width: 345px;
 `;
 
 export const SignUpHeading = styled.section`
