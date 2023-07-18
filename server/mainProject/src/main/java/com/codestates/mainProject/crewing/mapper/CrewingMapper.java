@@ -21,7 +21,6 @@ public interface CrewingMapper {
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "modifiedAt", source = "modifiedAt")
     CrewingDto.ResponseDto crewingToCrewingResponse(Crewing crewing); /** Crewing 엔티티를 CrewingDto.Response 으로 매핑 */
-
     default List<CrewingDto.ResponseDto> crewingListToCrewingResponseList(List<Crewing> crewings) {
         return crewings.stream()
                 .map(this::crewingToCrewingResponse)
