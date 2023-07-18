@@ -9,7 +9,9 @@ function PostCommentItem({ CommentData, type }) {
 
   return (
     <Item.Container>
-      <Item.Profile src={CommentData.imageUrl} alt="작성자 프로필" />
+      <Item.Profile>
+        <Item.Img src={CommentData.imageUrl} alt="작성자 프로필" />
+      </Item.Profile>
       {isEdit ? (
         <CommentEdit
           CommentData={CommentData}

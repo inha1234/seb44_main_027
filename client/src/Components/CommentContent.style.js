@@ -2,6 +2,8 @@ import { styled } from 'styled-components';
 
 export const Item = {
   Content: styled.div`
+    word-break: break-all;
+    flex-grow: 1;
     margin-left: 12px;
   `,
 };
