@@ -134,20 +134,8 @@ public class CrewingService {
     /** 게시글 조회 */
     public CrewingDto.ResponseDto getCrewing(long crewingId) {
         Crewing findCrewing = findVerifiedCrewing(crewingId);
-        List<CrewingMembers> crewingMembers = crewingMembersRepository.findByCrewing(findCrewing);
-        List<Member> Members = crewingMembers.stream()
-                .map(crewingMember -> crewingMember.getMember())
-                .distinct()
-                .collect(Collectors.toList());
-        List<CrewingDto.Members> CrewingMember = new ArrayList<>();
-        for(Member member : Members){
-            CrewingDto.Members members = new CrewingDto.Members();
-            members.setUserName(member.getUserName());
-            members.setImageUrl(member.getImageUrl());
-            CrewingMember.add(members);
-        }
         CrewingDto.ResponseDto Response = crewingmapper.crewingToCrewingResponse(findCrewing);
-        Response.setMembers(CrewingMember);
+
         return Response;
     }
 
