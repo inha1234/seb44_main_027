@@ -41,13 +41,8 @@ export const ListItemContainer = styled.li`
   display: flex;
   align-items: center;
   padding: 5px 10px;
-  /* border-bottom: 1px dotted #ededed;
-  &:last-child {
-    border-bottom: none;
-  } */
   &:hover {
     background-color: #f8f8f8;
-    cursor: pointer;
   }
 `;
 
