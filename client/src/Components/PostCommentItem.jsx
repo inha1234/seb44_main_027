@@ -3,6 +3,7 @@ import { Item } from './PostCommentItem.style';
 import CommentContent from './CommentContent';
 import CommentEdit from './CommentEdit';
 import { useSelector } from 'react-redux';
+import ProfileLink from '../utils/ProfileLink';
 
 function PostCommentItem({ CommentData, type }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -10,7 +11,10 @@ function PostCommentItem({ CommentData, type }) {
   return (
     <Item.Container>
       <Item.Profile>
-        <Item.Img src={CommentData.imageUrl} alt="작성자 프로필" />
+        <ProfileLink
+          profileUserId={CommentData.memberId}
+          element={<Item.Img src={CommentData.imageUrl} alt="작성자 프로필" />}
+        />
       </Item.Profile>
       {isEdit ? (
         <CommentEdit

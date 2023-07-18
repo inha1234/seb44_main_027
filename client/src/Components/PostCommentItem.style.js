@@ -4,6 +4,7 @@ export const Item = {
   Container: styled.li`
     width: 100%;
     display: flex;
+    align-items: center;
     margin-bottom: 18px;
   `,
   Profile: styled.div`
