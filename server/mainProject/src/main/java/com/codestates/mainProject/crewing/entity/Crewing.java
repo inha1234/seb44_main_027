@@ -29,7 +29,6 @@ public class Crewing extends Auditable {
     @Column(nullable = false)
     private int maxPeople;
 
-    @Column(nullable = false)
     private int currentPeople;
 
     @Column(nullable = false)
@@ -51,14 +50,13 @@ public class Crewing extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "crewing")
+    @Column(nullable = false)
+    private String activityArea;
+
+    @OneToMany(mappedBy = "crewing", cascade = CascadeType.ALL)
     private List<CrewingMembers> crewingMembers = new ArrayList<>();
 
-    public void addCrewingMembers(CrewingMembers crewingMember) {
-        crewingMembers.add(crewingMember);
-    }
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "crewing", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
-
 }

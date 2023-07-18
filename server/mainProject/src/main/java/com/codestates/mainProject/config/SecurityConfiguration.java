@@ -1,11 +1,15 @@
 package com.codestates.mainProject.config;
 
+import com.codestates.mainProject.authority.handler.MemberAccessDeniedHandler;
+import com.codestates.mainProject.authority.handler.MemberAuthenticationEntryPoint;
 import com.codestates.mainProject.authority.handler.MemberAuthenticationFailureHandler;
 import com.codestates.mainProject.authority.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.mainProject.authority.jwt.JwtAuthenticationFilter;
 import com.codestates.mainProject.authority.jwt.JwtTokenizer;
 import com.codestates.mainProject.authority.jwt.JwtVerificationFilter;
 import com.codestates.mainProject.authority.util.AuthorityUtil;
+import com.codestates.mainProject.member.repository.MemberRepository;
+import com.codestates.mainProject.utils.redis.service.RedisService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,10 +32,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration{
     private final JwtTokenizer jwtTokenizer;
     private final AuthorityUtil authorityUtil;
+    private final RedisService redisService;
+    private final MemberRepository memberRepository;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService, MemberRepository memberRepository) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtil = authorityUtil;
+        this.redisService = redisService;
+        this.memberRepository = memberRepository;
     }
 
     @Bean
@@ -45,12 +53,17 @@ public class SecurityConfiguration{
                .and()
                .formLogin().disable()
                .httpBasic().disable()
+               .exceptionHandling()
+               .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+               .accessDeniedHandler(new MemberAccessDeniedHandler())
+               .and()
                .apply(new CustomFilterConfigurer())
                .and()
                .authorizeHttpRequests(authorize -> authorize
                        .antMatchers(HttpMethod.POST, "/members").permitAll()
+                       .antMatchers(HttpMethod.POST, "/members/logOut").hasRole("USER")
                        .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")
-                       .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
+//                       .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
                        .anyRequest().permitAll()
                );
@@ -60,8 +73,7 @@ public class SecurityConfiguration{
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://main027.s3-website.ap-northeast-2.amazonaws.com/"));
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://main027.s3-website.ap-northeast-2.amazonaws.com"));
+        configuration.setAllowedOrigins(Arrays.asList("http://main027.s3-website.ap-northeast-2.amazonaws.com/"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
@@ -84,7 +96,7 @@ public class SecurityConfiguration{
            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil);
+           JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtil, redisService, memberRepository);
 
            builder
                    .addFilter(jwtAuthenticationFilter)
@@ -97,23 +109,3 @@ public class SecurityConfiguration{
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
-
-
-//        http
-//                .headers().frameOptions().sameOrigin()
-//                .and()
-//                .csrf().disable()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                .and()
-//                .formLogin()
-//                .loginProcessingUrl("/members/login")
-//                .usernameParameter("email")
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .and()
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers("/**").permitAll()
-//                );
-//       세션

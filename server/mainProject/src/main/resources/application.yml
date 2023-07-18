@@ -60,7 +60,7 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket:
+      bucket: ${BUCKET}
     credentials:
       access-key: ${ACCESS-KEY}
       secret-key: ${SECRET-KEY}
@@ -69,3 +69,7 @@ cloud:
       auto: false
     stack:
       auto: false
+spring:
+  redis:
+    host: localhost
+    port: 6379
