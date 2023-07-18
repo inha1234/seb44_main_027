@@ -1,10 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const ProfilePageBody = styled.section`
-  display: flex;
-`;
-
 export const MainContainer = styled.section`
   display: flex;
   justify-content: center;
@@ -14,10 +10,10 @@ export const MainContainer = styled.section`
 export const ProfilePageMain = styled.main`
   display: flex;
   flex-direction: column;
-  align-self: center;
-  justify-self: center;
-  margin-left: 340px;
+  align-items: center;
+  justify-content: center;
   width: 1024px;
+  margin-left: 340px;
 `;
 export const UserProfileContainer = styled.section`
   display: flex;

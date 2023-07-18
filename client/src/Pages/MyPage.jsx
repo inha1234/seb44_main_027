@@ -13,7 +13,6 @@ import {
   UsernameContainer,
   UsernameSection,
   ProfilePageMain,
-  ProfilePageBody,
   MainContainer,
 } from './ProfilePage.style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,6 +26,7 @@ import Nav from '../Components/Nav';
 import PortalModal from '../utils/PortalModal';
 import FollowList from '../Components/FollowList';
 import usePortalModal from '../utils/hooks/usePortalModal';
+import { SettingsMain, SettingsMainContainer } from './Settings.style';
 
 function MyPage() {
   const memberId = sessionStorage.getItem('memberId');
@@ -93,7 +93,8 @@ function MyPage() {
   }, [memberId]);
 
   return (
-    <ProfilePageBody>
+    <>
+      <Nav />
       {followerModal.showModal && (
         <PortalModal
           position={followerModal.modalPosition}
@@ -110,9 +111,8 @@ function MyPage() {
           <FollowList list={userFollowingList} />
         </PortalModal>
       )}
-      <Nav />
-      <MainContainer>
-        <ProfilePageMain>
+      <SettingsMainContainer>
+        <SettingsMain>
           <UserProfileContainer>
             <ProfilePictureContainer>
               <img
@@ -161,9 +161,9 @@ function MyPage() {
             />
             <Route path="/" element={<Navigate to="workout" replace />} />
           </Routes>
-        </ProfilePageMain>
-      </MainContainer>
-    </ProfilePageBody>
+        </SettingsMain>
+      </SettingsMainContainer>
+    </>
   );
 }
 

@@ -14,7 +14,6 @@ import {
   UsernameContainer,
   UsernameSection,
   ProfilePageMain,
-  ProfilePageBody,
   MainContainer,
 } from './ProfilePage.style';
 import axios from 'axios';
@@ -118,7 +117,7 @@ function UserProfile() {
   }
 
   return (
-    <ProfilePageBody>
+    <>
       {followerModal.showModal && (
         <PortalModal
           position={followerModal.modalPosition}
@@ -192,7 +191,7 @@ function UserProfile() {
           </Routes>
         </ProfilePageMain>
       </MainContainer>
-    </ProfilePageBody>
+    </>
   );
 }
 
