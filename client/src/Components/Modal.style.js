@@ -67,7 +67,7 @@ export const DeleteModalContainer = styled.section`
 export const ModalButton = styled.button`
   width: 140px;
   height: 50px;
-  border: none;
+  border: 1px solid black;
   color: white;
   background-color: black;
   border-radius: 6px;
@@ -216,4 +216,9 @@ export const UploadArea = styled.section`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+`;
+
+export const ModalInputContainer = styled.section`
+  display: flex;
+  align-items: center;
 `;
