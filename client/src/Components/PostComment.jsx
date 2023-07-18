@@ -7,15 +7,14 @@ function PostComment({ data, type, scrollRef }) {
 
   return (
     <CommentContainer>
-      <CommentList ref={scrollRef}>
-        <ul>
+      <CommentList>
+        <ul ref={scrollRef}>
           {data.comments &&
             newistData.map((CommentData) => (
               <PostCommentItem
                 key={CommentData.commentId}
                 CommentData={CommentData}
                 type={type}
-                scrollToTop={scrollToTop}
               />
             ))}
         </ul>

@@ -13,6 +13,7 @@ function PostDatailBox({ postId, type }) {
   const [update] = useUpdatePost(postId, type, setIsLodig);
   const scrollRef = useRef(null);
 
+  // 댓글 작성 시 댓글창 스크롤업
   const scrollToTop = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0;
