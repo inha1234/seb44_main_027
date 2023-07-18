@@ -7,7 +7,7 @@ function PostEditDelete({ data, type, setIsEdit }) {
   const memberId = data.memberId + '';
   const accessToken = sessionStorage.getItem('authToken');
   const deletePostUrl = `${import.meta.env.VITE_API_URL}/posts/${data.postId}`;
-  const deleteCrewingUrl = `${import.meta.env.VITE_API_URL}/crewing/${
+  const deleteCrewingUrl = `${import.meta.env.VITE_API_URL}/crewings/${
     data.crewingId
   }`;
 
