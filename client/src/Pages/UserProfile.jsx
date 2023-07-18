@@ -23,6 +23,7 @@ import DietSubBoard from './DietSubBoard';
 import CrewingSubBoard from './CrewingSubBoard';
 import Nav from '../Components/Nav';
 import FollowButton from '../Components/FollowButton';
+import useNotFoundPage from '../utils/hooks/useNotFoundPage';
 
 function UserProfile() {
   const navigate = useNavigate();
@@ -41,13 +42,18 @@ function UserProfile() {
     new Array(3).fill({})
   ); // Mockup data
 
+  const { notFound, NotFoundPage, handleNotFoundErrors } = useNotFoundPage();
+
   const fetchUser = () => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/members/${profileMemberId}`)
       .then((res) => {
         setUser(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        handleNotFoundErrors(error);
+      });
   };
 
   const fetchFollowInfo = () => {
@@ -98,6 +104,10 @@ function UserProfile() {
     updateFollowerList();
     fetchFollowingList();
   }, [profileMemberId]);
+
+  if (notFound) {
+    return <NotFoundPage />;
+  }
 
   return (
     <ProfilePageBody>
