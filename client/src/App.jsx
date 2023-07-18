@@ -19,6 +19,7 @@ import Crewing from './Pages/Crewing';
 import CrewingDetail from './Pages/CrewingDetail';
 import Settings from './Pages/Settings';
 import PrivateRoute from './utils/PrivateRoute';
+import PublicRoute from './utils/PublicRoute';
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -36,23 +37,23 @@ function App() {
             <Route
               path="/login"
               element={
-                <PrivateRoute path="/login">
+                <PublicRoute>
                   <Login />
-                </PrivateRoute>
+                </PublicRoute>
               }
             />
             <Route
               path="/signup"
               element={
-                <PrivateRoute path="/signup">
+                <PublicRoute>
                   <SignUp />
-                </PrivateRoute>
+                </PublicRoute>
               }
             />
             <Route
               path="/"
               element={
-                <PrivateRoute path="/">
+                <PrivateRoute>
                   <Main />
                 </PrivateRoute>
               }
@@ -60,7 +61,7 @@ function App() {
             <Route
               path="/create"
               element={
-                <PrivateRoute path="/create">
+                <PrivateRoute>
                   <Make />
                 </PrivateRoute>
               }
@@ -68,7 +69,7 @@ function App() {
             <Route
               path="/create/workout"
               element={
-                <PrivateRoute path="/create/workout">
+                <PrivateRoute>
                   <CreateWorkoutPage />
                 </PrivateRoute>
               }
@@ -76,7 +77,7 @@ function App() {
             <Route
               path="/create/diet"
               element={
-                <PrivateRoute path="/create/diet">
+                <PrivateRoute>
                   <CreateDietPage />
                 </PrivateRoute>
               }
@@ -84,7 +85,7 @@ function App() {
             <Route
               path="/create/crewing"
               element={
-                <PrivateRoute path="/create/crewing">
+                <PrivateRoute>
                   <CreateCrewingPage />
                 </PrivateRoute>
               }
@@ -92,7 +93,7 @@ function App() {
             <Route
               path="/workout"
               element={
-                <PrivateRoute path="/workout">
+                <PrivateRoute>
                   <Workout />
                 </PrivateRoute>
               }
@@ -100,7 +101,7 @@ function App() {
             <Route
               path="/diet"
               element={
-                <PrivateRoute path="/diet">
+                <PrivateRoute>
                   <Diet />
                 </PrivateRoute>
               }
@@ -108,7 +109,7 @@ function App() {
             <Route
               path="/posts/:postId"
               element={
-                <PrivateRoute path="/posts/:postId">
+                <PrivateRoute>
                   <PostDetail />
                 </PrivateRoute>
               }
@@ -116,7 +117,7 @@ function App() {
             <Route
               path="/mypage/*"
               element={
-                <PrivateRoute path="/mypage/*">
+                <PrivateRoute>
                   <MyPage />
                 </PrivateRoute>
               }
@@ -124,7 +125,7 @@ function App() {
             <Route
               path="/profile/:memberId/*"
               element={
-                <PrivateRoute path="/profile/:memberId/*">
+                <PrivateRoute>
                   <UserProfile />
                 </PrivateRoute>
               }
@@ -132,7 +133,7 @@ function App() {
             <Route
               path="/crewing"
               element={
-                <PrivateRoute path="/crewing">
+                <PrivateRoute>
                   <Crewing />
                 </PrivateRoute>
               }
@@ -140,7 +141,7 @@ function App() {
             <Route
               path="/crewing/:postId"
               element={
-                <PrivateRoute path="/crewing/:postId">
+                <PrivateRoute>
                   <CrewingDetail />
                 </PrivateRoute>
               }
@@ -148,7 +149,7 @@ function App() {
             <Route
               path="/settings"
               element={
-                <PrivateRoute path="/settings">
+                <PrivateRoute>
                   <Settings />
                 </PrivateRoute>
               }
