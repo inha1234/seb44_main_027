@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import postDataSlice from '../../redux/reducers/postDataSlice';
@@ -6,6 +7,7 @@ import postDataSlice from '../../redux/reducers/postDataSlice';
 // postId에 해당되는 게시글의 데이터받아 전역상태로 저장하는 함수입니다.
 
 function useUpdatePost(postId, type, setIsLodig) {
+  const [resCode, setResCode] = useState(0);
   let url = '';
 
   if (type === 'crewing') {
@@ -16,6 +18,7 @@ function useUpdatePost(postId, type, setIsLodig) {
 
   const accessToken = sessionStorage.getItem('authToken');
   const dispatch = useDispatch();
+  let resonseCode = 200;
 
   const update = () => {
     axios
@@ -27,13 +30,15 @@ function useUpdatePost(postId, type, setIsLodig) {
       .then((response) => {
         dispatch(postDataSlice.actions.update(response.data.data));
         setIsLodig(false);
+        setResCode(response.status);
       })
       .catch((error) => {
-        throw error;
+        setResCode(error.response.status);
+        // throw error;
       });
   };
 
-  return [update];
+  return [update, resCode];
 }
 
 export default useUpdatePost;

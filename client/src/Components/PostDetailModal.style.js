@@ -1,5 +1,5 @@
-import { styled } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { styled } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Modal = styled.section`
   position: fixed;
@@ -48,4 +48,22 @@ export const CloseBtn = styled(FontAwesomeIcon)`
   top: 40px;
   right: 40px;
   cursor: pointer;
+`;
+
+export const NotFound = styled.div`
+  width: auto;
+  min-width: 1200px;
+  height: 760px;
+  border-radius: 6px;
+  background-color: #fff;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  > h3 {
+    font-size: 20px;
+  }
 `;
