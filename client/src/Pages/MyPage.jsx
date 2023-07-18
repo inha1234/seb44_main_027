@@ -24,6 +24,10 @@ import DietSubBoard from './DietSubBoard';
 import CrewingSubBoard from './CrewingSubBoard';
 import Nav from '../Components/Nav';
 
+import PortalModal from '../utils/PortalModal';
+import FollowList from '../Components/FollowList';
+import usePortalModal from '../utils/hooks/usePortalModal';
+
 function MyPage() {
   const memberId = sessionStorage.getItem('memberId');
   const [user, setUser] = useState({
@@ -38,6 +42,9 @@ function MyPage() {
   const [userFollowingList, setUserFollowingList] = useState(
     new Array(3).fill({})
   ); // Mockup data
+
+  const followerModal = usePortalModal();
+  const followingModal = usePortalModal();
 
   useEffect(() => {
     axios
@@ -87,6 +94,22 @@ function MyPage() {
 
   return (
     <ProfilePageBody>
+      {followerModal.showModal && (
+        <PortalModal
+          position={followerModal.modalPosition}
+          onOutsideClick={followerModal.closeModal}
+        >
+          <FollowList list={userFollowerList} />
+        </PortalModal>
+      )}
+      {followingModal.showModal && (
+        <PortalModal
+          position={followingModal.modalPosition}
+          onOutsideClick={followingModal.closeModal}
+        >
+          <FollowList list={userFollowingList} />
+        </PortalModal>
+      )}
       <Nav />
       <MainContainer>
         <ProfilePageMain>
@@ -110,11 +133,11 @@ function MyPage() {
                   <UserStatTitle>게시글</UserStatTitle>
                   <UserStatNumber>{user.totalPostCount}</UserStatNumber>
                 </UserStatsItem>
-                <UserStatsItem>
+                <UserStatsItem onClick={followerModal.openModal}>
                   <UserStatTitle>팔로워</UserStatTitle>
                   <UserStatNumber>{userFollowerList.length}</UserStatNumber>
                 </UserStatsItem>
-                <UserStatsItem>
+                <UserStatsItem onClick={followingModal.openModal}>
                   <UserStatTitle>팔로잉</UserStatTitle>
                   <UserStatNumber>{userFollowingList.length}</UserStatNumber>
                 </UserStatsItem>
