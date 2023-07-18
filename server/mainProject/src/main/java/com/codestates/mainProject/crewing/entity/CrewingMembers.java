@@ -17,14 +17,12 @@ public class CrewingMembers extends Auditable {
     @EmbeddedId
     private CrewingMemberId id = new CrewingMemberId();
 
-    @MapsId("crewingId")
     @ManyToOne
-    @JoinColumn(name = "crewing_id")
+    @JoinColumn(name = "crewing_id", insertable = false, updatable = false)
     private Crewing crewing;
 
-    @MapsId("memberId")
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", insertable = false, updatable = false)
     private Member member;
 
 

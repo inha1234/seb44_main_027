@@ -16,8 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,27 +89,27 @@ public class CrewingService {
                 .ifPresent(isCompleted -> findCrewing.setCompleted(isCompleted));
         return crewingRepository.save(findCrewing);
     }
-    public ResponseEntity canApply(long crewingId, CrewingDto.applyDto apply){
+    public void canApply(long crewingId, CrewingDto.applyDto apply){
         Crewing crewing = crewingRepository.findByCrewingId(crewingId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CREWING_NOT_FOUND));
         Member member = memberRepository.findById(apply.getMemberId())
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        if(crewing.isCompleted()){
-            return new ResponseEntity("This crewing is already full.",HttpStatus.BAD_REQUEST);
+        if(crewing.getMember().getMemberId().equals(apply.getMemberId())){
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         }
-        if(!crewing.isMaxLimit()){
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine(), DateTimeFormatter.ISO_DATE_TIME);
-            if(now.isAfter(deadline)){
-                return new ResponseEntity("The application deadline has passed.", HttpStatus.BAD_REQUEST);
-            }
+        if(crewing.isCompleted()){
+            throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
+        }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine(), DateTimeFormatter.ISO_DATE_TIME);
+        if(now.isAfter(deadline)){
+            throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
         }
         int currentPeople = crewingMembersRepository.countByCrewing(crewing);
-        if(crewing.getMaxPeople() >= currentPeople){
+        if(crewing.getMaxPeople() > currentPeople){
             applyCrewing(crewingId, apply.getMemberId(),crewing, member, currentPeople);
-            return new ResponseEntity("You have successfully applied to the crewing.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("This crewing is now closed.", HttpStatus.BAD_REQUEST);
+            throw new BusinessLogicException(ExceptionCode.CREWING_IS_MAX);
         }
     }
     public void applyCrewing(long crewingId, long memberId, Crewing crewing, Member member, int currentPeople){
@@ -141,17 +139,16 @@ public class CrewingService {
                 .map(crewingMember -> crewingMember.getMember())
                 .distinct()
                 .collect(Collectors.toList());
-        List<CrewingDto.Members> response = new ArrayList<>();
+        List<CrewingDto.Members> CrewingMember = new ArrayList<>();
         for(Member member : Members){
             CrewingDto.Members members = new CrewingDto.Members();
             members.setUserName(member.getUserName());
-            members.setMemberId(member.getMemberId());
             members.setImageUrl(member.getImageUrl());
-            response.add(members);
+            CrewingMember.add(members);
         }
-        CrewingDto.ResponseDto CrResponse = crewingmapper.crewingToCrewingResponse(findCrewing);
-        CrResponse.setMembers(response);
-        return CrResponse;
+        CrewingDto.ResponseDto Response = crewingmapper.crewingToCrewingResponse(findCrewing);
+        Response.setMembers(CrewingMember);
+        return Response;
     }
 
     /** 게시글 전체 조회 */

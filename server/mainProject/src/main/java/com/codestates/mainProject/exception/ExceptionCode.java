@@ -17,6 +17,8 @@ public enum ExceptionCode {
     UPLOAD_FAIL(401, "s3 file upload failed"),
     DOWNLOAD_FAIL(401, "s3 file download failed"),
     NOT_PASSWORD_MATCH(400, "password does not match"),
+    CREWING_IS_CLOSED(403, "the crewing is closed"),
+    CREWING_IS_MAX(403,"Crewing has reached its maximum limit"),
     CATEGORY_NOT_FOUND(404, "category not found");
 
 

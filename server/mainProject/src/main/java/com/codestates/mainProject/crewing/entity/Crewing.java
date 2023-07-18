@@ -56,7 +56,6 @@ public class Crewing extends Auditable {
     @OneToMany(mappedBy = "crewing", cascade = CascadeType.ALL)
     private List<CrewingMembers> crewingMembers = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "crewing", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 }
