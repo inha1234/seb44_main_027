@@ -9,9 +9,21 @@ function PostCommentInput({ data, type, scrollToTop }) {
   const [commentText, setCommentText] = useState('');
   const [isLoding, setIsLodig] = useState(true);
   const [update] = useUpdatePost(data.postId, type, setIsLodig);
+  const [currentUser, setCurrentUser] = useState({
+    imageUrl: '/images/defaultprofile.png',
+  });
 
   // 로그인된 사용자의 멤버아이디
   const loginId = sessionStorage.getItem('memberId');
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/members/${loginId}`)
+      .then((res) => {
+        setCurrentUser(res.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   //댓글작성 api
   const postData = () => {
@@ -54,7 +66,7 @@ function PostCommentInput({ data, type, scrollToTop }) {
 
   return (
     <InputContainer>
-      <img src={data.userImageUrl} alt="내 프로필이미지" />
+      <img src={currentUser.imageUrl} alt="내 프로필이미지" />
       <div>
         <textarea
           ref={textarea}

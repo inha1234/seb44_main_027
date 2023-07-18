@@ -7,7 +7,7 @@ function ProfileLink({ profileUserId, element }) {
     loggedInUserId === profileUserId ? '/mypage' : `/profile/${profileUserId}`;
 
   return (
-    <Link style={{ textDecoration: 'none' }} to={path}>
+    <Link style={{ textDecoration: 'none', color: 'black' }} to={path}>
       {element}
     </Link>
   );

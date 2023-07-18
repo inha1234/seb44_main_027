@@ -2,6 +2,7 @@ import React from 'react';
 import { Item, Content, Info } from './CommentContent.style';
 import CommentEditDelete from './CommentEditDelete';
 import { useSelector } from 'react-redux';
+import ProfileLink from '../utils/ProfileLink';
 
 function CommentContent({ CommentData, setIsEdit, type }) {
   const loginId = sessionStorage.getItem('memberId') + '';
@@ -10,7 +11,11 @@ function CommentContent({ CommentData, setIsEdit, type }) {
   return (
     <Item.Content>
       <Content.Info>
-        <Info.Name>{CommentData.userName}</Info.Name>
+        <ProfileLink
+          profileUserId={memberId}
+          element={<Info.Name>{CommentData.userName}</Info.Name>}
+        />
+
         <Info.Content>{CommentData.content}</Info.Content>
         {loginId === memberId ? (
           <CommentEditDelete
