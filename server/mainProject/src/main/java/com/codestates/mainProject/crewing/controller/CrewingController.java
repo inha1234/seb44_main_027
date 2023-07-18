@@ -50,7 +50,8 @@ public class CrewingController {
     */
     @PostMapping("/apply/{crewing_id}")
     public ResponseEntity applyCrewing(@PathVariable("crewing_id") long crewingId, @RequestBody CrewingDto.applyDto apply) {
-        return crewingService.canApply(crewingId,apply);
+        crewingService.canApply(crewingId,apply);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{crewing_id}")

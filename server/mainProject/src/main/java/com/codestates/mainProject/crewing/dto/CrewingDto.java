@@ -96,7 +96,6 @@ public class CrewingDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Members {
-        private long memberId;
         private String userName;
         private String imageUrl;
     }
