@@ -45,11 +45,18 @@ public class MemberController {
         MemberDto.Response response = memberService.getMember(memberId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @DeleteMapping("/{member_id}")
+    @PutMapping("/delete/{member_id}")
     public ResponseEntity deleteMember(Authentication authentication, @PathVariable("member_id") long memberId, @RequestBody MemberDto.Delete delete){
         memberService.deleteMember(authentication, memberId, delete);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+/*
+    @DeleteMapping("/{member_id}")
+    public ResponseEntity deleteMember(Authentication authentication, @PathVariable("member_id") long memberId, @RequestBody MemberDto.Delete delete){
+        memberService.deleteMember(authentication, memberId, delete);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }*/
+
     @PostMapping("/findExist")
     public ResponseEntity findExist(@Valid @RequestBody MemberDto.Exist exist){
         memberService.findMemberByExist(exist);

@@ -39,6 +39,67 @@ public class S3Controller {
                         String originalName = multipartFile.getOriginalFilename(); // 파일 이름
                         long size = multipartFile.getSize(); // 파일 크기
 
+                        String uniqueFilename = getUniqueFilename(originalName); // 중복을 피하기 위해 고유한 파일명 생성
+
+                        ObjectMetadata objectMetadata = new ObjectMetadata();
+                        objectMetadata.setContentType(multipartFile.getContentType());
+                        objectMetadata.setContentLength(size);
+
+                        // S3에 업로드
+                        amazonS3Client.putObject(new PutObjectRequest(s3Bucket, uniqueFilename, multipartFile.getInputStream(), objectMetadata)
+                                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+                        String imagePath = amazonS3Client.getUrl(s3Bucket, uniqueFilename).toString(); // 접근 가능한 URL 가져오기
+                        return imagePath;
+                    } catch (IOException e) {
+                        // 파일 업로드 과정에서 예외 발생
+                        e.printStackTrace();
+                        throw new BusinessLogicException(ExceptionCode.UPLOAD_FAIL);
+                    }
+                })
+                .filter(Objects::nonNull) // 예외가 발생하지 않은 결과만 필터링
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(imagePathList);
+    }
+
+    // 중복을 피하기 위해 고유한 파일명 생성 메서드
+    private String getUniqueFilename(String originalFilename) {
+        String filename = originalFilename;
+        int count = 1;
+
+        while (isFileExists(filename)) {
+            int dotIndex = originalFilename.lastIndexOf(".");
+            String nameWithoutExtension = originalFilename.substring(0, dotIndex);
+            String extension = originalFilename.substring(dotIndex);
+
+            filename = nameWithoutExtension + "_" + count + extension;
+            count++;
+        }
+
+        return filename;
+    }
+
+    // 파일이 이미 존재하는지 확인하는 메서드
+    private boolean isFileExists(String filename) {
+        try {
+            amazonS3Client.getObjectMetadata(s3Bucket, filename);
+            return true;
+        } catch (AmazonS3Exception e) {
+            if (e.getStatusCode() == 404) {
+                return false;
+            }
+            throw e;
+        }
+    }
+    /*@PostMapping("/upload")
+    public ResponseEntity<List<String>> upload(@RequestParam("image") MultipartFile[] multipartFileList) {
+        List<String> imagePathList = Arrays.stream(multipartFileList)
+                .map(multipartFile -> {
+                    try {
+                        String originalName = multipartFile.getOriginalFilename(); // 파일 이름
+                        long size = multipartFile.getSize(); // 파일 크기
+
                         ObjectMetadata objectMetadata = new ObjectMetadata();
                         objectMetadata.setContentType(multipartFile.getContentType());
                         objectMetadata.setContentLength(size);
@@ -59,7 +120,7 @@ public class S3Controller {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(imagePathList);
-    }
+    }*/
 
 }
 

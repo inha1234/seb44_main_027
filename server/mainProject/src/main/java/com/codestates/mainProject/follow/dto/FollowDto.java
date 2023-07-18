@@ -15,17 +15,17 @@ public class FollowDto extends Auditable {
     @AllArgsConstructor
     public static class Post {
         @NotNull
-        private Long followerId;
+        private long followerId;
 
         @NotNull
-        private Long followingId;
+        private long followingId;
     }
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Members {
-        private long memberId;
+        private Long memberId;
         private String userName;
         private String imageUrl;
     }
