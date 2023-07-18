@@ -18,6 +18,8 @@ import UserProfile from './Pages/UserProfile';
 import Crewing from './Pages/Crewing';
 import CrewingDetail from './Pages/CrewingDetail';
 import Settings from './Pages/Settings';
+import PrivateRoute from './utils/PrivateRoute';
+import PublicRoute from './utils/PublicRoute';
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -32,21 +34,126 @@ function App() {
         <Router>
           <GlobalStyle />
           <Routes>
-            <Route exact path="/" element={<Main />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/create" element={<Make />} />
-            <Route path="/create/workout" element={<CreateWorkoutPage />} />
-            <Route path="/create/diet" element={<CreateDietPage />} />
-            <Route path="/create/crewing" element={<CreateCrewingPage />} />
-            <Route path="/workout" element={<Workout />} />
-            <Route path="/diet" element={<Diet />} />
-            <Route path="/posts/:postId" element={<PostDetail />} />
-            <Route path="/mypage/*" element={<MyPage />} />
-            <Route path="/profile/:memberId/*" element={<UserProfile />} />
-            <Route path="/crewing" element={<Crewing />} />
-            <Route path="/crewing/:postId" element={<CrewingDetail />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <SignUp />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Main />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <PrivateRoute>
+                  <Make />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create/workout"
+              element={
+                <PrivateRoute>
+                  <CreateWorkoutPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create/diet"
+              element={
+                <PrivateRoute>
+                  <CreateDietPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create/crewing"
+              element={
+                <PrivateRoute>
+                  <CreateCrewingPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/workout"
+              element={
+                <PrivateRoute>
+                  <Workout />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/diet"
+              element={
+                <PrivateRoute>
+                  <Diet />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/posts/:postId"
+              element={
+                <PrivateRoute>
+                  <PostDetail />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/mypage/*"
+              element={
+                <PrivateRoute>
+                  <MyPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/profile/:memberId/*"
+              element={
+                <PrivateRoute>
+                  <UserProfile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/crewing"
+              element={
+                <PrivateRoute>
+                  <Crewing />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/crewing/:postId"
+              element={
+                <PrivateRoute>
+                  <CrewingDetail />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <Settings />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </Router>
       </Provider>
