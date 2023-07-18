@@ -6,11 +6,11 @@ import PostCommentInput from './PostCommentInput';
 import { useSelector } from 'react-redux';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
-function PostDatailBox({ postId, type }) {
+function PostDatailBox({ postId, type, setIsNotFound }) {
   console.log('리렌더링 확인');
   const [isLoding, setIsLodig] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
-  const [update] = useUpdatePost(postId, type, setIsLodig);
+  const [update, resCode] = useUpdatePost(postId, type, setIsLodig);
   const scrollRef = useRef(null);
 
   // 댓글 작성 시 댓글창 스크롤업
@@ -23,6 +23,8 @@ function PostDatailBox({ postId, type }) {
   useEffect(() => {
     update();
   }, []);
+
+  setIsNotFound(resCode === 404 ? true : false);
 
   const data = useSelector((state) => state.postData.data);
 
