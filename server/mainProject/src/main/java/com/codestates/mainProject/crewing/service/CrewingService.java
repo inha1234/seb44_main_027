@@ -16,8 +16,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+=======
+import org.springframework.scheduling.annotation.Scheduled;
+>>>>>>> 6511d56a001f95fd152d175389825b5e3343c743
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +62,7 @@ public class CrewingService {
         crewingMember.setMember(member);
         crewingMember.setCrewing(crewing);
         crewing.setCurrentPeople(0); // 초기 값은 0으로 설정
-        crewing.setCompleted(false); // 초기 값은 false로 설정
+//        crewing.setCompleted(false); // 초기 값은 false로 설정
 
         return crewingRepository.save(crewing);
     }
@@ -158,21 +162,9 @@ public class CrewingService {
     /** 게시글 조회 */
     public CrewingDto.ResponseDto getCrewing(long crewingId) {
         Crewing findCrewing = findVerifiedCrewing(crewingId);
-        /** 크루잉 상제조회에서 참여신청한 회원들의 정보 */
-        List<CrewingMembers> crewingMembers = crewingMembersRepository.findByCrewing(findCrewing);
-        List<Member> Members = crewingMembers.stream()
-                .map(crewingMember -> crewingMember.getMember())
-                .distinct()
-                .collect(Collectors.toList());
-        List<CrewingDto.Members> CrewingMember = new ArrayList<>();
-        for(Member member : Members){
-            CrewingDto.Members members = new CrewingDto.Members();
-            members.setUserName(member.getUserName());
-            members.setImageUrl(member.getImageUrl());
-            CrewingMember.add(members);
-        }
+
         CrewingDto.ResponseDto Response = crewingmapper.crewingToCrewingResponse(findCrewing);
-        Response.setMembers(CrewingMember);
+
         return Response;
     }
 
@@ -224,6 +216,25 @@ public class CrewingService {
 
     public Page<Crewing> getCrewingsByIdLessThan(Long lastCrewingId, Pageable pageable) {
         return crewingRepository.findByCrewingIdLessThan(lastCrewingId, pageable);
+    }
+
+    @Scheduled(cron = "0 00 00 * * ?")
+    public void updateCompletedStatus() {
+        List<Crewing> crewings = crewingRepository.findAll();
+
+        for (Crewing crewing : crewings) {
+            if (isDeadlineReached(crewing)) {
+                crewing.setCompleted(true);
+                crewingRepository.save(crewing);
+            }
+        }
+    }
+
+    private boolean isDeadlineReached(Crewing crewing) {
+        LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine());
+        LocalDateTime now = LocalDateTime.now();
+
+        return now.isAfter(deadline) || now.isEqual(deadline);
     }
 
 }
