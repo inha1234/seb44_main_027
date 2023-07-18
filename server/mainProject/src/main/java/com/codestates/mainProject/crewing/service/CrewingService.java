@@ -4,6 +4,7 @@ import com.codestates.mainProject.crewing.dto.CrewingDto;
 import com.codestates.mainProject.crewing.entity.Crewing;
 import com.codestates.mainProject.crewing.entity.CrewingMembers;
 import com.codestates.mainProject.crewing.mapper.CrewingMapper;
+import com.codestates.mainProject.crewing.repository.CrewingMembersRepository;
 import com.codestates.mainProject.crewing.repository.CrewingRepository;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.PageInfo;
@@ -11,17 +12,22 @@ import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.member.entity.Member;
 import com.codestates.mainProject.member.repository.MemberRepository;
-import com.codestates.mainProject.posts.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,11 +36,13 @@ public class CrewingService {
 
     private final MemberRepository memberRepository;
     private final CrewingMapper crewingmapper;
+    private final CrewingMembersRepository crewingMembersRepository;
 
-    public CrewingService(CrewingRepository crewingRepository, MemberRepository memberRepository, CrewingMapper crewingmapper) {
+    public CrewingService(CrewingRepository crewingRepository, MemberRepository memberRepository, CrewingMapper crewingmapper, CrewingMembersRepository crewingMembersRepository) {
         this.crewingRepository = crewingRepository;
         this.memberRepository = memberRepository;
         this.crewingmapper = crewingmapper;
+        this.crewingMembersRepository = crewingMembersRepository;
     }
 
     /** 게시글 생성 */
@@ -49,7 +57,6 @@ public class CrewingService {
         CrewingMembers crewingMember = new CrewingMembers();
         crewingMember.setMember(member);
         crewingMember.setCrewing(crewing);
-        crewing.addCrewingMembers(crewingMember);
         crewing.setCurrentPeople(0); // 초기 값은 0으로 설정
         crewing.setCompleted(false); // 초기 값은 false로 설정
 
@@ -84,12 +91,67 @@ public class CrewingService {
                 .ifPresent(isCompleted -> findCrewing.setCompleted(isCompleted));
         return crewingRepository.save(findCrewing);
     }
+    public ResponseEntity canApply(long crewingId, CrewingDto.applyDto apply){
+        Crewing crewing = crewingRepository.findByCrewingId(crewingId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CREWING_NOT_FOUND));
+        Member member = memberRepository.findById(apply.getMemberId())
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        if(crewing.isCompleted()){
+            return new ResponseEntity("This crewing is already full.",HttpStatus.BAD_REQUEST);
+        }
+        if(!crewing.isMaxLimit()){
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine(), DateTimeFormatter.ISO_DATE_TIME);
+            if(now.isAfter(deadline)){
+                return new ResponseEntity("The application deadline has passed.", HttpStatus.BAD_REQUEST);
+            }
+        }
+        int currentPeople = crewingMembersRepository.countByCrewing(crewing);
+        if(crewing.getMaxPeople() >= currentPeople){
+            applyCrewing(crewingId, apply.getMemberId(),crewing, member, currentPeople);
+            return new ResponseEntity("You have successfully applied to the crewing.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("This crewing is now closed.", HttpStatus.BAD_REQUEST);
+        }
+    }
+    public void applyCrewing(long crewingId, long memberId, Crewing crewing, Member member, int currentPeople){
+        CrewingMembers existApply = crewingMembersRepository.findByMemberAndCrewing(member, crewing);
+        if(existApply!=null){
+            crewingMembersRepository.delete(existApply);
+            currentPeople--;
+        } else {
+            CrewingMembers.CrewingMemberId crewingMemberId = new CrewingMembers.CrewingMemberId();
+            crewingMemberId.setCrewingId(crewingId);
+            crewingMemberId.setMemberId(memberId);
+            CrewingMembers crewingMembers = new CrewingMembers();
+            crewingMembers.setCrewing(crewing);
+            crewingMembers.setMember(member);
+            crewingMembers.setId(crewingMemberId);
+            crewingMembersRepository.save(crewingMembers);
+            currentPeople++;
+        }
+        crewing.setCurrentPeople(currentPeople);
+    }
 
     /** 게시글 조회 */
-    public Crewing getCrewing(long crewingId) {
+    public CrewingDto.ResponseDto getCrewing(long crewingId) {
         Crewing findCrewing = findVerifiedCrewing(crewingId);
-
-        return findCrewing;
+        List<CrewingMembers> crewingMembers = crewingMembersRepository.findByCrewing(findCrewing);
+        List<Member> Members = crewingMembers.stream()
+                .map(crewingMember -> crewingMember.getMember())
+                .distinct()
+                .collect(Collectors.toList());
+        List<CrewingDto.Members> response = new ArrayList<>();
+        for(Member member : Members){
+            CrewingDto.Members members = new CrewingDto.Members();
+            members.setUserName(member.getUserName());
+            members.setMemberId(member.getMemberId());
+            members.setImageUrl(member.getImageUrl());
+            response.add(members);
+        }
+        CrewingDto.ResponseDto CrResponse = crewingmapper.crewingToCrewingResponse(findCrewing);
+        CrResponse.setMembers(response);
+        return CrResponse;
     }
 
     /** 게시글 전체 조회 */
