@@ -25,6 +25,10 @@ import Nav from '../Components/Nav';
 import FollowButton from '../Components/FollowButton';
 import useNotFoundPage from '../utils/hooks/useNotFoundPage';
 
+import PortalModal from '../utils/PortalModal';
+import FollowList from '../Components/FollowList';
+import usePortalModal from '../utils/hooks/usePortalModal';
+
 function UserProfile() {
   const navigate = useNavigate();
   const loggedInUserId = sessionStorage.getItem('memberId');
@@ -41,6 +45,9 @@ function UserProfile() {
   const [userFollowingList, setUserFollowingList] = useState(
     new Array(3).fill({})
   ); // Mockup data
+
+  const followerModal = usePortalModal();
+  const followingModal = usePortalModal();
 
   const { notFound, NotFoundPage, handleNotFoundErrors } = useNotFoundPage();
 
@@ -78,6 +85,7 @@ function UserProfile() {
       })
       .then((res) => {
         setUserFollowerList(res.data);
+        console.log(userFollowerList);
       })
       .catch((error) => console.log(error));
   };
@@ -111,6 +119,22 @@ function UserProfile() {
 
   return (
     <ProfilePageBody>
+      {followerModal.showModal && (
+        <PortalModal
+          position={followerModal.modalPosition}
+          onOutsideClick={followerModal.closeModal}
+        >
+          <FollowList list={userFollowerList} />
+        </PortalModal>
+      )}
+      {followingModal.showModal && (
+        <PortalModal
+          position={followingModal.modalPosition}
+          onOutsideClick={followingModal.closeModal}
+        >
+          <FollowList list={userFollowingList} />
+        </PortalModal>
+      )}
       <Nav />
       <MainContainer>
         <ProfilePageMain>
@@ -135,11 +159,11 @@ function UserProfile() {
                   <UserStatTitle>게시글</UserStatTitle>
                   <UserStatNumber>{user.totalPostCount}</UserStatNumber>
                 </UserStatsItem>
-                <UserStatsItem>
+                <UserStatsItem onClick={followerModal.openModal}>
                   <UserStatTitle>팔로워</UserStatTitle>
                   <UserStatNumber>{userFollowerList.length}</UserStatNumber>
                 </UserStatsItem>
-                <UserStatsItem>
+                <UserStatsItem onClick={followingModal.openModal}>
                   <UserStatTitle>팔로잉</UserStatTitle>
                   <UserStatNumber>{userFollowingList.length}</UserStatNumber>
                 </UserStatsItem>
