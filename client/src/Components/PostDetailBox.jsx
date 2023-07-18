@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container, PostImg, PostBody } from './PostDetailBox.style';
 import PostContent from './PostContent';
 import PostComment from './PostComment';
@@ -11,6 +11,14 @@ function PostDatailBox({ postId, type }) {
   const [isLoding, setIsLodig] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [update] = useUpdatePost(postId, type, setIsLodig);
+  const scrollRef = useRef(null);
+
+  // 댓글 작성 시 댓글창 스크롤업
+  const scrollToTop = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+    }
+  };
 
   useEffect(() => {
     update();
@@ -31,8 +39,16 @@ function PostDatailBox({ postId, type }) {
             isEdit={isEdit}
             setIsEdit={setIsEdit}
           />
-          {isEdit ? undefined : <PostComment data={data} type={type} />}
-          {isEdit ? undefined : <PostCommentInput data={data} type={type} />}
+          {isEdit ? undefined : (
+            <PostComment data={data} type={type} scrollRef={scrollRef} />
+          )}
+          {isEdit ? undefined : (
+            <PostCommentInput
+              data={data}
+              type={type}
+              scrollToTop={scrollToTop}
+            />
+          )}
         </PostBody>
       </Container>
     );

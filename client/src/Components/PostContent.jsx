@@ -119,7 +119,6 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
               </AuthorInfo.LinkContainer>
             }
           />
-
           <AuthorInfo.CreateAt>
             {formatTime(data.createdAt)}
           </AuthorInfo.CreateAt>

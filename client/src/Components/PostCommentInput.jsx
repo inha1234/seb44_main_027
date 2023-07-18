@@ -3,7 +3,7 @@ import { InputContainer } from './PostCommentInput.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 
-function PostCommentInput({ data, type }) {
+function PostCommentInput({ data, type, scrollToTop }) {
   const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
@@ -33,6 +33,7 @@ function PostCommentInput({ data, type }) {
         .then((response) => {
           update();
           setCommentText('');
+          scrollToTop();
         })
         .catch((error) => {
           throw error;
