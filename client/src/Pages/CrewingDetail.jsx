@@ -1,6 +1,6 @@
 import React from 'react';
 import { Main, Container } from './CrewingDetail.style';
-import PostDatailBox from '../Components/PostDetailBox.jsx';
+import PostDetailPageBox from '../Components/PostDetailPageBox';
 import { useParams } from 'react-router-dom';
 import Nav from '../Components/Nav';
 
@@ -12,7 +12,7 @@ function CrewingDetail() {
       <Nav />
       <Main>
         <Container>
-          <PostDatailBox postId={postId} type={'crewing'} />
+          <PostDetailPageBox postId={postId} type={'crewing'} />
         </Container>
       </Main>
     </>

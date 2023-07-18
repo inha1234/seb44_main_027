@@ -20,6 +20,7 @@ import CrewingDetail from './Pages/CrewingDetail';
 import Settings from './Pages/Settings';
 import PrivateRoute from './utils/PrivateRoute';
 import PublicRoute from './utils/PublicRoute';
+import NotFoundPage from './Components/NotFoundPage';
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -151,6 +152,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Settings />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <PrivateRoute>
+                  <NotFoundPage />
                 </PrivateRoute>
               }
             />
