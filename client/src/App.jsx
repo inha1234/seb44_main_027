@@ -33,12 +33,26 @@ function App() {
         <Router>
           <GlobalStyle />
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/login"
+              element={
+                <PrivateRoute path="/login">
+                  <Login />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PrivateRoute path="/signup">
+                  <SignUp />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/"
               element={
-                <PrivateRoute path={'/'}>
+                <PrivateRoute path="/">
                   <Main />
                 </PrivateRoute>
               }
@@ -46,7 +60,7 @@ function App() {
             <Route
               path="/create"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/create">
                   <Make />
                 </PrivateRoute>
               }
@@ -54,7 +68,7 @@ function App() {
             <Route
               path="/create/workout"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/create/workout">
                   <CreateWorkoutPage />
                 </PrivateRoute>
               }
@@ -62,7 +76,7 @@ function App() {
             <Route
               path="/create/diet"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/create/diet">
                   <CreateDietPage />
                 </PrivateRoute>
               }
@@ -70,7 +84,7 @@ function App() {
             <Route
               path="/create/crewing"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/create/crewing">
                   <CreateCrewingPage />
                 </PrivateRoute>
               }
@@ -78,7 +92,7 @@ function App() {
             <Route
               path="/workout"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/workout">
                   <Workout />
                 </PrivateRoute>
               }
@@ -86,7 +100,7 @@ function App() {
             <Route
               path="/diet"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/diet">
                   <Diet />
                 </PrivateRoute>
               }
@@ -94,7 +108,7 @@ function App() {
             <Route
               path="/posts/:postId"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/posts/:postId">
                   <PostDetail />
                 </PrivateRoute>
               }
@@ -102,7 +116,7 @@ function App() {
             <Route
               path="/mypage/*"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/mypage/*">
                   <MyPage />
                 </PrivateRoute>
               }
@@ -110,7 +124,7 @@ function App() {
             <Route
               path="/profile/:memberId/*"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/profile/:memberId/*">
                   <UserProfile />
                 </PrivateRoute>
               }
@@ -118,7 +132,7 @@ function App() {
             <Route
               path="/crewing"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/crewing">
                   <Crewing />
                 </PrivateRoute>
               }
@@ -126,7 +140,7 @@ function App() {
             <Route
               path="/crewing/:postId"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/crewing/:postId">
                   <CrewingDetail />
                 </PrivateRoute>
               }
@@ -134,7 +148,7 @@ function App() {
             <Route
               path="/settings"
               element={
-                <PrivateRoute>
+                <PrivateRoute path="/settings">
                   <Settings />
                 </PrivateRoute>
               }

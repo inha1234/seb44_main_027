@@ -10,6 +10,7 @@ function PrivateRoute({ children, path }) {
     if (path !== '/') {
       return <AuthRedirect />;
     } else {
+      //로그인이 안된 상태지만 메인 페이지에 접근하는 경우
       return <Navigate to="/login" state={{ from: location }} />;
     }
   }
