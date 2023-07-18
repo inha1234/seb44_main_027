@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,7 @@ public class CrewingService {
         crewingMember.setMember(member);
         crewingMember.setCrewing(crewing);
         crewing.setCurrentPeople(0); // 초기 값은 0으로 설정
-        crewing.setCompleted(false); // 초기 값은 false로 설정
+//        crewing.setCompleted(false); // 초기 값은 false로 설정
 
         return crewingRepository.save(crewing);
     }
@@ -192,6 +193,25 @@ public class CrewingService {
 
     public Page<Crewing> getCrewingsByIdLessThan(Long lastCrewingId, Pageable pageable) {
         return crewingRepository.findByCrewingIdLessThan(lastCrewingId, pageable);
+    }
+
+    @Scheduled(cron = "0 00 00 * * ?")
+    public void updateCompletedStatus() {
+        List<Crewing> crewings = crewingRepository.findAll();
+
+        for (Crewing crewing : crewings) {
+            if (isDeadlineReached(crewing)) {
+                crewing.setCompleted(true);
+                crewingRepository.save(crewing);
+            }
+        }
+    }
+
+    private boolean isDeadlineReached(Crewing crewing) {
+        LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine());
+        LocalDateTime now = LocalDateTime.now();
+
+        return now.isAfter(deadline) || now.isEqual(deadline);
     }
 
 }
