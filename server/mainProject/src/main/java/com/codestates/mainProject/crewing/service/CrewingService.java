@@ -97,16 +97,14 @@ public class CrewingService {
         if(crewing.getMember().getMemberId().equals(apply.getMemberId())){
             throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         }
-        if(crewing.isCompleted()){
-            throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
-        }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine(), DateTimeFormatter.ISO_DATE_TIME);
         if(now.isAfter(deadline)){
             throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
         }
         int currentPeople = crewingMembersRepository.countByCrewing(crewing);
-        if(crewing.getMaxPeople() > currentPeople){
+
+        if(crewing.getMaxPeople() >= currentPeople){
             applyCrewing(crewingId, apply.getMemberId(),crewing, member, currentPeople);
         } else {
             throw new BusinessLogicException(ExceptionCode.CREWING_IS_MAX);
@@ -117,7 +115,7 @@ public class CrewingService {
         if(existApply!=null){
             crewingMembersRepository.delete(existApply);
             currentPeople--;
-        } else {
+        } else if(!crewing.isCompleted()){
             CrewingMembers.CrewingMemberId crewingMemberId = new CrewingMembers.CrewingMemberId();
             crewingMemberId.setCrewingId(crewingId);
             crewingMemberId.setMemberId(memberId);
@@ -127,8 +125,15 @@ public class CrewingService {
             crewingMembers.setId(crewingMemberId);
             crewingMembersRepository.save(crewingMembers);
             currentPeople++;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.CREWING_IS_MAX);
         }
         crewing.setCurrentPeople(currentPeople);
+        if(crewing.getMaxPeople()==currentPeople){
+            crewing.setCompleted(true);
+        } else if(crewing.isCompleted() && crewing.getMaxPeople()>currentPeople){
+            crewing.setCompleted(false);
+        }
     }
 
     /** 게시글 조회 */
