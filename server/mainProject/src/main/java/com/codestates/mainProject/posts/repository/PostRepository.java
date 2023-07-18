@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
@@ -17,4 +18,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByMemberAndCategory(Member member, String category, Pageable pageable);
     Page<Post> findByMemberAndCategoryAndPostIdLessThan(Member member, String category, Long idx, Pageable pageable);
     long countByMember(Member member);
+    Page<Post> findByMember_MemberId(Long memberId, Pageable pageable);
+    Page<Post> findByMemberInAndPostIdGreaterThanOrderByCreatedAtDesc(List<Member> members, Long lastPostId, Pageable pageable);
 }

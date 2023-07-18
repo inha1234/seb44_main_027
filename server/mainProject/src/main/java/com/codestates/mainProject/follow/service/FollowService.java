@@ -7,22 +7,27 @@ import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.follow.entity.Follow;
 import com.codestates.mainProject.follow.repository.FollowRepository;
+import com.codestates.mainProject.posts.entity.Post;
+import com.codestates.mainProject.posts.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
 
-    public FollowService(FollowRepository followRepository, MemberRepository memberRepository) {
+    public FollowService(FollowRepository followRepository, MemberRepository memberRepository, PostRepository postRepository) {
         this.followRepository = followRepository;
         this.memberRepository = memberRepository;
+        this.postRepository = postRepository;
     }
 
     public Follow followUser(Follow follow) {
@@ -95,11 +100,38 @@ public class FollowService {
         return followings;
     }
 
+    public Page<Post> getFollowingPosts(long memberId, Pageable pageable) {
+        List<FollowDto.Members> followings = getFollowings(memberId);
+
+        List<Post> followingPosts = new ArrayList<>();
+
+        for (FollowDto.Members following : followings) {
+            Page<Post> posts = postRepository.findByMember_MemberId(following.getMemberId(), pageable);
+
+            followingPosts.addAll(posts.toList());
+        }
+
+        return new PageImpl<>(followingPosts, pageable, followingPosts.size());
+    }
+
+    public Page<Post> getFollowingPostsAfter(long memberId, long lastPostId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        List<Member> followingMembers = member.getFollowing().stream()
+                .map(follow -> follow.getFollowing())
+                .collect(Collectors.toList());
+
+        return postRepository.findByMemberInAndPostIdGreaterThanOrderByCreatedAtDesc(
+                followingMembers, lastPostId, pageable);
+    }
+
 
     public void unFollowUser(long followerId, long followingId) {
         Follow follow = followRepository.findByFollowerIdAndFollowingId(followerId, followingId);
 
         followRepository.delete(follow);
     }
+
 
 }
