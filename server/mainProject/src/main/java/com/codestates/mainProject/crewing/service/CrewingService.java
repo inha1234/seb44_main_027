@@ -62,7 +62,6 @@ public class CrewingService {
         crewingMember.setMember(member);
         crewingMember.setCrewing(crewing);
         crewing.setCurrentPeople(0); // 초기 값은 0으로 설정
-//        crewing.setCompleted(false); // 초기 값은 false로 설정
 
         return crewingRepository.save(crewing);
     }
@@ -71,9 +70,9 @@ public class CrewingService {
     public Crewing updateCrewing(Crewing crewing) {
         Crewing findCrewing = findVerifiedCrewing(crewing.getCrewingId());
         /** JWT토큰정보를 이용한 사용자 인증 */
-        /*String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        if (!findCrewing.getMember().getEmail().equals(principal))
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
 
         Optional.ofNullable(crewing.getTitle())
                 .ifPresent(title -> findCrewing.setTitle(title));
@@ -186,9 +185,9 @@ public class CrewingService {
     public void deleteCrewing(long crewingId) {
         Crewing findCrewing = findVerifiedCrewing(crewingId);
         /** JWT토큰정보를 이용한 사용자 인증 */
-        /*String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        if (!findCrewing.getMember().getEmail().equals(principal))
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         crewingRepository.deleteById(crewingId);
     }
 
