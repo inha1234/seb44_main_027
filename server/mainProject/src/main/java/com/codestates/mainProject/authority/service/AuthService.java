@@ -25,13 +25,11 @@ public class AuthService {
     private final JwtTokenizer jwtTokenizer;
     private final RedisService redisService;
     private final MemberRepository memberRepository;
-
     public AuthService(JwtTokenizer jwtTokenizer, RedisService redisService, MemberRepository memberRepository) {
         this.jwtTokenizer = jwtTokenizer;
         this.redisService = redisService;
         this.memberRepository = memberRepository;
     }
-
     public ResponseEntity validateRefreshToken(HttpServletRequest request){
         String headerRefresh = request.getHeader("Refresh");
         Claims claims = parserToken(headerRefresh);
@@ -51,18 +49,15 @@ public class AuthService {
             response.put("Authorization", "Bearer " + accessToken);
             response.put("Refresh", refreshToken);
 
-            redisService.setRefreshToken(email, refreshToken, 480);
+            redisService.setRefreshToken(email, refreshToken, 90);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         throw new BusinessLogicException(ExceptionCode.TOKEN_HAS_EXPIRED);
     }
-
     public Claims parserToken(String token){
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         return jwtTokenizer.getClaims(token, base64EncodedSecretKey).getBody();
     }
-
-
     private String delegateAccessToken(Member member){
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", member.getEmail());
@@ -78,7 +73,6 @@ public class AuthService {
 
         return accessToken;
     }
-
     private String delegateRefreshToken(Member member){
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
