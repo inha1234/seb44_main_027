@@ -61,6 +61,7 @@ public class SecurityConfiguration{
                .and()
                .authorizeHttpRequests(authorize -> authorize
                        .antMatchers(HttpMethod.POST, "/members").permitAll()
+                       .antMatchers(HttpMethod.POST, "/authentication").hasRole("USER")
                        .antMatchers(HttpMethod.POST, "/members/logOut").hasRole("USER")
                        .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")
 //                       .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
