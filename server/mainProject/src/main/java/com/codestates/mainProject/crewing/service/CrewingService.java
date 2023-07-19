@@ -22,6 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,13 +46,17 @@ public class CrewingService {
     }
 
     /** 게시글 생성 */
-    public Crewing createCrewing(Crewing crewing) {
+    public Crewing createCrewing(@RequestBody Crewing crewing) {
         /** JWT토큰정보를 이용한 사용자 인증 */
         String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
 
         Member member = verifiedMember.
                 orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
+
+        if (crewing.getMember().getMemberId() != member.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+        }
 
         CrewingMembers crewingMember = new CrewingMembers();
         crewingMember.setMember(member);
@@ -213,7 +218,7 @@ public class CrewingService {
         return crewingRepository.findByCrewingIdLessThan(lastCrewingId, pageable);
     }
 
-    @Scheduled(cron = "0 00 00 * * ?") /** Seconds Minutes, Hours, Day of month, Month, Day of week, Year(Option) */
+    @Scheduled(cron = "0 00 00 * * ?") /** Seconds, Minutes, Hours, Day of month, Month, Day of week, Year(Option) */
     public void updateCompletedStatus() {
         List<Crewing> crewings = crewingRepository.findAll();
 

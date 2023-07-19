@@ -14,8 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,16 +36,21 @@ public class PostService {
     }
 
     /** 게시글 생성 */
-    public Post createPost(Post post) {
+    public Post createPost(@RequestBody Post post) {
         /** JWT토큰정보를 이용한 사용자 인증 */
-       /* String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
 
         Member member = verifiedMember.
                 orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
 
         post.setMember(member);
-        member.addPost(post);*/
+        member.addPost(post);
+
+        if (post.getMember().getMemberId() != member.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+        }
+
         return postRepository.save(post);
     }
 
