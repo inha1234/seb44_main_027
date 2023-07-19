@@ -40,7 +40,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException{
 
         try{
-            if(redisService.hasKeyBlackList(request.getHeader("Authorization").replace("Bearer ",""))){
+            if(redisService.hasKey(request.getHeader("Authorization").replace("Bearer ",""))){
                 throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
             }
             Map<String, Object> claims = verifyJws(request);
