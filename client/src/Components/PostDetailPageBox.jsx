@@ -41,7 +41,7 @@ function PostDetailPageBox({ postId, type }) {
         },
       })
       .then((response) => {
-        dispatch(postDataSlice.actions.update(response.data.data));
+        dispatch(postDataSlice.actions.update(response.data));
         setIsLoading(false);
       })
       .catch((error) => {
@@ -55,6 +55,8 @@ function PostDetailPageBox({ postId, type }) {
   }, []);
 
   const data = useSelector((state) => state.postData.data);
+
+  console.log(data);
 
   if (notFound) {
     return <NotFoundPage />;

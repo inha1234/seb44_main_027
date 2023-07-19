@@ -28,7 +28,12 @@ function useUpdatePost(postId, type, setIsLodig) {
         },
       })
       .then((response) => {
-        dispatch(postDataSlice.actions.update(response.data.data));
+        if (type === 'crewing') {
+          dispatch(postDataSlice.actions.update(response.data));
+        } else {
+          dispatch(postDataSlice.actions.update(response.data.data));
+        }
+
         setIsLodig(false);
         setResCode(response.status);
       })
