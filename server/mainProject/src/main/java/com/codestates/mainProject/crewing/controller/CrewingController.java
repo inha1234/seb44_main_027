@@ -7,7 +7,6 @@ import com.codestates.mainProject.crewing.service.CrewingService;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.dto.SingleResponseDto;
-import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,7 +50,8 @@ public class CrewingController {
     */
     @PostMapping("/apply/{crewing_id}")
     public ResponseEntity applyCrewing(@PathVariable("crewing_id") long crewingId, @RequestBody CrewingDto.applyDto apply) {
-        return crewingService.canApply(crewingId, apply);
+        String response = crewingService.canApply(crewingId, apply);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PutMapping("/{crewing_id}")
