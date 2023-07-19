@@ -7,7 +7,6 @@ import com.codestates.mainProject.crewing.service.CrewingService;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.dto.SingleResponseDto;
-import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
