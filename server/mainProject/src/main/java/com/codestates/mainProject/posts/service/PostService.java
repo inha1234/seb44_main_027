@@ -58,9 +58,9 @@ public class PostService {
     public Post updatePost(Post post) {
         Post findPost = findVerifiedPost(post.getPostId());
         /** JWT토큰정보를 이용한 사용자 인증 */
-        /*String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
 
         Optional.ofNullable(post.getTitle())
                 .ifPresent(title -> findPost.setTitle(title));
@@ -108,9 +108,9 @@ public class PostService {
     public void deletePost(long postId) {
         Post findPost = findVerifiedPost(postId);
         /** JWT토큰정보를 이용한 사용자 인증 */
-        /*String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (!findPost.getMember().getEmail().equals(principal))
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);*/
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         postRepository.deleteById(postId);
     }
 
