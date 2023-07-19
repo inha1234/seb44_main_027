@@ -1,7 +1,7 @@
 package com.codestates.mainProject.crewing.dto;
 
 import com.codestates.mainProject.comment.dto.CommentDto;
-import com.codestates.mainProject.validator.GreaterThan;
+import com.codestates.mainProject.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +14,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CrewingDto {
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class applyDto{
+        @PositiveOrZero(message = "참여 신청하는 회원 ID를 입력하세요")
+        private long memberId;
+    }
     @Getter
     @Setter
     @AllArgsConstructor
@@ -82,5 +90,20 @@ public class CrewingDto {
         private LocalDateTime modifiedAt;
 
         private List<CommentDto.Response> comments;
+
+        private List<CrewingMemberDto.Response> crewingMembers;
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Members {
+        private String userName;
+        private String imageUrl;
+
+        public void setMember(Member member) {
+            this.userName = member.getUserName();
+            this.imageUrl = member.getImageUrl();
+        }
     }
 }

@@ -48,7 +48,7 @@ public class MemberDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public  static class Delete{
+    public static class Delete{
         private String password;
     }
     @Getter
