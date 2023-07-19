@@ -5,7 +5,7 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faPersonRunning } from '@fortawesome/free-solid-svg-icons';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
-import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import {
   ButtonContainer,
   CreateButton,

@@ -3,6 +3,7 @@ import { BoardBox, Title, CardList, Btn } from './MainBoard.style.js';
 import MainCardItem from './MainCardItem.jsx';
 import Loding from './Loding.jsx';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
+import NotFollowingIndicator from './NotFollowingIndicator.jsx';
 
 function MainBoard() {
   const MESSAGE = {
@@ -42,7 +43,7 @@ function MainBoard() {
         {data && data.length !== 0 ? (
           data.map((item) => <MainCardItem key={item.postId} item={item} />)
         ) : (
-          <div>친구가 없어요.</div>
+          <NotFollowingIndicator />
         )}
       </CardList>
       {isLoadEnd ? undefined : (
