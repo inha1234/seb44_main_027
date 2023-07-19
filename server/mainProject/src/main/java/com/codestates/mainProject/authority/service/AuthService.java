@@ -51,7 +51,7 @@ public class AuthService {
             response.put("Authorization", "Bearer " + accessToken);
             response.put("Refresh", refreshToken);
 
-            redisService.setRefreshToken(email, refreshToken, 480);
+            redisService.setRefreshToken(email, refreshToken, 90);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         throw new BusinessLogicException(ExceptionCode.TOKEN_HAS_EXPIRED);
