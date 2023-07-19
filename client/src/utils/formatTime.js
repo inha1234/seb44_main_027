@@ -1,7 +1,8 @@
 function formatTime(timestamp) {
   const date = new Date(timestamp);
+  const koreanTime = new Date(date.getTime() + 9 * 60 * 60 * 1000); // 한국 시간대로 변환
   const currentDate = new Date();
-  const elapsed = currentDate - date;
+  const elapsed = currentDate - koreanTime;
 
   // 밀리초(ms) 단위로 경과된 시간을 분, 시간, 일, 개월 단위로 계산
   const minutes = Math.floor(elapsed / (1000 * 60));
