@@ -7,6 +7,7 @@ import com.codestates.mainProject.crewing.service.CrewingService;
 import com.codestates.mainProject.dto.MultiResponseDto;
 import com.codestates.mainProject.dto.PageInfo;
 import com.codestates.mainProject.dto.SingleResponseDto;
+import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,8 +51,7 @@ public class CrewingController {
     */
     @PostMapping("/apply/{crewing_id}")
     public ResponseEntity applyCrewing(@PathVariable("crewing_id") long crewingId, @RequestBody CrewingDto.applyDto apply) {
-        crewingService.canApply(crewingId,apply);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return crewingService.canApply(crewingId, apply);
     }
 
     @PutMapping("/{crewing_id}")
@@ -97,24 +97,6 @@ public class CrewingController {
 
         return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
     }
-
-/*    @GetMapping
-    public ResponseEntity getPosts(@Positive @RequestParam(defaultValue = "1") int page,
-                                   @RequestParam(required = false) Long lastCrewingId) {
-
-        Pageable pageable = PageRequest.of(page - 1, 15, Sort.by("createdAt").descending());
-        Page<Crewing> pageCrewings = (lastCrewingId != null) ?
-                crewingService.getCrewingsByIdLessThan(lastCrewingId, pageable) :
-                crewingService.getCrewings(pageable);
-
-        List<CrewingDto.ResponseDto> responseDto = mapper.crewingListToCrewingResponseList(pageCrewings.getContent());
-        PageInfo pageInfo =
-                new PageInfo(page, 15, pageCrewings.getTotalElements(), pageCrewings.getTotalPages(), pageCrewings.hasNext());
-        MultiResponseDto<CrewingDto.ResponseDto> multiResponseDto = new MultiResponseDto<>(responseDto, pageInfo);
-
-        return new ResponseEntity<>(multiResponseDto, HttpStatus.OK);
-    }*/
-
 
     @DeleteMapping("/{crewing_id}")
     public ResponseEntity deleteCrewing(@PathVariable("crewing_id") @Positive long crewingId) {

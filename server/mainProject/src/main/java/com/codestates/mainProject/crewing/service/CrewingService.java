@@ -16,16 +16,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,7 +57,7 @@ public class CrewingService {
         crewingMember.setMember(member);
         crewingMember.setCrewing(crewing);
         crewing.setCurrentPeople(0); // 초기 값은 0으로 설정
-        crewing.setCompleted(false); // 초기 값은 false로 설정
+//        crewing.setCompleted(false); // 초기 값은 false로 설정
 
         return crewingRepository.save(crewing);
     }
@@ -89,32 +90,42 @@ public class CrewingService {
                 .ifPresent(isCompleted -> findCrewing.setCompleted(isCompleted));
         return crewingRepository.save(findCrewing);
     }
-    public void canApply(long crewingId, CrewingDto.applyDto apply){
+
+    /** 크루잉 참여신청 예외 처리 */
+    public ResponseEntity<String> canApply(long crewingId, CrewingDto.applyDto apply){
+        /** Crewing 및 Member 확인 */
         Crewing crewing = crewingRepository.findByCrewingId(crewingId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CREWING_NOT_FOUND));
         Member member = memberRepository.findById(apply.getMemberId())
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        /** 본인이 작성한 게시글에는 신청할 수 없음, Code:403 */
         if(crewing.getMember().getMemberId().equals(apply.getMemberId())){
-            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+            throw new BusinessLogicException(ExceptionCode.CREWING_OWN_APPLY);
         }
+        /** 모집마감일이 지났다면 신청할 수 없음, Code:403 */
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine(), DateTimeFormatter.ISO_DATE_TIME);
         if(now.isAfter(deadline)){
-            throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
+            crewing.setCompleted(true);
+            throw new BusinessLogicException(ExceptionCode.CREWING_DEADLINE);
         }
+        /** 현재인원이 모집인원보다 같거나 크다면 신청할 수 없음, Code:403 */
         int currentPeople = crewingMembersRepository.countByCrewing(crewing);
-
-        if(crewing.getMaxPeople() >= currentPeople){
-            applyCrewing(crewingId, apply.getMemberId(),crewing, member, currentPeople);
-        } else {
+        if(crewing.getMaxPeople() <= currentPeople){
             throw new BusinessLogicException(ExceptionCode.CREWING_IS_MAX);
         }
+
+       return applyCrewing(crewingId, apply.getMemberId(),crewing, member, currentPeople);
     }
-    public void applyCrewing(long crewingId, long memberId, Crewing crewing, Member member, int currentPeople){
+
+    /** 크루잉 참여신청 */
+    public ResponseEntity<String> applyCrewing(long crewingId, long memberId, Crewing crewing, Member member, int currentPeople){
         CrewingMembers existApply = crewingMembersRepository.findByMemberAndCrewing(member, crewing);
         if(existApply!=null){
             crewingMembersRepository.delete(existApply);
             currentPeople--;
+            crewing.setCurrentPeople(currentPeople);
+            return new ResponseEntity<>("Crewing application canceled.",HttpStatus.OK);
         } else if(!crewing.isCompleted()){
             CrewingMembers.CrewingMemberId crewingMemberId = new CrewingMembers.CrewingMemberId();
             crewingMemberId.setCrewingId(crewingId);
@@ -128,17 +139,25 @@ public class CrewingService {
         } else {
             throw new BusinessLogicException(ExceptionCode.CREWING_IS_MAX);
         }
+        /** 이미 모집이 마감되었다면 신청할 수 없음, Code:403 -> 이미 신청했던 회원은 신청취소되는 로직 다음에 와야함 */
+        if(crewing.isCompleted()) {
+            throw new BusinessLogicException(ExceptionCode.CREWING_IS_CLOSED);
+        }
+
         crewing.setCurrentPeople(currentPeople);
+
         if(crewing.getMaxPeople()==currentPeople){
             crewing.setCompleted(true);
         } else if(crewing.isCompleted() && crewing.getMaxPeople()>currentPeople){
             crewing.setCompleted(false);
         }
+        return new ResponseEntity<>("You have successfully applied to the crewing", HttpStatus.OK);
     }
 
     /** 게시글 조회 */
     public CrewingDto.ResponseDto getCrewing(long crewingId) {
         Crewing findCrewing = findVerifiedCrewing(crewingId);
+
         CrewingDto.ResponseDto Response = crewingmapper.crewingToCrewingResponse(findCrewing);
 
         return Response;
@@ -192,6 +211,25 @@ public class CrewingService {
 
     public Page<Crewing> getCrewingsByIdLessThan(Long lastCrewingId, Pageable pageable) {
         return crewingRepository.findByCrewingIdLessThan(lastCrewingId, pageable);
+    }
+
+    @Scheduled(cron = "0 00 00 * * ?") /** Seconds Minutes, Hours, Day of month, Month, Day of week, Year(Option) */
+    public void updateCompletedStatus() {
+        List<Crewing> crewings = crewingRepository.findAll();
+
+        for (Crewing crewing : crewings) {
+            if (isDeadlineReached(crewing)) {
+                crewing.setCompleted(true);
+                crewingRepository.save(crewing);
+            }
+        }
+    }
+
+    private boolean isDeadlineReached(Crewing crewing) {
+        LocalDateTime deadline = LocalDateTime.parse(crewing.getDeadLine());
+        LocalDateTime now = LocalDateTime.now();
+
+        return now.isAfter(deadline) || now.isEqual(deadline);
     }
 
 }
