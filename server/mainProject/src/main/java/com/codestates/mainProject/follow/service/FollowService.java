@@ -12,10 +12,12 @@ import com.codestates.mainProject.posts.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +33,19 @@ public class FollowService {
     }
 
     public Follow followUser(Follow follow) {
+
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
+
+        Member member = verifiedMember.
+                orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
+
         Long followerId = follow.getFollowerId();
         Long followingId = follow.getFollowingId();
+
+        if(followerId != member.getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+        }
 
         if (followerId.equals(followingId)) {
             throw new BusinessLogicException(ExceptionCode.FOLLOW_SAME_ID);
