@@ -27,6 +27,7 @@ export const UsernameContainer = styled.section`
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 50px;
+  min-height: 21px;
 `;
 
 export const UserStatsContainer = styled.section`
@@ -43,6 +44,7 @@ export const UserStatsItem = styled.section`
   align-items: center;
   width: 72px;
   margin: 8px;
+  min-height: 47px;
   cursor: default;
 `;
 

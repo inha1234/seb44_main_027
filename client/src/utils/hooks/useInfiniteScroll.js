@@ -1,6 +1,7 @@
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import { useState } from 'react';
+import { useApi } from './useApi';
 
 const useInfiniteScroll = ({
   url,
@@ -10,7 +11,8 @@ const useInfiniteScroll = ({
   page,
   memberId,
 }) => {
-  const accessToken = sessionStorage.getItem('authToken');
+  const api = useApi();
+  const accessToken = localStorage.getItem('authToken');
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(false);
   const [lastPostId, setLastPostId] = useState(null);
@@ -21,7 +23,7 @@ const useInfiniteScroll = ({
     setLoading(true);
 
     if (page < 1) {
-      axios
+      api
         .get(
           url,
           { params: { category: category } },
@@ -43,7 +45,7 @@ const useInfiniteScroll = ({
           throw error;
         });
     } else if (page >= 1) {
-      axios
+      api
         .get(
           url,
           { params: { category: category, lastPostId: lastPostId } },
@@ -76,7 +78,7 @@ const useInfiniteScroll = ({
     setLoading(true);
 
     if (page < 1) {
-      axios
+      api
         .get(
           url,
           { params: { memberId: memberId } },
@@ -98,7 +100,7 @@ const useInfiniteScroll = ({
           throw error;
         });
     } else if (page >= 1) {
-      axios
+      api
         .get(
           url,
           { params: { memberId: memberId, lastPostId: lastPostId } },

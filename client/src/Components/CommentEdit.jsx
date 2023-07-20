@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Edit, Btn } from './CommentEdit.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
+import { useApi } from '../utils/hooks/useApi';
 
 function CommentEdit({ CommentData, setIsEdit, type }) {
-  const accessToken = sessionStorage.getItem('authToken');
+  const api = useApi();
+  const accessToken = localStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments/${
     CommentData.commentId
   }`;
@@ -14,7 +16,7 @@ function CommentEdit({ CommentData, setIsEdit, type }) {
 
   // 댓글 수정 API
   const EditData = () => {
-    axios
+    api
       .put(
         url,
         {

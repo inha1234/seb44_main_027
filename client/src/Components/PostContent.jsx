@@ -13,23 +13,25 @@ import axios from 'axios';
 import CrewingContent from './CrewingContent';
 import formatTime from '../utils/formatTime';
 import ProfileLink from '../utils/ProfileLink';
+import { useApi } from '../utils/hooks/useApi';
 
 function PostContent({ data, type, isEdit, setIsEdit }) {
+  const api = useApi();
   const [title, setTitle] = useState(data.title);
   const [content, setContent] = useState(data.content);
-  const accessToken = sessionStorage.getItem('authToken');
+  const accessToken = localStorage.getItem('authToken');
   const EditPostUrl = `${import.meta.env.VITE_API_URL}/posts/${data.postId}`;
   const EditCrewingUrl = `${import.meta.env.VITE_API_URL}/crewing/${
     data.crewingId
   }`;
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(data.postId, type, setIsLoding);
-  const loginId = sessionStorage.getItem('memberId') + '';
+  const loginId = localStorage.getItem('memberId') + '';
   const memberId = data.memberId + '';
 
   // 운동/식단 게시글 수정 API
   const EditPostData = () => {
-    axios
+    api
       .put(
         EditPostUrl,
         {
@@ -55,7 +57,7 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
 
   // 크루잉 게시글 수정 API
   const EditCrewingData = () => {
-    axios
+    api
       .put(
         EditCrewingUrl,
         {

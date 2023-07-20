@@ -2,9 +2,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import { InputContainer } from './PostCommentInput.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
+import { useApi } from '../utils/hooks/useApi';
 
 function PostCommentInput({ data, type, scrollToTop }) {
-  const accessToken = sessionStorage.getItem('authToken');
+  const api = useApi();
+  const accessToken = localStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
   const [isLoding, setIsLodig] = useState(true);
@@ -14,7 +16,7 @@ function PostCommentInput({ data, type, scrollToTop }) {
   });
 
   // 로그인된 사용자의 멤버아이디
-  const loginId = sessionStorage.getItem('memberId');
+  const loginId = localStorage.getItem('memberId');
 
   useEffect(() => {
     axios
@@ -28,7 +30,7 @@ function PostCommentInput({ data, type, scrollToTop }) {
   //댓글작성 api
   const postData = () => {
     if (commentText !== '') {
-      axios
+      api
         .post(
           url,
           {

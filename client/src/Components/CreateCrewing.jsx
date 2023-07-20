@@ -16,6 +16,7 @@ import ImageCropper from './ImageCropper.jsx';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import CreateCrewingStyle from './CreateCrewing.style.js';
+import { useApi } from '../utils/hooks/useApi.js';
 
 const StyledDatePicker = styled(DatePicker)`
   width: 328px !important;
@@ -26,6 +27,7 @@ const StyledDatePicker = styled(DatePicker)`
 
 export default function CreateCrewing() {
   const navigate = useNavigate();
+  const api = useApi();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [activity, setActivity] = useState(null);
@@ -73,8 +75,8 @@ export default function CreateCrewing() {
   };
 
   const handleFormSubmit = () => {
-    const authToken = sessionStorage.getItem('authToken');
-    const memberId = sessionStorage.getItem('memberId');
+    const authToken = localStorage.getItem('authToken');
+    const memberId = localStorage.getItem('memberId');
     const formattedDeadline = format(deadline, "yyyy-MM-dd'T'HH:mm:ss");
     const postData = {
       title: title,
@@ -89,13 +91,13 @@ export default function CreateCrewing() {
     };
     console.log(postData);
 
-    axios
+    api
       .post(`${import.meta.env.VITE_API_URL}/crewings`, postData, {
         headers: { Authorization: authToken },
       })
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
-        navigate('/');
+        navigate('/crewing');
       })
       .catch((error) => {
         console.error('게시물 작성 실패:', error);
@@ -222,7 +224,14 @@ export default function CreateCrewing() {
             </CreateCrewingStyle.Input>
           </CreateCrewingStyle.Main>
           <button
-            disabled={!title || !content || !activity || !deadline}
+            disabled={
+              !uploadedImageUrl ||
+              !title ||
+              !content ||
+              !activity ||
+              !deadline ||
+              (isRecruitChecked && !number)
+            }
             onClick={handleFormSubmit}
           >
             작성 완료

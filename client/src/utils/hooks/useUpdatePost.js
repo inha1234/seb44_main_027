@@ -2,11 +2,13 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import postDataSlice from '../../redux/reducers/postDataSlice';
+import { useApi } from './useApi';
 
 // 특정 게시글의 postId를 인자로 전달받아,
 // postId에 해당되는 게시글의 데이터받아 전역상태로 저장하는 함수입니다.
 
 function useUpdatePost(postId, type, setIsLodig) {
+  const api = useApi();
   const [resCode, setResCode] = useState(0);
   let url = '';
 
@@ -16,12 +18,12 @@ function useUpdatePost(postId, type, setIsLodig) {
     url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
   }
 
-  const accessToken = sessionStorage.getItem('authToken');
+  const accessToken = localStorage.getItem('authToken');
   const dispatch = useDispatch();
   let resonseCode = 200;
 
   const update = () => {
-    axios
+    api
       .get(url, {
         headers: {
           Authorization: accessToken,

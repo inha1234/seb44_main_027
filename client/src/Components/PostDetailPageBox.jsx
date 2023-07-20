@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import postDataSlice from '../redux/reducers/postDataSlice';
 import useNotFoundPage from '../utils/hooks/useNotFoundPage';
+import { useApi } from '../utils/hooks/useApi';
 
 function PostDetailPageBox({ postId, type }) {
-  console.log('리렌더링 확인');
+  const api = useApi();
   const [isLoading, setIsLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const { notFound, NotFoundPage, handleNotFoundErrors } = useNotFoundPage();
@@ -30,11 +31,11 @@ function PostDetailPageBox({ postId, type }) {
     url = `${import.meta.env.VITE_API_URL}/posts/${postId}`;
   }
 
-  const accessToken = sessionStorage.getItem('authToken');
+  const accessToken = localStorage.getItem('authToken');
   const dispatch = useDispatch();
 
   const update = () => {
-    axios
+    api
       .get(url, {
         headers: {
           Authorization: accessToken,

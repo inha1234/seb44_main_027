@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ActiveButton, InactiveButton } from './FollowButton.style';
+import { useApi } from '../utils/hooks/useApi';
 
 function FollowButton({ profileUserId, updateFollowerList }) {
+  const api = useApi();
   const [isFollowing, setIsFollowing] = useState(false);
-  const loggedInUserId = Number(sessionStorage.getItem('memberId'));
+  const loggedInUserId = Number(localStorage.getItem('memberId'));
+  const authToken = localStorage.getItem('authToken');
 
   useEffect(() => {
     checkFollowing();
@@ -30,11 +33,15 @@ function FollowButton({ profileUserId, updateFollowerList }) {
   };
 
   const handleClick = () => {
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/follows`, {
-        followerId: loggedInUserId,
-        followingId: profileUserId,
-      })
+    api
+      .post(
+        `${import.meta.env.VITE_API_URL}/follows`,
+        {
+          followerId: loggedInUserId,
+          followingId: profileUserId,
+        },
+        { headers: { Authorization: authToken } }
+      )
       .then((response) => {
         if (response.status === 200) {
           setIsFollowing(!isFollowing);

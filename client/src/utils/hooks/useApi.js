@@ -12,38 +12,44 @@ export const useApi = () => {
     (response) => {
       return response;
     },
-    async function (error) {
+    (error) => {
       const originalRequest = error.config;
+      const refreshToken = localStorage.getItem('refreshToken');
 
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
-        const refreshToken = sessionStorage.getItem('refreshToken');
-
-        try {
-          const response = await axios.post(
+        return axios
+          .post(
             `${import.meta.env.VITE_API_URL}/refresh`,
+            {},
             {
               headers: {
                 Refresh: refreshToken,
               },
             }
-          );
+          )
+          .then((response) => {
+            if (response.status === 201) {
+              const newAuthToken = response.data.Authorization;
+              localStorage.setItem('authToken', newAuthToken);
+              const newRefreshToken = response.data.Refresh;
+              localStorage.setItem('refreshToken', newRefreshToken);
+              originalRequest.headers['Authorization'] = newAuthToken;
 
-          if (response.status === 201) {
-            const newAccessToken = response.headers['authorization'];
-            sessionStorage.setItem('authToken', newAccessToken);
-
-            originalRequest.headers['Authorization'] = newAccessToken;
-
-            return api(originalRequest);
-          }
-        } catch (error) {
-          console.log(error);
-          alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
-          sessionStorage.clear();
-          navigate('/login');
-        }
+              return api.request(originalRequest);
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 401) {
+              alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+              localStorage.clear();
+              navigate('/login');
+            } else {
+              alert('오류가 발생했습니다. 다시 로그인해주세요.');
+              navigate('/login');
+            }
+          });
       }
 
       return Promise.reject(error);

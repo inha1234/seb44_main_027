@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import ProfileLink from '../utils/ProfileLink';
 
 function CommentContent({ CommentData, setIsEdit, type }) {
-  const loginId = sessionStorage.getItem('memberId') + '';
+  const loginId = localStorage.getItem('memberId') + '';
   const memberId = CommentData.memberId + '';
 
   return (

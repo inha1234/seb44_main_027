@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
 function PublicRoute({ children }) {
-  const isLoggedIn = Boolean(sessionStorage.getItem('authToken'));
+  const isLoggedIn = Boolean(localStorage.getItem('authToken'));
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }

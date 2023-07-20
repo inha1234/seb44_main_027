@@ -1,11 +1,13 @@
 import React from 'react';
 import { AuthorityBtn } from './PostEditDelete.style';
 import axios from 'axios';
+import { useApi } from '../utils/hooks/useApi';
 
 function PostEditDelete({ data, type, setIsEdit }) {
-  const loginId = sessionStorage.getItem('memberId') + '';
+  const api = useApi();
+  const loginId = localStorage.getItem('memberId') + '';
   const memberId = data.memberId + '';
-  const accessToken = sessionStorage.getItem('authToken');
+  const accessToken = localStorage.getItem('authToken');
   const deletePostUrl = `${import.meta.env.VITE_API_URL}/posts/${data.postId}`;
   const deleteCrewingUrl = `${import.meta.env.VITE_API_URL}/crewings/${
     data.crewingId
@@ -13,7 +15,7 @@ function PostEditDelete({ data, type, setIsEdit }) {
 
   // 운동/식단 게시글 삭제 API
   const DeletePostData = () => {
-    axios
+    api
       .delete(deletePostUrl, {
         headers: {
           Authorization: accessToken,
@@ -30,7 +32,7 @@ function PostEditDelete({ data, type, setIsEdit }) {
 
   // 크루잉 게시글 삭제 API
   const DeleteCrewingData = () => {
-    axios
+    api
       .delete(deleteCrewingUrl, {
         headers: {
           Authorization: accessToken,

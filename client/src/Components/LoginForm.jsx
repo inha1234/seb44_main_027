@@ -63,11 +63,11 @@ function LoginForm() {
         if (res.status === 200) {
           const authToken = res.headers['authorization'];
           const refreshToken = res.headers['refresh'];
-          sessionStorage.setItem('authToken', authToken);
-          sessionStorage.setItem('refreshToken', refreshToken);
+          localStorage.setItem('authToken', authToken);
+          localStorage.setItem('refreshToken', refreshToken);
           const decoded = jwtDecode(authToken);
           console.log(typeof decoded.memberId);
-          sessionStorage.setItem('memberId', decoded.memberId);
+          localStorage.setItem('memberId', decoded.memberId);
           navigate('/');
         } else {
           setForm({ email: '', password: '' }); // Reset form input values

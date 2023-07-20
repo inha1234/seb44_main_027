@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 function ProfileLink({ profileUserId, element }) {
-  const loggedInUserId = Number(sessionStorage.getItem('memberId'));
+  const loggedInUserId = Number(localStorage.getItem('memberId'));
 
   const path =
     loggedInUserId === profileUserId ? '/mypage' : `/profile/${profileUserId}`;

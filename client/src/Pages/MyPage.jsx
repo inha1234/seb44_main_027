@@ -29,7 +29,7 @@ import usePortalModal from '../utils/hooks/usePortalModal';
 import { SettingsMain, SettingsMainContainer } from './Settings.style';
 
 function MyPage() {
-  const memberId = sessionStorage.getItem('memberId');
+  const memberId = localStorage.getItem('memberId');
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'Username',

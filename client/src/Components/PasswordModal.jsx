@@ -11,10 +11,11 @@ import {
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useApi } from '../utils/hooks/useApi';
 
 function PasswordModal({ isModalOpen, handleModalToggle, memberId }) {
   const navigate = useNavigate();
-
+  const api = useApi();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -68,9 +69,9 @@ function PasswordModal({ isModalOpen, handleModalToggle, memberId }) {
   }, [newPassword, confirmPassword]);
 
   const handlePasswordChangeButtonClick = () => {
-    const authToken = sessionStorage.getItem('authToken');
+    const authToken = localStorage.getItem('authToken');
 
-    axios
+    api
       .put(
         `${import.meta.env.VITE_API_URL}/members/putPassword/${memberId}`,
         { currentPassword: currentPassword, newPassword: newPassword },
@@ -90,7 +91,7 @@ function PasswordModal({ isModalOpen, handleModalToggle, memberId }) {
         if (error.response) {
           if (error.response.status === 401) {
             alert('권한이 유효하지 않습니다. 다시 로그인해주세요.');
-            sessionStorage.clear();
+            localStorage.clear();
             navigate('/login');
           } else if (error.response.status === 400) {
             alert('비밀번호가 일치하지 않습니다. 다시 시도해주세요.');
