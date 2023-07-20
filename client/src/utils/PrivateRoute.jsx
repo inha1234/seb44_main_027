@@ -4,7 +4,7 @@ import AuthRedirect from '../Components/AuthRedirect';
 import { useApi } from './hooks/useApi';
 import spinner from '../assets/loading-spinner.gif';
 
-function PrivateRoute({ children, path }) {
+function PrivateRoute({ children }) {
   const api = useApi();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,12 +32,11 @@ function PrivateRoute({ children, path }) {
   }, [authToken, api]);
 
   if (isAuthenticating) {
-    // Authentication is in progress. You can return a loading spinner or a similar placeholder here.
     return <img style={{ width: '150px' }} src={spinner} alt="loading..." />;
   }
 
   if (!isLoggedIn) {
-    if (path !== '/') {
+    if (location.pathname !== '/') {
       return <AuthRedirect />;
     }
     return <Navigate to="/login" state={{ from: location }} />;
