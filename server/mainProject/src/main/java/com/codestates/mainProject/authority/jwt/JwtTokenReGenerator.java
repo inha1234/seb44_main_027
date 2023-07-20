@@ -33,7 +33,6 @@ public class JwtTokenReGenerator{
         Date expiration = claims.getExpiration();
         Date now = new Date();
         if(expiration.before(now)){
-            System.out.println("기간만료");
             throw new BusinessLogicException(ExceptionCode.TOKEN_HAS_EXPIRED);
         }
         if(redisService.hasKeyRefreshToken(email,headerRefresh)){
