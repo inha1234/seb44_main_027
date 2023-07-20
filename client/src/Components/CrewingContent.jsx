@@ -10,6 +10,9 @@ import {
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import koTime from '../utils/koTime';
 import { useApi } from '../utils/hooks/useApi';
+import usePortalModal from '../utils/hooks/usePortalModal';
+import PortalModal from '../utils/PortalModal';
+import FollowList from './FollowList';
 
 function CrewingContent({ data, type }) {
   const statusConstant = {
@@ -32,6 +35,7 @@ function CrewingContent({ data, type }) {
     cancel: 'Crewing application canceled.',
   };
 
+  const applicantListModal = usePortalModal();
   const api = useApi();
   const loginId = localStorage.getItem('memberId');
   const accessToken = localStorage.getItem('authToken');
@@ -103,6 +107,14 @@ function CrewingContent({ data, type }) {
 
   return (
     <Container>
+      {applicantListModal.showModal && (
+        <PortalModal
+          position={applicantListModal.modalPosition}
+          onOutsideClick={applicantListModal.closeModal}
+        >
+          <FollowList list={data.crewingMembers} />
+        </PortalModal>
+      )}
       <CrewingInfo.Container>
         <CrewingInfo.ActivityDate>
           <Label>활동날짜</Label>
@@ -112,7 +124,10 @@ function CrewingContent({ data, type }) {
           <Label>모집마감</Label>
           <Content>{koTime(data.deadLine)}</Content>
         </CrewingInfo.DeadLine>
-        <CrewingInfo.PersonnelStatus>
+        <CrewingInfo.PersonnelStatus
+          style={{ cursor: 'default' }}
+          onClick={applicantListModal.openModal}
+        >
           <Label>모집인원</Label>
           <Content>{`${data.currentPeople} / ${
             isUnlimited ? '무제한' : data.maxPeople
