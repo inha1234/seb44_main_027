@@ -23,12 +23,8 @@ function MyProfile() {
     totalPostCount: 0,
   });
   const [userFollowInfo, setUserFollowInfo] = useState({});
-  const [userFollowerList, setUserFollowerList] = useState(
-    new Array(5).fill({})
-  ); // Mockup data
-  const [userFollowingList, setUserFollowingList] = useState(
-    new Array(3).fill({})
-  ); // Mockup data
+  const [userFollowerList, setUserFollowerList] = useState([]);
+  const [userFollowingList, setUserFollowingList] = useState([]);
 
   const followerModal = usePortalModal();
   const followingModal = usePortalModal();
