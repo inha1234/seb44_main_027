@@ -41,6 +41,7 @@ function CrewingContent({ data, type }) {
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(data.crewingId, type, setIsLoding);
   const isUnlimited = data.maxPeople === 999;
+  const isMyCrewing = data.memberId + '' === loginId + '';
   const [btnStatus, setBtnStatus] = useState({});
 
   // 초기 버튼 상태 설정
@@ -118,14 +119,17 @@ function CrewingContent({ data, type }) {
           }`}</Content>
         </CrewingInfo.PersonnelStatus>
       </CrewingInfo.Container>
-      <CrewingParticipation>
-        <CrewingParticipationBtn
-          className={btnStatus.className}
-          onClick={handleClick}
-        >
-          {btnStatus.BtnText}
-        </CrewingParticipationBtn>
-      </CrewingParticipation>
+
+      {!isMyCrewing && (
+        <CrewingParticipation>
+          <CrewingParticipationBtn
+            className={btnStatus.className}
+            onClick={handleClick}
+          >
+            {btnStatus.BtnText}
+          </CrewingParticipationBtn>
+        </CrewingParticipation>
+      )}
     </Container>
   );
 }
