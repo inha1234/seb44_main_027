@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from './CrewingCardItem.style';
 import PostDetailModal from './PostDetailModal';
 import formatTime from '../utils/formatTime';
+import { useSelector } from 'react-redux';
 
 function CrewingCardItem({ item }) {
   const [isModal, setIsModal] = useState(false);

@@ -11,7 +11,12 @@ function CommentEditDelete({ CommentData, commentId, setIsEdit, type }) {
   const accessToken = localStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
   const [isLoding, setIsLoding] = useState(true);
-  const [update] = useUpdatePost(CommentData.postId, type, setIsLoding);
+  const isCrewing = type === 'crewing';
+  const [update] = useUpdatePost(
+    isCrewing ? CommentData.crewingId : CommentData.postId,
+    type,
+    setIsLoding
+  );
 
   // 게시글 댓글 삭제 API
   const DeleteData = () => {

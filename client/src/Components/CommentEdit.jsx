@@ -12,7 +12,13 @@ function CommentEdit({ CommentData, setIsEdit, type }) {
   }`;
   const [commentText, setCommentText] = useState(CommentData.content);
   const [isLoding, setIsLoding] = useState(true);
-  const [update] = useUpdatePost(CommentData.postId, type, setIsLoding);
+  const isCrewing = type === 'crewing';
+
+  const [update] = useUpdatePost(
+    isCrewing ? CommentData.crewingId : CommentData.postId,
+    type,
+    setIsLoding
+  );
 
   // 댓글 수정 API
   const EditData = () => {

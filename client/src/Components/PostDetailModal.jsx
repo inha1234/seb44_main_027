@@ -7,8 +7,6 @@ function PostDetailModal({ postId, type, setIsModal }) {
   const closeIcon = faXmark;
   const [isNotFound, setIsNotFound] = useState(false);
 
-  console.log(postId);
-
   // 모달 닫기
   const closeModal = () => {
     setIsModal(false);
