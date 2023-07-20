@@ -10,13 +10,22 @@ function PostCommentInput({ data, type, scrollToTop }) {
   const url = `${import.meta.env.VITE_API_URL}/comments`;
   const [commentText, setCommentText] = useState('');
   const [isLoding, setIsLodig] = useState(true);
-  const [update] = useUpdatePost(data.postId, type, setIsLodig);
+  const [update] = useUpdatePost(
+    type === 'share' ? data.postId : data.crewingId,
+    type,
+    setIsLodig
+  );
   const [currentUser, setCurrentUser] = useState({
     imageUrl: '/images/defaultprofile.png',
   });
 
   // 로그인된 사용자의 멤버아이디
   const loginId = localStorage.getItem('memberId');
+
+  const param =
+    type === 'share'
+      ? { memberId: loginId, postId: data.postId, content: commentText }
+      : { memberId: loginId, crewingId: data.crewingId, content: commentText };
 
   useEffect(() => {
     axios
@@ -31,19 +40,11 @@ function PostCommentInput({ data, type, scrollToTop }) {
   const postData = () => {
     if (commentText !== '') {
       api
-        .post(
-          url,
-          {
-            memberId: loginId,
-            postId: type === 'share' ? data.postId : data.crewingId,
-            content: commentText,
+        .post(url, param, {
+          headers: {
+            Authorization: accessToken,
           },
-          {
-            headers: {
-              Authorization: accessToken,
-            },
-          }
-        )
+        })
         .then((response) => {
           update();
           setCommentText('');
