@@ -13,6 +13,7 @@ export const Red = {
 
 export const Color = {
   Primary: '#12BFB5',
+  Primary2: '#0A8D86',
   PrimaryRGB: '18,191,181',
   Secondary: '#3029F2',
   Tertiary: '#3658BF',
