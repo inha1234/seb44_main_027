@@ -15,25 +15,11 @@ function PostDetailModal({ postId, type, setIsModal }) {
     window.history.back();
   };
 
-  // 모달 밖의 영역 클릭 시 모달 닫기 로직
-  const modalRef = useRef(null);
-  useEffect(() => {
-    function handleOutside(e) {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        closeModal();
-      }
-    }
-    document.addEventListener('mousedown', handleOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleOutside);
-    };
-  }, []);
-
   return (
-    <Modal>
-      <div ref={modalRef}>
+    <Modal onClick={closeModal}>
+      <div onClick={(e) => e.stopPropagation()}>
         {isNotFound ? (
-          <NotFound>
+          <NotFound onClick={(e) => e.stopPropagation()}>
             <h3>이런!</h3>
             <p>작성된 게시물이 없어요...</p>
           </NotFound>
