@@ -23,7 +23,6 @@ function CrewingBoard() {
     setData,
     page,
   });
-
   useEffect(() => {
     if (inView) {
       getData();

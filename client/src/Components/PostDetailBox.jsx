@@ -27,6 +27,7 @@ function PostDatailBox({ postId, type, setIsNotFound }) {
   setIsNotFound(resCode === 404 ? true : false);
 
   const data = useSelector((state) => state.postData.data);
+
   if (!isLoding) {
     return (
       <Container>

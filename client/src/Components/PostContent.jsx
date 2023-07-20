@@ -20,12 +20,17 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
   const [title, setTitle] = useState(data.title);
   const [content, setContent] = useState(data.content);
   const accessToken = localStorage.getItem('authToken');
+  const isCrewing = type === 'crewing';
   const EditPostUrl = `${import.meta.env.VITE_API_URL}/posts/${data.postId}`;
-  const EditCrewingUrl = `${import.meta.env.VITE_API_URL}/crewing/${
+  const EditCrewingUrl = `${import.meta.env.VITE_API_URL}/crewings/${
     data.crewingId
   }`;
   const [isLoding, setIsLoding] = useState(true);
-  const [update] = useUpdatePost(data.postId, type, setIsLoding);
+  const [update] = useUpdatePost(
+    isCrewing ? data.crewingId : data.postId,
+    type,
+    setIsLoding
+  );
   const loginId = localStorage.getItem('memberId') + '';
   const memberId = data.memberId + '';
 
@@ -70,6 +75,7 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
           activityDate: data.activityDate,
           deadLine: data.deadLine,
           isCompleted: data.isCompleted,
+          activityArea: '부산',
         },
         {
           headers: {
@@ -94,6 +100,8 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
   };
   const handleClickCancel = (e) => {
     setIsEdit(false);
+    setTitle(data.title);
+    setContent(data.content);
   };
   const handleClickEdit = (e) => {
     if (type === 'crewing') {
@@ -140,7 +148,7 @@ function PostContent({ data, type, isEdit, setIsEdit }) {
       </Author>
       {!isEdit ? (
         <>
-          <Title>{title}</Title>
+          <Title>{data.title}</Title>
           <PostContentText data={data} type={type} />
           {type === 'crewing' ? (
             <CrewingContent data={data} type={type} />
