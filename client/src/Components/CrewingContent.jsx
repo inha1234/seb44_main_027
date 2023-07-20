@@ -16,6 +16,7 @@ function CrewingContent({ data, type }) {
   const url = `${import.meta.env.VITE_API_URL}/crewing/apply/${data.crewingId}`;
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(data.crewingId, type, setIsLoding);
+  const isUnlimited = data.maxPeople === 999;
 
   const participation = () => {
     axios
@@ -62,7 +63,7 @@ function CrewingContent({ data, type }) {
         <CrewingInfo.PersonnelStatus>
           <Label>모집인원</Label>
           <Content>{`${data.currentPeople} / ${
-            data.maxPeople === 999 ? '무제한' : data.maxPeople
+            isUnlimited ? '무제한' : data.maxPeople
           }`}</Content>
         </CrewingInfo.PersonnelStatus>
       </CrewingInfo.Container>
