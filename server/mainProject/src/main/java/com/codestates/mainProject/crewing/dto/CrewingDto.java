@@ -100,10 +100,12 @@ public class CrewingDto {
     public static class Members {
         private String userName;
         private String imageUrl;
+        private long memberId;
 
         public void setMember(Member member) {
             this.userName = member.getUserName();
             this.imageUrl = member.getImageUrl();
+            this.memberId = member.getMemberId();
         }
     }
 }
