@@ -13,7 +13,6 @@ public class JwtTokenGenerator {
     public JwtTokenGenerator(JwtTokenizer jwtTokenizer) {
         this.jwtTokenizer = jwtTokenizer;
     }
-
     String delegateAccessToken(Member member){
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", member.getEmail());
@@ -29,7 +28,6 @@ public class JwtTokenGenerator {
 
         return accessToken;
     }
-
     String delegateRefreshToken(Member member){
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());

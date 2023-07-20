@@ -24,8 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.data.redis.connection.RedisStringCommands.SetOption.ifPresent;
 
 @Service
 @Transactional
@@ -122,6 +126,9 @@ public class CrewingService {
 
     /** 크루잉 참여신청 */
     public String applyCrewing(long crewingId, long memberId, Crewing crewing, Member member, int currentPeople){
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        if (!memberRepository.findById(memberId).orElseThrow(()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)).getEmail().equals(principal))
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         CrewingMembers existApply = crewingMembersRepository.findByMemberAndCrewing(member, crewing);
         if(existApply!=null){
             crewingMembersRepository.delete(existApply);
@@ -199,6 +206,27 @@ public class CrewingService {
         PageInfo pageInfo = new PageInfo(page,findPage.getSize(),findPage.getTotalElements(),findPage.getTotalPages(), findPage.hasNext());
         List<CrewingDto.ResponseDto> responseDto = crewingmapper.crewingListToCrewingResponseList(listCrewing);
         return new MultiResponseDto(responseDto,pageInfo);
+    }
+    public MultiResponseDto getMyApply(Member member, int page, int size, Long lastPostId){
+        Pageable pageRequest = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
+        Page<CrewingMembers> findCrewings;
+        if(lastPostId == null){
+            findCrewings = crewingMembersRepository.findByMember(member,pageRequest);
+        } else {
+            findCrewings = crewingMembersRepository.findByMemberAndIdCrewingIdLessThan(member, lastPostId, pageRequest);
+        }
+        List<Long> findCrewingId = findCrewings.stream()
+                .map(findCrewing -> findCrewing.getId().getCrewingId())
+                .distinct()
+                .collect(Collectors.toList());
+        List<CrewingDto.ResponseDto> response = new ArrayList<CrewingDto.ResponseDto>();
+        for(long crewingId : findCrewingId){
+            Crewing crewing = crewingRepository.findByCrewingId(crewingId)
+                    .orElseThrow(()-> new BusinessLogicException(ExceptionCode.CREWING_NOT_FOUND));
+            response.add(crewingmapper.crewingToCrewingResponse(crewing));
+        }
+        PageInfo pageInfo = new PageInfo(page,findCrewings.getSize(),findCrewings.getTotalElements(),findCrewings.getTotalPages(), findCrewings.hasNext());
+        return new MultiResponseDto(response, pageInfo);
     }
 
     /** 게시글 존재하는지 확인 */
