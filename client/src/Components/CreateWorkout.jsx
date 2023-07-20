@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import useImageCropAndUpload from '../utils/hooks/useImageCropAndUpload.js';
 import ImageCropper from './ImageCropper.jsx';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useApi } from '../utils/hooks/useApi.js';
 
 export default function CreateWorkout() {
   const navigate = useNavigate();
+  const api = useApi();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [showCropper, setShowCropper] = useState(false); // 크로퍼 표시 상태
@@ -39,8 +41,8 @@ export default function CreateWorkout() {
   };
 
   const handleFormSubmit = () => {
-    const authToken = sessionStorage.getItem('authToken');
-    const memberId = sessionStorage.getItem('memberId');
+    const authToken = localStorage.getItem('authToken');
+    const memberId = localStorage.getItem('memberId');
 
     const postData = {
       title: title,
@@ -50,13 +52,13 @@ export default function CreateWorkout() {
       memberId: memberId,
     };
 
-    axios
+    api
       .post(`${import.meta.env.VITE_API_URL}/posts`, postData, {
         headers: { Authorization: authToken },
       })
       .then((response) => {
         console.log('게시물 작성 완료:', response.data);
-        navigate('/');
+        navigate('/workout');
       })
       .catch((error) => {
         console.error('게시물 작성 실패:', error);

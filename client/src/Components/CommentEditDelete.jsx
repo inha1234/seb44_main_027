@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { Btn } from './CommentEditDelete.style';
 import axios from 'axios';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
+import { useApi } from '../utils/hooks/useApi';
 
 function CommentEditDelete({ CommentData, commentId, setIsEdit, type }) {
-  const loginId = sessionStorage.getItem('memberId') + '';
+  const api = useApi();
+  const loginId = localStorage.getItem('memberId') + '';
   const memberId = CommentData.memberId + '';
-  const accessToken = sessionStorage.getItem('authToken');
+  const accessToken = localStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/comments/${commentId}`;
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(CommentData.postId, type, setIsLoding);
 
   // 게시글 댓글 삭제 API
   const DeleteData = () => {
-    axios
+    api
       .delete(url, {
         headers: {
           Authorization: accessToken,

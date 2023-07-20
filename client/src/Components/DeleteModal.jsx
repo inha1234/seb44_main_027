@@ -13,8 +13,10 @@ import {
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useApi } from '../utils/hooks/useApi';
 
 function DeleteModal({ isModalOpen, handleModalToggle, memberId }) {
+  const api = useApi();
   const navigate = useNavigate();
 
   const [password, setPassword] = useState('');
@@ -47,9 +49,9 @@ function DeleteModal({ isModalOpen, handleModalToggle, memberId }) {
   }, [password, confirmationText]);
 
   const handleDeleteButtonClick = () => {
-    const authToken = sessionStorage.getItem('authToken');
+    const authToken = localStorage.getItem('authToken');
 
-    axios
+    api
       .put(
         `${import.meta.env.VITE_API_URL}/members/delete/${memberId}`,
         { password: password },
@@ -62,7 +64,7 @@ function DeleteModal({ isModalOpen, handleModalToggle, memberId }) {
       .then((response) => {
         if (response.status === 200) {
           alert('성공적으로 탈퇴되었습니다.');
-          sessionStorage.clear();
+          localStorage.clear();
           navigate('/login');
         }
       })
@@ -70,7 +72,7 @@ function DeleteModal({ isModalOpen, handleModalToggle, memberId }) {
         if (error.response) {
           if (error.response.status === 401) {
             alert('권한이 유효하지 않습니다. 다시 로그인해주세요.');
-            sessionStorage.clear();
+            localStorage.clear();
             navigate('/login');
           } else if (error.response.status === 400) {
             alert('비밀번호가 일치하지 않습니다. 다시 시도해주세요.');

@@ -9,8 +9,10 @@ import {
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import axios from 'axios';
 import koTime from '../utils/koTime';
+import { useApi } from '../utils/hooks/useApi';
 
 function CrewingContent({ data, type }) {
+  const api = useApi();
   const loginId = sessionStorage.getItem('memberId');
   const accessToken = sessionStorage.getItem('authToken');
   const url = `${import.meta.env.VITE_API_URL}/crewing/apply/${data.crewingId}`;
@@ -19,7 +21,7 @@ function CrewingContent({ data, type }) {
   const isUnlimited = data.maxPeople === 999;
 
   const participation = () => {
-    axios
+    api
       .post(
         url,
         {

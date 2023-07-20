@@ -14,8 +14,10 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { checkNicknameDuplicate } from '../utils/signUpService';
 import { useState, useEffect } from 'react';
+import { useApi } from '../utils/hooks/useApi';
 
 function UsernameModal({ isModalOpen, handleModalToggle, memberId }) {
+  const api = useApi();
   const [newUsername, setNewUsername] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [hasAttemptedInput, setHasAttemptedInput] = useState(false);
@@ -46,9 +48,12 @@ function UsernameModal({ isModalOpen, handleModalToggle, memberId }) {
   };
 
   const handleChangeButtonClick = () => {
-    const authToken = sessionStorage.getItem('authToken');
+    const authToken = localStorage.getItem('authToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    console.log('authToken : ' + authToken);
+    console.log('refreshToken : ' + refreshToken);
 
-    axios
+    api
       .put(
         `${import.meta.env.VITE_API_URL}/members/${memberId}`,
         { userName: newUsername },
@@ -65,7 +70,7 @@ function UsernameModal({ isModalOpen, handleModalToggle, memberId }) {
       .catch((error) => {
         console.log(error);
         alert('오류가 발생했습니다. 다시 시도해주세요.');
-        window.location.reload();
+        // window.location.reload();
       });
   };
 

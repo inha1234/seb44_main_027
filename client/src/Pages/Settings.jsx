@@ -23,7 +23,7 @@ import PasswordModal from '../Components/PasswordModal';
 import ProfileModal from '../Components/ProfileModal';
 
 function Settings() {
-  const memberId = sessionStorage.getItem('memberId');
+  const memberId = localStorage.getItem('memberId');
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
     username: 'default',

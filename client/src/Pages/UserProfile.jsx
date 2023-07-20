@@ -30,7 +30,7 @@ import usePortalModal from '../utils/hooks/usePortalModal';
 
 function UserProfile() {
   const navigate = useNavigate();
-  const loggedInUserId = sessionStorage.getItem('memberId');
+  const loggedInUserId = localStorage.getItem('memberId');
   const { memberId: profileMemberId } = useParams();
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',

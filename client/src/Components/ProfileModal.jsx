@@ -17,8 +17,10 @@ import axios from 'axios';
 import useImageCropAndUpload from '../utils/hooks/useImageCropAndUpload.js';
 import ImageCropper from './ImageCropper.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useApi } from '../utils/hooks/useApi';
 
 function ProfileModal({ isModalOpen, handleModalToggle, memberId }) {
+  const api = useApi();
   const [showCropper, setShowCropper] = useState(false);
   const inputFileRef = useRef();
   const {
@@ -41,8 +43,8 @@ function ProfileModal({ isModalOpen, handleModalToggle, memberId }) {
   };
 
   const handleChangeButtonClick = () => {
-    const authToken = sessionStorage.getItem('authToken');
-    axios
+    const authToken = localStorage.getItem('authToken');
+    api
       .put(
         `${import.meta.env.VITE_API_URL}/members/${memberId}`,
         { imageUrl: uploadedImageUrl },

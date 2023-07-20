@@ -16,10 +16,10 @@ import FollowList from './FollowList';
 import usePortalModal from '../utils/hooks/usePortalModal';
 
 function MyProfile() {
-  const memberId = sessionStorage.getItem('memberId') || 3;
+  const memberId = localStorage.getItem('memberId') || 3;
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
-    userName: 'Username',
+    userName: '_',
     totalPostCount: 0,
   });
   const [userFollowInfo, setUserFollowInfo] = useState({});

@@ -10,7 +10,7 @@ function MainBoard() {
     TITLE_MAIN: '오늘은 무슨 활동을 하셨나요?',
     BTN_MAIN: '만들기',
   };
-  const loginId = sessionStorage.getItem('memberId');
+  const loginId = localStorage.getItem('memberId');
   // get 요청 url
   const url = `${import.meta.env.VITE_API_URL}/posts/followingPosts`;
 
