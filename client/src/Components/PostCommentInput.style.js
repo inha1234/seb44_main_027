@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 export const InputContainer = styled.div`
-  width: 530px;
+  width: 100%;
   height: auto;
   min-height: 62px;
   max-height: 100px;

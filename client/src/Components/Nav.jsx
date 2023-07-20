@@ -9,6 +9,7 @@ import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 import {
   ButtonContainer,
   CreateButton,
+  CreateButtonIcon,
   CreateButtonName,
   LogoutButton,
   NavContainer,
@@ -28,26 +29,26 @@ function Nav() {
     <NavContainer>
       <NavLogoContainer>Here goes the logo</NavLogoContainer>
       <NavMenuList>
-        <NavMenuItem to="/" isActive={location.pathname === '/'}>
-          <NavMenuIcon isActive={location.pathname === '/'}>
+        <NavMenuItem to="/">
+          <NavMenuIcon>
             <FontAwesomeIcon icon={faHouse} />
           </NavMenuIcon>
           <NavMenuName>홈</NavMenuName>
         </NavMenuItem>
-        <NavMenuItem to="/workout" isActive={location.pathname === '/workout'}>
-          <NavMenuIcon isActive={location.pathname === '/workout'}>
+        <NavMenuItem to="/workout">
+          <NavMenuIcon>
             <FontAwesomeIcon icon={faPersonRunning} />
           </NavMenuIcon>
           <NavMenuName>운동</NavMenuName>
         </NavMenuItem>
-        <NavMenuItem to="/diet" isActive={location.pathname === '/diet'}>
-          <NavMenuIcon isActive={location.pathname === '/diet'}>
+        <NavMenuItem to="/diet">
+          <NavMenuIcon>
             <FontAwesomeIcon icon={faUtensils} />
           </NavMenuIcon>
           <NavMenuName>식단</NavMenuName>
         </NavMenuItem>
-        <NavMenuItem to="/crewing" isActive={location.pathname === '/crewing'}>
-          <NavMenuIcon isActive={location.pathname === '/crewing'}>
+        <NavMenuItem to="/crewing">
+          <NavMenuIcon>
             <FontAwesomeIcon icon={faPeopleGroup} />
           </NavMenuIcon>
           <NavMenuName>크루잉</NavMenuName>
@@ -55,7 +56,9 @@ function Nav() {
       </NavMenuList>
       <ButtonContainer>
         <CreateButton to="/create">
-          <FontAwesomeIcon icon={faSquarePlus} size="2x" />
+          <CreateButtonIcon>
+            <FontAwesomeIcon icon={faSquarePlus} />
+          </CreateButtonIcon>
           <CreateButtonName>만들기</CreateButtonName>
         </CreateButton>
         <LogoutButton onClick={logout}>로그아웃</LogoutButton>

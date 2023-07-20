@@ -1,7 +1,8 @@
 import { styled } from 'styled-components';
+import { Grayscale } from '../color';
 
 export const PostContainer = styled.section`
-  width: 530px;
+  width: 100%;
   max-height: ${({ type }) => (type === 'crewing' ? '480px' : '300px')};
   padding: 30px 10px 30px 30px;
   flex: 1 1 auto;
@@ -25,9 +26,9 @@ export const AuthorInfo = {
     align-items: center;
   `,
   CreateAt: styled.div`
-    font-size: 16px;
-    font-weight: normal;
-    color: #737373;
+    font-size: 14px;
+    font-weight: 400;
+    color: ${Grayscale[60]};
     margin-left: 10px;
   `,
   LinkContainer: styled.section`
@@ -48,9 +49,9 @@ export const AuthorInfo = {
     }
   `,
   AuthorName: styled.section`
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
+    font-size: 18px;
+    font-weight: 800;
+    color: ${Grayscale[80]};
     margin-left: 12px;
     text-decoration: none;
     cursor: pointer;
