@@ -21,8 +21,10 @@ import Settings from './Pages/Settings';
 import PrivateRoute from './utils/PrivateRoute';
 import PublicRoute from './utils/PublicRoute';
 import NotFoundPage from './Components/NotFoundPage';
+import '../src/assets/fonts/font.css';
 const GlobalStyle = createGlobalStyle`
 * {
+  font-family: 'AppleSDGothicNeo', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

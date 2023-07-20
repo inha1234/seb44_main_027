@@ -1,49 +1,60 @@
 import { styled } from 'styled-components';
+import { Grayscale, Color } from '../color';
 
 export const Container = styled.div`
-  display: flex;
-  padding-right: 20px;
-  justify-content: space-between;
+  padding: 20px 0px 0px;
+  margin-right: 20px;
 `;
 
 export const CrewingInfo = {
-  Container: styled.div`
-    margin-top: 20px;
-  `,
+  Container: styled.div``,
 
   ActivityDate: styled.div`
-    margin-bottom: 24px;
+    display: flex;
+    margin-bottom: 10px;
   `,
 
   DeadLine: styled.div`
-    margin-bottom: 24px;
+    display: flex;
+
+    margin-bottom: 10px;
   `,
 
-  PersonnelStatus: styled.div``,
+  PersonnelStatus: styled.div`
+    display: flex;
+  `,
 };
 
 export const Label = styled.div`
   font-size: 14px;
-  color: #666;
+  color: ${Grayscale[60]};
+  font-weight: 400;
   margin-bottom: 6px;
 `;
 
 export const Content = styled.div`
+  margin-left: 14px;
   font-size: 14px;
-  color: #000;
+  font-weight: 600;
+  color: ${Grayscale[80]};
+`;
+export const CrewingParticipation = styled.div`
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+  justify-content: start;
 `;
 
 export const CrewingParticipationBtn = styled.button`
   border: 0;
-  width: 138px;
+  width: 100%;
   height: 48px;
-  background-color: #222;
-  color: #fff;
-  font-size: 16px;
+  background-color: ${Color.Primary};
+  color: ${Grayscale.White};
+  font-size: 14px;
+  font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
-  top: 20px;
-  left: 0;
   align-self: flex-end;
 
   &.closed {
