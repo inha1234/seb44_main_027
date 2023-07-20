@@ -8,6 +8,7 @@ import {
 } from './CrewingContent.style';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
 import axios from 'axios';
+import koTime from '../utils/koTime';
 
 function CrewingContent({ data, type }) {
   const loginId = sessionStorage.getItem('memberId');
@@ -15,6 +16,7 @@ function CrewingContent({ data, type }) {
   const url = `${import.meta.env.VITE_API_URL}/crewing/apply/${data.crewingId}`;
   const [isLoding, setIsLoding] = useState(true);
   const [update] = useUpdatePost(data.crewingId, type, setIsLoding);
+  const isUnlimited = data.maxPeople === 999;
 
   const participation = () => {
     axios
@@ -52,15 +54,17 @@ function CrewingContent({ data, type }) {
       <CrewingInfo.Container>
         <CrewingInfo.ActivityDate>
           <Label>활동 날짜</Label>
-          <Content>{data.activityDate}</Content>
+          <Content>{koTime(data.activityDate)}</Content>
         </CrewingInfo.ActivityDate>
         <CrewingInfo.DeadLine>
           <Label>모집마감일</Label>
-          <Content>{data.deadLine}</Content>
+          <Content>{koTime(data.deadLine)}</Content>
         </CrewingInfo.DeadLine>
         <CrewingInfo.PersonnelStatus>
           <Label>모집인원</Label>
-          <Content>{`${data.currentPeople} / ${data.maxPeople}`}</Content>
+          <Content>{`${data.currentPeople} / ${
+            isUnlimited ? '무제한' : data.maxPeople
+          }`}</Content>
         </CrewingInfo.PersonnelStatus>
       </CrewingInfo.Container>
       <CrewingParticipationBtn
