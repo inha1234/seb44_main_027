@@ -1,7 +1,7 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const CommentContainer = styled.div`
-  width: 530px;
+  width: 100%;
   height: 1px;
   padding: 0px 10px 0px 20px;
   flex: 1 1 auto;

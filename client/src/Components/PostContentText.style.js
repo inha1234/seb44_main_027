@@ -1,11 +1,13 @@
 import { styled } from 'styled-components';
+import { Grayscale } from '../color';
 
 export const Text = styled.div`
+  flex-grow: 1;
   padding-right: 20px;
   font-size: 14px;
-  color: #000;
+  color: ${Grayscale[80]};
   line-height: 1.4;
-  font-weight: normal;
+  font-weight: 400;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 4px;

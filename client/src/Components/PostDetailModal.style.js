@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Modal = styled.section`
+  padding: 30px 0px;
   position: fixed;
   top: 0;
   left: 0;

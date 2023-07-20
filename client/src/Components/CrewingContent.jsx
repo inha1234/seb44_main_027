@@ -4,6 +4,7 @@ import {
   Label,
   Content,
   Container,
+  CrewingParticipation,
   CrewingParticipationBtn,
 } from './CrewingContent.style';
 import useUpdatePost from '../utils/hooks/useUpdatePost';
@@ -53,11 +54,11 @@ function CrewingContent({ data, type }) {
     <Container>
       <CrewingInfo.Container>
         <CrewingInfo.ActivityDate>
-          <Label>활동 날짜</Label>
+          <Label>활동날짜</Label>
           <Content>{koTime(data.activityDate)}</Content>
         </CrewingInfo.ActivityDate>
         <CrewingInfo.DeadLine>
-          <Label>모집마감일</Label>
+          <Label>모집마감</Label>
           <Content>{koTime(data.deadLine)}</Content>
         </CrewingInfo.DeadLine>
         <CrewingInfo.PersonnelStatus>
@@ -67,12 +68,14 @@ function CrewingContent({ data, type }) {
           }`}</Content>
         </CrewingInfo.PersonnelStatus>
       </CrewingInfo.Container>
-      <CrewingParticipationBtn
-        className={!!data.completed ? 'closed' : undefined}
-        onClick={handleClick}
-      >
-        {!!data.completed ? '모집 마감' : '참가 신청'}
-      </CrewingParticipationBtn>
+      <CrewingParticipation>
+        <CrewingParticipationBtn
+          className={!!data.completed ? 'closed' : undefined}
+          onClick={handleClick}
+        >
+          {!!data.completed ? '모집 마감' : '참가 신청'}
+        </CrewingParticipationBtn>
+      </CrewingParticipation>
     </Container>
   );
 }
