@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, Routes, Route, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
-  LinksContainer,
-  LinkItem,
+  TabContainer,
+  TabItem,
   ProfilePictureContainer,
   UserInfoContainer,
   UserProfileContainer,
@@ -26,25 +26,33 @@ import Nav from '../Components/Nav';
 import PortalModal from '../utils/PortalModal';
 import FollowList from '../Components/FollowList';
 import usePortalModal from '../utils/hooks/usePortalModal';
-import { SettingsMain, SettingsMainContainer } from './Settings.style';
 
 function MyPage() {
   const memberId = localStorage.getItem('memberId');
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
-    username: 'Username',
+    username: '_',
     totalPostCount: 0,
   });
   const [userFollowInfo, setUserFollowInfo] = useState({});
-  const [userFollowerList, setUserFollowerList] = useState(
-    new Array(5).fill({})
-  ); // Mockup data
-  const [userFollowingList, setUserFollowingList] = useState(
-    new Array(3).fill({})
-  ); // Mockup data
+  const [userFollowerList, setUserFollowerList] = useState([]);
+  const [userFollowingList, setUserFollowingList] = useState([]);
 
   const followerModal = usePortalModal();
   const followingModal = usePortalModal();
+
+  const [selectedTab, setSelectedTab] = useState('workout');
+  const selectTab = (tab) => {
+    setSelectedTab(tab);
+  };
+
+  const TabComponent = {
+    workout: WorkoutSubBoard,
+    diet: DietSubBoard,
+    crewing: CrewingSubBoard,
+  };
+
+  const SelectedTabComponent = TabComponent[selectedTab];
 
   useEffect(() => {
     axios
@@ -111,8 +119,8 @@ function MyPage() {
           <FollowList list={userFollowingList} />
         </PortalModal>
       )}
-      <SettingsMainContainer>
-        <SettingsMain>
+      <MainContainer>
+        <ProfilePageMain>
           <UserProfileContainer>
             <ProfilePictureContainer>
               <img
@@ -144,25 +152,29 @@ function MyPage() {
               </UserStatsContainer>
             </UserInfoContainer>
           </UserProfileContainer>
-          <LinksContainer>
-            <LinkItem to="/mypage/workout">운동</LinkItem>
-            <LinkItem to="/mypage/diet">식단</LinkItem>
-            <LinkItem to="/mypage/crewing">크루잉</LinkItem>
-          </LinksContainer>
-          <Routes>
-            <Route
-              path="workout"
-              element={<WorkoutSubBoard memberId={memberId} />}
-            />
-            <Route path="diet" element={<DietSubBoard memberId={memberId} />} />
-            <Route
-              path="crewing"
-              element={<CrewingSubBoard memberId={memberId} />}
-            />
-            <Route path="/" element={<Navigate to="workout" replace />} />
-          </Routes>
-        </SettingsMain>
-      </SettingsMainContainer>
+          <TabContainer>
+            <TabItem
+              onClick={() => selectTab('workout')}
+              isActive={selectedTab === 'workout'}
+            >
+              운동
+            </TabItem>
+            <TabItem
+              onClick={() => selectTab('diet')}
+              isActive={selectedTab === 'diet'}
+            >
+              식단
+            </TabItem>
+            <TabItem
+              onClick={() => selectTab('crewing')}
+              isActive={selectedTab === 'crewing'}
+            >
+              크루잉
+            </TabItem>
+          </TabContainer>
+          <SelectedTabComponent memberId={memberId} />
+        </ProfilePageMain>
+      </MainContainer>
     </>
   );
 }
