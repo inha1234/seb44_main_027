@@ -76,7 +76,7 @@ export const UserStatNumber = styled.section`
   width: 45px;
 `;
 
-export const LinksContainer = styled.section`
+export const TabContainer = styled.section`
   display: flex;
   width: 100%;
   justify-content: center;
@@ -84,7 +84,7 @@ export const LinksContainer = styled.section`
   margin: 30px 0;
 `;
 
-export const LinkItem = styled(NavLink)`
+export const TabItem = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,10 +93,15 @@ export const LinkItem = styled(NavLink)`
   color: #a8a8a8;
   text-decoration: none;
   font-size: 20px;
-  &.active {
+  cursor: pointer;
+
+  ${(props) =>
+    props.isActive &&
+    `
     font-weight: bold;
     pointer-events: none;
     color: black;
     border-bottom: 2px solid black;
-  }
+    cursor: default;
+  `}
 `;

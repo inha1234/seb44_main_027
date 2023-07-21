@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import {
-  LinksContainer,
-  LinkItem,
+  TabContainer,
+  TabItem,
   ProfilePictureContainer,
   UserInfoContainer,
   UserProfileContainer,
@@ -27,6 +27,7 @@ import useNotFoundPage from '../utils/hooks/useNotFoundPage';
 import PortalModal from '../utils/PortalModal';
 import FollowList from '../Components/FollowList';
 import usePortalModal from '../utils/hooks/usePortalModal';
+import CrewingTabContent from '../Components/CrewingTabContent';
 
 function UserProfile() {
   const navigate = useNavigate();
@@ -34,19 +35,28 @@ function UserProfile() {
   const { memberId: profileMemberId } = useParams();
   const [user, setUser] = useState({
     imageUrl: '/images/defaultprofile.png',
-    username: 'Username',
-    totalPostsCount: 10,
-  }); // Mockup data
+    username: '_',
+    totalPostsCount: 0,
+  });
   const [userFollowInfo, setUserFollowInfo] = useState({});
-  const [userFollowerList, setUserFollowerList] = useState(
-    new Array(5).fill({})
-  ); // Mockup data
-  const [userFollowingList, setUserFollowingList] = useState(
-    new Array(3).fill({})
-  ); // Mockup data
+  const [userFollowerList, setUserFollowerList] = useState([]);
+  const [userFollowingList, setUserFollowingList] = useState([]);
 
   const followerModal = usePortalModal();
   const followingModal = usePortalModal();
+
+  const [selectedTab, setSelectedTab] = useState('workout');
+  const selectTab = (tab) => {
+    setSelectedTab(tab);
+  };
+
+  const TabComponent = {
+    workout: WorkoutSubBoard,
+    diet: DietSubBoard,
+    crewing: (props) => <CrewingTabContent {...props} category="crewing" />,
+  };
+
+  const SelectedTabComponent = TabComponent[selectedTab];
 
   const { notFound, NotFoundPage, handleNotFoundErrors } = useNotFoundPage();
 
@@ -169,26 +179,27 @@ function UserProfile() {
               </UserStatsContainer>
             </UserInfoContainer>
           </UserProfileContainer>
-          <LinksContainer>
-            <LinkItem to="workout">운동</LinkItem>
-            <LinkItem to="diet">식단</LinkItem>
-            <LinkItem to="crewing">크루잉</LinkItem>
-          </LinksContainer>
-          <Routes>
-            <Route
-              path="workout"
-              element={<WorkoutSubBoard memberId={profileMemberId} />}
-            />
-            <Route
-              path="diet"
-              element={<DietSubBoard memberId={profileMemberId} />}
-            />
-            <Route
-              path="crewing"
-              element={<CrewingSubBoard memberId={profileMemberId} />}
-            />
-            <Route path="/" element={<Navigate to="workout" replace />} />
-          </Routes>
+          <TabContainer>
+            <TabItem
+              onClick={() => selectTab('workout')}
+              isActive={selectedTab === 'workout'}
+            >
+              운동
+            </TabItem>
+            <TabItem
+              onClick={() => selectTab('diet')}
+              isActive={selectedTab === 'diet'}
+            >
+              식단
+            </TabItem>
+            <TabItem
+              onClick={() => selectTab('crewing')}
+              isActive={selectedTab === 'crewing'}
+            >
+              크루잉
+            </TabItem>
+          </TabContainer>
+          <SelectedTabComponent memberId={profileMemberId} />
         </ProfilePageMain>
       </MainContainer>
     </>

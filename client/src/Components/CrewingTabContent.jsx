@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import Carditem from '../Components/Carditem';
-import { CardList } from '../Components/ShareBoard.style';
+import CrewingCardItem from '../Components/CrewingCardItem';
+import { CardList } from '../Components/CrewingBoard.style';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
 import Loding from '../Components/Loding';
-import PostEmptyListIndicator from '../Components/PostEmptyListIndicator';
+import CrewingEmptyListIndicator from './CrewingEmptyListIndicator';
 
-function DietSubBoard({ memberId }) {
+function CrewingTabContent({ memberId, category }) {
   // get 요청 url
   const url = `${import.meta.env.VITE_API_URL}/members/getMyPosts/${memberId}`;
 
@@ -14,15 +14,21 @@ function DietSubBoard({ memberId }) {
   const [page, setPage] = useState(0); // page 상태에 따라 api 요청에 lastPostId params를 추가 (page가 1일 경우 lastPostId 쿼리 없이 데이터 요청, 1일 아닐 경우 lastPostId 쿼리를 추가하여 데이터 요청)
   const [ref, inView, getData, isLoadEnd] = useInfiniteScroll({
     url,
-    category: 'diet',
+    category,
     data,
     setData,
     page,
   });
 
+  // 카테고리가 바뀔 때마다 데이터를 재요청
   useEffect(() => {
-    if (inView) {
-      getData();
+    setData([]); // 데이터 초기화
+    setPage(0); // 페이지 초기화
+    getData(); // 데이터 재요청
+  }, [category]);
+
+  useEffect(() => {
+    if (inView && !isLoadEnd) {
       setPage(page + 1);
     }
   }, [inView]);
@@ -30,11 +36,11 @@ function DietSubBoard({ memberId }) {
   return (
     <>
       {data.length === 0 ? (
-        <PostEmptyListIndicator />
+        <CrewingEmptyListIndicator />
       ) : (
         <CardList>
           {data.map((item) => (
-            <Carditem item={item} key={item.postId} />
+            <CrewingCardItem item={item} key={item.postId} />
           ))}
         </CardList>
       )}
@@ -47,4 +53,4 @@ function DietSubBoard({ memberId }) {
   );
 }
 
-export default DietSubBoard;
+export default CrewingTabContent;

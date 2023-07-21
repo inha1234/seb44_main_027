@@ -3,6 +3,7 @@ import Carditem from '../Components/Carditem';
 import { CardList } from '../Components/ShareBoard.style';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
 import Loding from '../Components/Loding';
+import PostEmptyListIndicator from '../Components/PostEmptyListIndicator';
 
 function WorkoutSubBoard({ memberId }) {
   // get 요청 url
@@ -28,9 +29,15 @@ function WorkoutSubBoard({ memberId }) {
 
   return (
     <>
-      <CardList>
-        {data && data.map((item) => <Carditem item={item} key={item.postId} />)}
-      </CardList>
+      {data.length === 0 ? (
+        <PostEmptyListIndicator />
+      ) : (
+        <CardList>
+          {data.map((item) => (
+            <Carditem item={item} key={item.postId} />
+          ))}
+        </CardList>
+      )}
       {isLoadEnd ? undefined : (
         <div ref={ref}>
           <Loding />
