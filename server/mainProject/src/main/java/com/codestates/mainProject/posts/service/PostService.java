@@ -67,7 +67,7 @@ public class PostService {
         Optional.ofNullable(post.getContent())
                 .ifPresent(content -> findPost.setContent(content));
         Optional.ofNullable(post.getCategory())
-                .ifPresent(category -> findPost.setTitle(category));
+                .ifPresent(category -> findPost.setCategory(category));
         Optional.ofNullable(post.getImageUrl())
                 .ifPresent(imageUrl -> findPost.setImageUrl(imageUrl));
         return postRepository.save(findPost);
