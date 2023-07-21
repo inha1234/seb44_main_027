@@ -30,7 +30,7 @@ function PostDetailModal({ postId, type, setIsModal }) {
         )}
       </div>
       {/* 함수형 컴포넌트에서는 useRef를 사용할 수 없기때문에 useRef를 사용하기 위해 생성한 div 태그 */}
-      <CloseBtn icon={closeIcon} onClick={closeModal} />
+      <CloseBtn icon={closeIcon} />
     </Modal>
   );
 }

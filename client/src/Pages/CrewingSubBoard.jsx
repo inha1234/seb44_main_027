@@ -1,41 +1,31 @@
-import { useEffect, useState } from 'react';
-import CrewingCardItem from '../Components/CrewingCardItem';
-import { CardList } from '../Components/ShareBoard.style';
-import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
-import Loding from '../Components/Loding';
+import { useState } from 'react';
+import CrewingTabContent from '../Components/CrewingTabContent';
+import { TabList, Tab } from './CrewingSubBoard.style';
 
 function CrewingSubBoard({ memberId }) {
-  // get 요청 url
-  const url = `${import.meta.env.VITE_API_URL}/members/getMyPosts/${memberId}`;
+  // 탭 상태 (기본값 'crewing')
+  const [tab, setTab] = useState('crewing');
 
-  // 무한스크롤 API
-  const [data, setData] = useState([]); // getData 함수를 통해 받아온 데이터의 상태 (Carditem에 전달 될 데이터)
-  const [page, setPage] = useState(0); // page 상태에 따라 api 요청에 lastPostId params를 추가 (page가 1일 경우 lastPostId 쿼리 없이 데이터 요청, 1일 아닐 경우 lastPostId 쿼리를 추가하여 데이터 요청)
-  const [ref, inView, getData, isLoadEnd] = useInfiniteScroll({
-    url,
-    category: 'crewing',
-    data,
-    setData,
-    page,
-  });
-
-  useEffect(() => {
-    if (inView) {
-      getData();
-      setPage(page + 1);
-    }
-  }, [inView]);
+  // 탭 변경 함수
+  const changeTab = (newTab) => {
+    setTab(newTab);
+    window.scrollTo(0, 0); // 스크롤 위치 초기화
+  };
 
   return (
     <>
-      <CardList>
-        {data &&
-          data.map((item) => <CrewingCardItem item={item} key={item.postId} />)}
-      </CardList>
-      {isLoadEnd ? undefined : (
-        <div ref={ref}>
-          <Loding />
-        </div>
+      <TabList>
+        <Tab onClick={() => changeTab('crewing')} isActive={tab === 'crewing'}>
+          내가 모집한 크루잉
+        </Tab>
+        <Tab onClick={() => changeTab('apply')} isActive={tab === 'apply'}>
+          내가 참여한 크루잉
+        </Tab>
+      </TabList>
+      {tab === 'crewing' ? (
+        <CrewingTabContent memberId={memberId} category={tab} />
+      ) : (
+        <CrewingTabContent memberId={memberId} category={tab} />
       )}
     </>
   );
