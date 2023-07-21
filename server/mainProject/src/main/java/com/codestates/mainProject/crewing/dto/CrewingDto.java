@@ -1,6 +1,7 @@
 package com.codestates.mainProject.crewing.dto;
 
 import com.codestates.mainProject.comment.dto.CommentDto;
+import com.codestates.mainProject.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -89,7 +90,8 @@ public class CrewingDto {
         private LocalDateTime modifiedAt;
 
         private List<CommentDto.Response> comments;
-        private List<CrewingDto.Members> members;
+
+        private List<CrewingMemberDto.Response> crewingMembers;
     }
     @Getter
     @Setter
@@ -98,5 +100,12 @@ public class CrewingDto {
     public static class Members {
         private String userName;
         private String imageUrl;
+        private long memberId;
+
+        public void setMember(Member member) {
+            this.userName = member.getUserName();
+            this.imageUrl = member.getImageUrl();
+            this.memberId = member.getMemberId();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.codestates.mainProject.member.service;
 
+import com.codestates.mainProject.authority.service.AuthService;
 import com.codestates.mainProject.authority.util.AuthorityUtil;
 import com.codestates.mainProject.crewing.repository.CrewingRepository;
 import com.codestates.mainProject.crewing.service.CrewingService;
@@ -12,13 +13,18 @@ import com.codestates.mainProject.exception.BusinessLogicException;
 import com.codestates.mainProject.exception.ExceptionCode;
 import com.codestates.mainProject.posts.repository.PostRepository;
 import com.codestates.mainProject.posts.service.PostService;
+import com.codestates.mainProject.utils.redis.service.RedisService;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -31,15 +37,19 @@ public class MemberService {
     private final AuthorityUtil authorityUtil;
     private final PostService postService;
     private final CrewingService crewingService;
+    private final AuthService authService;
+    private final RedisService redisService;
     private final String FIND_EMAIL_KEY = "email";
     private final String FIND_USER_NAME_KEY = "userName";
     private final String FIND_DIET_KEY = "diet";
     private final String FIND_WORKOUT_KEY = "workOut";
     private final String FIND_CREWING_KEY = "crewing";
+    private final String FIND_CREWING_APPLY_KEY = "apply";
 
     public MemberService(MemberRepository memberRepository, PostRepository postRepository, CrewingRepository crewingRepository,
                          MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil,
-                         PostService postService, CrewingService crewingService) {
+                         PostService postService, CrewingService crewingService, AuthService authService,
+                         RedisService redisService) {
         this.memberRepository = memberRepository;
         this.postRepository = postRepository;
         this.crewingRepository = crewingRepository;
@@ -48,6 +58,8 @@ public class MemberService {
         this.authorityUtil = authorityUtil;
         this.postService = postService;
         this.crewingService = crewingService;
+        this.authService = authService;
+        this.redisService = redisService;
     }
 
     public void createMember(MemberDto.Post post){
@@ -121,20 +133,6 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
         }
     }
-
-    public MultiResponseDto findPosts(long memberId, String category, int page, int size, Long lastPostId){
-        Member member = findMember(memberId);
-        if(category.equals(FIND_DIET_KEY)||category.equals(FIND_WORKOUT_KEY)){
-            MultiResponseDto responses = postService.getMyPosts(member, category, page, size, lastPostId);
-            return responses;
-        } else if(category.equals(FIND_CREWING_KEY)){
-            MultiResponseDto responses = crewingService.getMyCrewings(member, page, size, lastPostId);
-            return responses;
-        } else {
-            throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
-        }
-    }
-
     private void findExist(String exist, String findExist){
         if(findExist.equals(FIND_EMAIL_KEY)){
             if(memberRepository.findByEmail(exist).isPresent()){
@@ -146,7 +144,30 @@ public class MemberService {
             }
         }
     }
-
+    public void memberLogOut(HttpServletRequest request){
+        String authentication = request.getHeader("Authorization").replace("Bearer ","");
+        Claims claims = authService.parserToken(authentication);
+        Date expiration = claims.getExpiration();
+        Date now = new Date();
+        long diffInMillies = expiration.getTime() - now.getTime();
+        int diffInMinutesInt = (int) TimeUnit.MILLISECONDS.toMinutes(diffInMillies);
+        redisService.redisLogOut(authentication, diffInMinutesInt, claims.getSubject());
+    }
+    public MultiResponseDto findPosts(long memberId, String category, int page, int size, Long lastPostId){
+        Member member = findMember(memberId);
+        if(category.equals(FIND_DIET_KEY)||category.equals(FIND_WORKOUT_KEY)){
+            MultiResponseDto responses = postService.getMyPosts(member, category, page, size, lastPostId);
+            return responses;
+        } else if(category.equals(FIND_CREWING_KEY)){
+            MultiResponseDto responses = crewingService.getMyCrewings(member, page, size, lastPostId);
+            return responses;
+        } else if(category.equals(FIND_CREWING_APPLY_KEY)){
+            MultiResponseDto response = crewingService.getMyApply(member, page, size, lastPostId);
+            return response;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
+        }
+    }
     private Member findMember(Long memberId){
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));

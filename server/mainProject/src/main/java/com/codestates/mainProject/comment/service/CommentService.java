@@ -9,6 +9,7 @@ import com.codestates.mainProject.exception.ExceptionCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -22,12 +23,16 @@ public class CommentService {
         this.memberRepository = memberRepository;
     }
 
-    public Comment createComment(Comment comment) {
+    public Comment createComment(@RequestBody Comment comment) {
         String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Optional<Member> verifiedMember = memberRepository.findByEmail(principal);
 
         Member member = verifiedMember.
                 orElseThrow(() -> new BusinessLogicException(ExceptionCode.NO_PERMISSION));
+
+        if (comment.getMember().getMemberId() != member.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+        }
 
         comment.setMember(member);
 

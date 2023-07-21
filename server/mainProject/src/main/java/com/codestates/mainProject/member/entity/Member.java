@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "members")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor

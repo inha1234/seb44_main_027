@@ -19,7 +19,10 @@ public enum ExceptionCode {
     NOT_PASSWORD_MATCH(400, "password does not match"),
     CREWING_IS_CLOSED(403, "the crewing is closed"),
     CREWING_IS_MAX(403,"Crewing has reached its maximum limit"),
-    CATEGORY_NOT_FOUND(404, "category not found");
+    CATEGORY_NOT_FOUND(404, "category not found"),
+    TOKEN_HAS_EXPIRED(401,"The token has expired"),
+    CREWING_OWN_APPLY(403,"You cannot apply to your own crewing"),
+    CREWING_DEADLINE(403, "The application deadline has passed");
 
 
     @Getter

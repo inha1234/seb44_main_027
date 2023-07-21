@@ -1,7 +1,9 @@
 package com.codestates.mainProject.crewing.mapper;
 
 import com.codestates.mainProject.crewing.dto.CrewingDto;
+import com.codestates.mainProject.crewing.dto.CrewingMemberDto;
 import com.codestates.mainProject.crewing.entity.Crewing;
+import com.codestates.mainProject.crewing.entity.CrewingMembers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -25,5 +27,13 @@ public interface CrewingMapper {
         return crewings.stream()
                 .map(this::crewingToCrewingResponse)
                 .collect(Collectors.toList());
+    }
+
+    default CrewingMemberDto.Response crewingMembersToCrewingMembersResponse(CrewingMembers crewingMembers) {
+        CrewingMemberDto.Response response = new CrewingMemberDto.Response();
+
+        response.setMember(crewingMembers.getMember());
+
+        return response;
     }
 }

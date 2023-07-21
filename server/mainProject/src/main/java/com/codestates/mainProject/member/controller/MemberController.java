@@ -74,7 +74,8 @@ public class MemberController {
     }
     @PostMapping("/logOut")
     public ResponseEntity memberLogOut(HttpServletRequest request){
-        redisService.setBackList(request.getHeader("Authorization").replace("Bearer ", ""),"로그아웃", 30);
+        memberService.memberLogOut(request);
+//        redisService.setBackList(request.getHeader("Authorization").replace("Bearer ", ""),"로그아웃", 30);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.codestates.mainProject.authority.jwt;
 
 import com.codestates.mainProject.authority.loginDto.LoginDto;
 import com.codestates.mainProject.member.entity.Member;
+import com.codestates.mainProject.utils.redis.service.RedisService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +22,16 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
+    private final RedisService redisService;
+    private final JwtTokenGenerator jwtTokenGenerator;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer, RedisService redisService, JwtTokenGenerator jwtTokenGenerator) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
+        this.redisService = redisService;
+        this.jwtTokenGenerator = jwtTokenGenerator;
     }
+
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response){
@@ -45,11 +51,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                          Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
-        String accessToken = delegateAccessToken(member);
-        String refreshToken = delegateRefreshToken(member);
+        String accessToken = jwtTokenGenerator.delegateAccessToken(member);
+        String refreshToken = jwtTokenGenerator.delegateRefreshToken(member);
+//        String accessToken = delegateAccessToken(member);
+//        String refreshToken = delegateRefreshToken(member);
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+
+        redisService.setRefreshToken(member.getEmail(), refreshToken, 90);
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
