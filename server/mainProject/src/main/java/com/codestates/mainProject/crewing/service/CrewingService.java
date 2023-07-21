@@ -208,7 +208,7 @@ public class CrewingService {
         return new MultiResponseDto(responseDto,pageInfo);
     }
     public MultiResponseDto getMyApply(Member member, int page, int size, Long lastPostId){
-        Pageable pageRequest = PageRequest.of(page-1, size, Sort.by("createdAt").descending());
+        Pageable pageRequest = PageRequest.of(page-1, size, Sort.by("id.crewingId").descending());
         Page<CrewingMembers> findCrewings;
         if(lastPostId == null){
             findCrewings = crewingMembersRepository.findByMember(member,pageRequest);
