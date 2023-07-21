@@ -29,7 +29,7 @@ function WorkoutSubBoard({ memberId }) {
 
   return (
     <>
-      {data.length === 0 ? (
+      {isLoadEnd && data.length === 0 ? (
         <PostEmptyListIndicator />
       ) : (
         <CardList>

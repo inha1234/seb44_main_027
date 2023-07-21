@@ -3,7 +3,7 @@ import CrewingCardItem from '../Components/CrewingCardItem';
 import { CardList } from '../Components/CrewingBoard.style';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
 import Loding from '../Components/Loding';
-import CrewingEmptyListIndicator from './CrewingEmptyListIndicator';
+import PostEmptyListIndicator from './PostEmptyListIndicator';
 
 function CrewingApplyTabContent({ memberId }) {
   // get 요청 url
@@ -36,7 +36,7 @@ function CrewingApplyTabContent({ memberId }) {
   return (
     <>
       {isLoadEnd && data.length === 0 ? (
-        <CrewingEmptyListIndicator />
+        <PostEmptyListIndicator />
       ) : (
         <CardList>
           {data.map((item) => (
