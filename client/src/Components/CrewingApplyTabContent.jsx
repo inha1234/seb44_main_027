@@ -5,7 +5,7 @@ import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
 import Loding from '../Components/Loding';
 import CrewingEmptyListIndicator from './CrewingEmptyListIndicator';
 
-function CrewingTabContent({ memberId }) {
+function CrewingApplyTabContent({ memberId }) {
   // get 요청 url
   const url = `${import.meta.env.VITE_API_URL}/members/getMyPosts/${memberId}`;
 
@@ -14,7 +14,7 @@ function CrewingTabContent({ memberId }) {
   const [page, setPage] = useState(0); // page 상태에 따라 api 요청에 lastPostId params를 추가 (page가 1일 경우 lastPostId 쿼리 없이 데이터 요청, 1일 아닐 경우 lastPostId 쿼리를 추가하여 데이터 요청)
   const [ref, inView, getData, isLoadEnd] = useInfiniteScroll({
     url,
-    category: 'crewing',
+    category: 'apply',
     data,
     setData,
     page,
@@ -53,4 +53,4 @@ function CrewingTabContent({ memberId }) {
   );
 }
 
-export default CrewingTabContent;
+export default CrewingApplyTabContent;

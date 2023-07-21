@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CrewingTabContent from '../Components/CrewingTabContent';
 import { TabList, Tab } from './CrewingSubBoard.style';
+import CrewingApplyTabContent from '../Components/CrewingApplyTabContent';
 
 function CrewingSubBoard({ memberId }) {
   // 탭 상태 (기본값 'crewing')
@@ -23,9 +24,9 @@ function CrewingSubBoard({ memberId }) {
         </Tab>
       </TabList>
       {tab === 'crewing' ? (
-        <CrewingTabContent memberId={memberId} category={tab} />
+        <CrewingTabContent memberId={memberId} />
       ) : (
-        <CrewingTabContent memberId={memberId} category={tab} />
+        <CrewingApplyTabContent memberId={memberId} />
       )}
     </>
   );
