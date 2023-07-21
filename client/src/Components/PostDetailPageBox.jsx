@@ -42,7 +42,11 @@ function PostDetailPageBox({ postId, type }) {
         },
       })
       .then((response) => {
-        dispatch(postDataSlice.actions.update(response.data));
+        if (type === 'crewing') {
+          dispatch(postDataSlice.actions.update(response.data));
+        } else {
+          dispatch(postDataSlice.actions.update(response.data.data));
+        }
         setIsLoading(false);
       })
       .catch((error) => {
