@@ -23,11 +23,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
     private final RedisService redisService;
+    private final JwtTokenGenerator jwtTokenGenerator;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer, RedisService redisService) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer, RedisService redisService, JwtTokenGenerator jwtTokenGenerator) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
         this.redisService = redisService;
+        this.jwtTokenGenerator = jwtTokenGenerator;
     }
 
     @SneakyThrows
@@ -49,8 +51,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                          Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
-        String accessToken = delegateAccessToken(member);
-        String refreshToken = delegateRefreshToken(member);
+        String accessToken = jwtTokenGenerator.delegateAccessToken(member);
+        String refreshToken = jwtTokenGenerator.delegateRefreshToken(member);
+//        String accessToken = delegateAccessToken(member);
+//        String refreshToken = delegateRefreshToken(member);
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
