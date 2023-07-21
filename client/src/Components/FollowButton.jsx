@@ -11,7 +11,7 @@ function FollowButton({ profileUserId, updateFollowerList }) {
 
   useEffect(() => {
     checkFollowing();
-  }, [loggedInUserId]);
+  }, [loggedInUserId, profileUserId]);
 
   const checkFollowing = () => {
     axios
@@ -22,9 +22,11 @@ function FollowButton({ profileUserId, updateFollowerList }) {
       })
       .then((response) => {
         const followers = response.data;
+        console.log(response.data);
         const isUserFollowing = followers.some(
           (follower) => follower.memberId === loggedInUserId
         );
+        console.log(isUserFollowing);
         setIsFollowing(isUserFollowing);
       })
       .catch((error) => {
