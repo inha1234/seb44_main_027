@@ -44,6 +44,7 @@ public class MemberService {
     private final String FIND_DIET_KEY = "diet";
     private final String FIND_WORKOUT_KEY = "workOut";
     private final String FIND_CREWING_KEY = "crewing";
+    private final String FIND_CREWING_APPLY_KEY = "apply";
 
     public MemberService(MemberRepository memberRepository, PostRepository postRepository, CrewingRepository crewingRepository,
                          MemberMapper memberMapper, PasswordEncoder passwordEncoder, AuthorityUtil authorityUtil,
@@ -160,6 +161,9 @@ public class MemberService {
         } else if(category.equals(FIND_CREWING_KEY)){
             MultiResponseDto responses = crewingService.getMyCrewings(member, page, size, lastPostId);
             return responses;
+        } else if(category.equals(FIND_CREWING_APPLY_KEY)){
+            MultiResponseDto response = crewingService.getMyApply(member, page, size, lastPostId);
+            return response;
         } else {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND);
         }

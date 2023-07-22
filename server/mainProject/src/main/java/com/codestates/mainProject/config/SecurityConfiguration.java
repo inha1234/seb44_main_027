@@ -4,9 +4,8 @@ import com.codestates.mainProject.authority.handler.MemberAccessDeniedHandler;
 import com.codestates.mainProject.authority.handler.MemberAuthenticationEntryPoint;
 import com.codestates.mainProject.authority.handler.MemberAuthenticationFailureHandler;
 import com.codestates.mainProject.authority.handler.MemberAuthenticationSuccessHandler;
-import com.codestates.mainProject.authority.jwt.JwtAuthenticationFilter;
-import com.codestates.mainProject.authority.jwt.JwtTokenizer;
-import com.codestates.mainProject.authority.jwt.JwtVerificationFilter;
+import com.codestates.mainProject.authority.jwt.*;
+import com.codestates.mainProject.authority.service.AuthService;
 import com.codestates.mainProject.authority.util.AuthorityUtil;
 import com.codestates.mainProject.member.repository.MemberRepository;
 import com.codestates.mainProject.utils.redis.service.RedisService;
@@ -34,12 +33,17 @@ public class SecurityConfiguration{
     private final AuthorityUtil authorityUtil;
     private final RedisService redisService;
     private final MemberRepository memberRepository;
+    private final JwtTokenGenerator jwtTokenGenerator;
+    private final AuthService authService;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService, MemberRepository memberRepository) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, AuthorityUtil authorityUtil, RedisService redisService,
+                                 MemberRepository memberRepository, JwtTokenGenerator jwtTokenGenerator, AuthService authService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtil = authorityUtil;
         this.redisService = redisService;
         this.memberRepository = memberRepository;
+        this.jwtTokenGenerator = jwtTokenGenerator;
+        this.authService = authService;
     }
 
     @Bean
@@ -63,9 +67,13 @@ public class SecurityConfiguration{
                        .antMatchers(HttpMethod.POST, "/members").permitAll()
                        .antMatchers(HttpMethod.POST, "/authentication").hasRole("USER")
                        .antMatchers(HttpMethod.POST, "/members/logOut").hasRole("USER")
-                       .antMatchers(HttpMethod.PUT, "/members/**").hasRole("USER")
-//                       .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
-                       .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
+                       .antMatchers(HttpMethod.POST,"/posts").hasRole("USER")
+                       .antMatchers(HttpMethod.POST,"/follows").hasRole("USER")
+                       .antMatchers(HttpMethod.POST,"/crewings").hasRole("USER")
+                       .antMatchers(HttpMethod.POST,"/crewings/apply/**").hasRole("USER")
+                       .antMatchers(HttpMethod.POST,"/comments").hasRole("USER")
+                       .antMatchers(HttpMethod.PUT, "/**").hasRole("USER")
+                       .antMatchers(HttpMethod.DELETE, "/**").hasRole("USER")
                        .anyRequest().permitAll()
                );
 
@@ -92,7 +100,7 @@ public class SecurityConfiguration{
         public void configure(HttpSecurity builder) throws Exception{
            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-           JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisService);
+           JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisService, jwtTokenGenerator);
            jwtAuthenticationFilter.setFilterProcessesUrl("/members/login");
            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
