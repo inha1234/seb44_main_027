@@ -47,6 +47,7 @@ export const useApi = () => {
               navigate('/login');
             } else {
               alert('오류가 발생했습니다. 다시 로그인해주세요.');
+              localStorage.clear();
               navigate('/login');
             }
           });
