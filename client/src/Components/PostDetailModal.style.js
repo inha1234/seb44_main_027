@@ -6,6 +6,7 @@ export const Modal = styled.section`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 10;
   width: 100%;
   height: 100%;
   padding: 0 100px;
