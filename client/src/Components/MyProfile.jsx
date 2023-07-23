@@ -9,6 +9,7 @@ import {
   UserStatsNumber,
   UserStatsTitle,
   UsernameContainer,
+  UserEmailContainer,
 } from './MyProfile.style';
 
 import PortalModal from '../utils/PortalModal';
@@ -34,7 +35,6 @@ function MyProfile() {
       .get(`${import.meta.env.VITE_API_URL}/members/${memberId}`)
       .then((res) => {
         setUser(res.data);
-        console.log(user);
       })
       .catch((error) => console.log(error));
 
@@ -46,7 +46,6 @@ function MyProfile() {
       })
       .then((res) => {
         setUserFollowInfo(res.data);
-        console.log(userFollowInfo);
       })
       .catch((error) => console.log(error));
 
@@ -58,7 +57,6 @@ function MyProfile() {
       })
       .then((res) => {
         setUserFollowerList(res.data);
-        console.log(userFollowerList);
       })
       .catch((error) => console.log(error));
 
@@ -70,7 +68,6 @@ function MyProfile() {
       })
       .then((res) => {
         setUserFollowingList(res.data);
-        console.log(userFollowingList);
       })
       .catch((error) => console.log(error));
   }, [memberId]);
@@ -101,6 +98,7 @@ function MyProfile() {
         />
       </ProfileImageContainer>
       <UsernameContainer>{user.userName}</UsernameContainer>
+      <UserEmailContainer>{user.email}</UserEmailContainer>
       <UserStatsContainer>
         <UserStatsItem>
           <UserStatsTitle>게시글</UserStatsTitle>
