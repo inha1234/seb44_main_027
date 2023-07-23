@@ -3,9 +3,9 @@ import CrewingCardItem from '../Components/CrewingCardItem';
 import { CardList } from '../Components/CrewingBoard.style';
 import useInfiniteScroll from '../utils/hooks/useInfiniteScroll.js';
 import Loding from '../Components/Loding';
-import CrewingEmptyListIndicator from './CrewingEmptyListIndicator';
+import PostEmptyListIndicator from './PostEmptyListIndicator';
 
-function CrewingTabContent({ memberId, category }) {
+function CrewingTabContent({ memberId }) {
   // get 요청 url
   const url = `${import.meta.env.VITE_API_URL}/members/getMyPosts/${memberId}`;
 
@@ -14,7 +14,7 @@ function CrewingTabContent({ memberId, category }) {
   const [page, setPage] = useState(0); // page 상태에 따라 api 요청에 lastPostId params를 추가 (page가 1일 경우 lastPostId 쿼리 없이 데이터 요청, 1일 아닐 경우 lastPostId 쿼리를 추가하여 데이터 요청)
   const [ref, inView, getData, isLoadEnd] = useInfiniteScroll({
     url,
-    category,
+    category: 'crewing',
     data,
     setData,
     page,
@@ -25,7 +25,7 @@ function CrewingTabContent({ memberId, category }) {
     setData([]); // 데이터 초기화
     setPage(0); // 페이지 초기화
     getData(); // 데이터 재요청
-  }, [category]);
+  }, []);
 
   useEffect(() => {
     if (inView && !isLoadEnd) {
@@ -35,8 +35,8 @@ function CrewingTabContent({ memberId, category }) {
 
   return (
     <>
-      {data.length === 0 ? (
-        <CrewingEmptyListIndicator />
+      {isLoadEnd && data.length === 0 ? (
+        <PostEmptyListIndicator />
       ) : (
         <CardList>
           {data.map((item) => (
