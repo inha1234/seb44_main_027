@@ -1,28 +1,30 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Grayscale, Red, Color } from '../color';
 
 export const BoardBox = styled.main`
   box-sizing: border-box;
   width: 704px;
   height: auto;
   background-color: #fff;
-  padding: 24px 96px;
+  padding: 0px 112px;
 `;
 
 export const Title = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 84px;
-  padding: 0 16px;
+  height: 106px;
+  padding: 0 4px 24px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  border-bottom: 1px solid #e6e6e6;
-  margin-bottom: 18px;
+  border-bottom: 1px solid ${Grayscale[20]};
+  margin-bottom: 56px;
 
   > h1 {
-    font-size: 20px;
-    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    color: ${Grayscale[80]};
   }
 `;
 
@@ -33,12 +35,16 @@ export const CardList = styled.section`
 `;
 
 export const Btn = styled(Link)`
-  border-radius: 8px;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  background-color: #1a1a1a;
-  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${Color.Primary};
   text-decoration: none;
   cursor: pointer;
+  margin-bottom: 4px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    margin-bottom: 6px;
+    font-weight: 800;
+  }
 `;

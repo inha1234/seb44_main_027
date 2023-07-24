@@ -12,11 +12,16 @@ export const NavContainer = styled.nav`
   position: fixed;
   padding: 36px 24px 0px 24px;
   border-right: 1px solid ${Grayscale[20]};
+  transition: all 1s ease-in-out;
+
+  @media (max-width: 1200px) {
+    width: 244px;
+  }
 `;
 
 export const NavLogoContainer = styled.section`
-  min-width: 292px;
-  min-height: 72px;
+  width: 100%;
+  height: 72px;
   display: flex;
   align-items: center;
 `;
@@ -37,6 +42,7 @@ export const NavMenuIcon = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 24px;
+  transition: font-size 0.2s ease-in-out;
 `;
 
 export const NavMenuName = styled.section`
@@ -59,6 +65,9 @@ export const NavMenuItem = styled(NavLink)`
   text-decoration: none;
   &:hover {
     background-color: ${Grayscale[20]};
+    ${NavMenuIcon} {
+      font-size: 26px;
+    }
   }
 
   // NavLink 컴포넌트는 to prop과 현재 페이지의 경로인 location.pathname을 비교하여 자동으로 활성화 상태를 감지하고 active 클래스를 설정해줍니다.
@@ -89,6 +98,7 @@ export const CreateButtonIcon = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 30px;
+  transition: font-size 0.2s ease-in-out;
 `;
 
 export const CreateButton = styled(NavLink)`
@@ -103,8 +113,13 @@ export const CreateButton = styled(NavLink)`
 
   margin: 4px 0px 20px;
   text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+
   &:hover {
-    background-color: ${Grayscale[20]};
+    background-color: ${Color.Primary2};
+    ${CreateButtonIcon} {
+      font-size: 34px;
+    }
   }
 `;
 
@@ -122,9 +137,9 @@ export const LogoutButton = styled.button`
   align-items: center;
   font-size: 14px;
   font-weight: 400;
-  width: 100%;
+  width: 100px;
   height: 56px;
-  background-color: white;
+  background-color: ${Grayscale.White};
   color: ${Grayscale[40]};
   margin-top: auto;
   margin-bottom: 16px;
@@ -132,7 +147,6 @@ export const LogoutButton = styled.button`
   padding: 16px;
   cursor: pointer;
   &:hover {
-    background-color: ${Grayscale[20]};
     color: ${Red[10]};
   }
 `;

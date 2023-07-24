@@ -6,6 +6,9 @@ export const Main = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 1200px) {
+    margin-left: 224px;
+  }
 `;
 
 export const Container = styled.div`

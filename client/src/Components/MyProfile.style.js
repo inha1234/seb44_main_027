@@ -1,16 +1,21 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Grayscale, Color, Red } from '../color';
 
 export const MyProfileContainer = styled.section`
-  width: 320px;
-  height: 420px;
+  width: 100%;
+  max-width: 300px;
+  min-width: 260px;
   display: flex;
+  align-self: flex-start;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #e6e6e6;
-  border-radius: 6px;
-  margin-top: 24px;
+  border: 1px solid ${Grayscale[20]};
+  border-radius: 12px;
+  margin-top: 36px;
+
+  overflow: hidden;
 `;
 
 export const ProfileImageContainer = styled.section`
@@ -20,21 +25,29 @@ export const ProfileImageContainer = styled.section`
   border: none;
   object-fit: cover;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  margin-top: 40px;
 `;
 
 export const UsernameContainer = styled.section`
   font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 50px;
-  min-height: 21px;
+  font-weight: 800;
+  color: ${Grayscale[80]};
+  margin-top: 8px;
+`;
+export const UserEmailContainer = styled.section`
+  font-size: 14px;
+  font-weight: 400;
+  color: ${Grayscale[60]};
+  margin-top: 6px;
 `;
 
 export const UserStatsContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 60px;
+  margin-top: 46px;
+  margin-bottom: 44px;
 `;
 
 export const UserStatsItem = styled.section`
@@ -42,33 +55,40 @@ export const UserStatsItem = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 72px;
-  margin: 8px;
+  width: 74px;
   min-height: 47px;
   cursor: default;
 `;
 
 export const UserStatsTitle = styled.section`
-  font-size: 14px;
-  color: #999999;
+  font-size: 10px;
+  color: ${Grayscale[60]};
   margin-bottom: 6px;
 `;
 
 export const UserStatsNumber = styled.section`
+  margin-top: 10px;
   font-size: 20px;
   font-weight: bold;
 `;
 
 export const MyPageButton = styled(Link)`
-  width: 220px;
+  width: 100%;
+  height: 56px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
-  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${Grayscale[60]};
   text-decoration: none;
-  padding: 16px;
+  border-top: 1px solid ${Grayscale[20]};
+  transition: color 0.1s ease-in, background-color 0.1s ease-in;
+
+  &:hover {
+    background-color: ${Color.Primary};
+    color: ${Grayscale.White};
+    font-weight: 800;
+  }
 `;

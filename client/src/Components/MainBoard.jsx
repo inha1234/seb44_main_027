@@ -8,7 +8,7 @@ import NotFollowingIndicator from './NotFollowingIndicator.jsx';
 function MainBoard() {
   const MESSAGE = {
     TITLE_MAIN: '오늘은 무슨 활동을 하셨나요?',
-    BTN_MAIN: '만들기',
+    BTN_MAIN: '게시글 만들기',
   };
   const loginId = localStorage.getItem('memberId');
   // get 요청 url
