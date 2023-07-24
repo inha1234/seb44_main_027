@@ -8,7 +8,7 @@ export const SignUpInputContainer = styled.section`
 export const SignUpHeading = styled.section`
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 70px;
+  margin-bottom: 20px;
 `;
 
 export const InputWithTitle = styled.section`
