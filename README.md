@@ -133,11 +133,11 @@ URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/) (회원가�
 ## 4. 핵심 기능
 | 로그인 페이지 |
 | :---: |
-|<img width="1508" alt="로그인페이지" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/0d76db54-098b-436c-86de-8146e53078a8">|
+|<img width="1512" alt="스크린샷 2023-07-25 오전 12 54 16" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/bacbbbb8-5536-4a24-8833-fcb126386fad">|
 
 | 회원가입 페이지 |
 | :---: |
-|<img width="1512" alt="회원가입페이지" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/62c221e6-c554-407d-b8fa-2eaa36ec7192">|
+| <img width="1512" alt="스크린샷 2023-07-25 오전 12 54 34" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/f1dfa617-af01-4ef9-95fc-47138266d0f9">|
 
 | 게시물 작성 페이지 |
 | :---: |
