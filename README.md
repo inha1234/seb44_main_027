@@ -1,14 +1,21 @@
 # 🤾🏼‍♂️ "Take Control, Get Fit – OWN It!", OWN ⛹🏼‍♂️
 ### 운동을 주도하다, 오운! 🔥
-
-로고이미지 or 메인페이지이미지
+<div align="center">
+<img width="800" alt="스크린샷 2023-07-24 오후 11 47 57" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/c7a566bb-4ecc-4600-b57f-5f149755c6d3" >
+</div>
   
 <br />
 <br />
 <br />
 
 ### [배포]
-URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/)
+URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/) (회원가입 권장)
+<br/>
+<br/>
+계정 <br />
+>ID : seb44@gmail.com <br/>
+>PassWord : asdf1234! <br />
+
 
 <br />
 
@@ -40,11 +47,10 @@ URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/)
 
 #### 👨🏻‍💻이의현
 
-- 회원가입, 로그인 페이지 마크업 및 기능 구현
-- 프로필 수정 페이지 마크업 및 기능 구현
-- 팔로우 기능 구현
-- 팔로워, 팔로잉 리스트 목록 기능 구현
-- 404 페이지 마크업 및 기능 구현
+- 프론트엔드 개발 총괄
+- 로그인, 회원가입, 팔로우, 프로필, 계정설정 기능 구현
+- 클라이언트 배포 환경 (AWS S3) 구성
+- 사용자인증 로직, 예외처리 로직 구현
 
 #### 👩🏻‍💻김은희
 
@@ -55,30 +61,37 @@ URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/)
 
 #### 👨🏻‍💻허완
 
-- 프로젝트 전반적인 디자인 및 스타일링
+- 프로젝트 디자인 작업 총괄
 - 메인페이지 마크업 및 기능 구현
-- 무한스크롤 기능 구현
-- 운동/식단 공유 게시판 페이지 마크업 및 기능 구현
+- 무한스크롤 기능 구현 및 적용
+- 운동/식단/크루잉 페이지 마크업 및 기능 구현
+- 크루잉 참여 기능 구현
 
 
 #### 👨🏻‍💻정관용
 
-- 크루잉 CRUD 기능 구현
-- 게시글 REST API 기능 구현
+- 백엔드 개발 총괄
+- 게시글 (POST) CRUD 구현
+- 배포 서버 구성 (AWS ES2, AWS RDS)
+- 이미지 업로드 (S3 RESTAPI 이용)
+- 크루잉 (CREWING) CRUD 구현
 
 #### 👨🏻‍💻박인하
 
-- 회원가입, 로그인, 로그아웃 기능 구현
-- 유저페이지 게시글 카테코리별 조회 기능 구현
-- 리프레쉬 토큰 기능 구현
+- 회원정보 (MEMBER) CRUD 구현
+- 회원가입 및 유효성 검사 기능 구현
+- Spring Security 구현
+- JWT 및 로그인 기능 구현
+- 크루잉 참여 기능 구현
 
 
 #### 👨🏻‍💻진강훈
 
+- 팔로우 관련 기능 구현
+- 댓글 (COMMENT) CRUD 구현
+- Jpa Auditing 구현
 - 무한스크롤 기능 구현
-- 게시물 댓글 기능 구현
-- 크루잉 게시물 댓글 기능 구현
-- 팔로우 기능 구현
+- DB Schema 설계
 
 <br />
 <br />
@@ -101,7 +114,7 @@ URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/)
 <br/>
 
 ### <span style="">🔒  **Back-end** </span>
-| Java |  MySQL | Spring<br>Boot | JWT | Spring<br/>Security | JPA | REDIS(DB)) |
+| Java |  MySQL | Spring<br>Boot | JWT | Spring<br/>Security | JPA | REDIS(DB) |
 | :---: | :---: | :---: | :---: | :---: | :---: |  :---: | 
 | <img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <img alt="JWT logo" src="https://play-lh.googleusercontent.com/3C-hB-KWoyWzZjUnRsXUPu-bqB3HUHARMLjUe9OmPoHa6dQdtJNW30VrvwQ1m7Pln3A" width="65" height="65" >| <img alt="spring-Security logo" src="https://github.com/codestates-seb/seb43_main_030/assets/66734464/2d671127-343c-41a3-8deb-91f8e8c137f0" width="65" height="65" >| <img alt="OAUTH logo" src="https://huongdanjava.com/wp-content/uploads/2022/02/spring-data.png" width="65" height="65">| <img alt="JAVAMAIL logo" src="https://www.vectorlogo.zone/logos/redis/redis-icon.svg" width="65" height="65"> |
 
@@ -132,19 +145,24 @@ URL : [OWN](http://main027.s3-website.ap-northeast-2.amazonaws.com/)
 
 | 메인 페이지 |
 | :---: |
-| 메인 페이지 img |
+|<img width="1381" alt="스크린샷 2023-07-25 오전 12 43 14" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/5c639def-e858-4967-8eb1-56e010641f2d">|
 
 | 운동/식단 게시물 모아보기 페이지 |
 | :---: |
-| 운동/식단 게시물 모아보기 페이지 img |
+| <img width="1371" alt="스크린샷 2023-07-25 오전 12 43 29" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/4d0d07bc-4200-4c51-b689-2993158fc162"> <br /> <br /> <img width="1373" alt="스크린샷 2023-07-25 오전 12 43 41" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/1251aa6f-980d-49a2-b26b-41d54189ab9a"> |
+
+| 크루잉 페이지 |
+| :---: |
+|  <img width="1381" alt="스크린샷 2023-07-25 오전 12 46 30" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/84bd3250-2da4-45a6-a9cd-7a6460c8544b"> |
+
 
 | 마이페이지 |
 | :---: |
-| 마이페이지 img |
+| <img width="1512" alt="스크린샷 2023-07-25 오전 12 47 45" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/ca96daee-63fd-43f4-a14b-d8b6bad1e447">  <br /> <br /> <img width="1512" alt="스크린샷 2023-07-25 오전 12 49 15" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/1570dc67-0b5e-4966-acd5-b13f829d1b86"> |
 
 | 다른 유저 페이지 |
 | :---: |
-| 다른 유저 페이지 img |
+| <img width="1512" alt="스크린샷 2023-07-25 오전 12 48 27" src="https://github.com/codestates-seb/seb44_main_027/assets/124559999/10f800b9-a5ef-4352-a4fb-485717af9e08"> |
 
 <br />
 <br />
