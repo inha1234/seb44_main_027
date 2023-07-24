@@ -135,6 +135,7 @@ function ProfileModal({ isModalOpen, handleModalToggle, memberId }) {
             <ModalButton
               style={{ marginTop: '60px' }}
               onClick={handleChangeButtonClick}
+              disabled={!uploadedImageUrl}
             >
               수정 완료
             </ModalButton>

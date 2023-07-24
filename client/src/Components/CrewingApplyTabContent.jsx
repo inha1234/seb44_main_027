@@ -12,7 +12,7 @@ function CrewingApplyTabContent({ memberId }) {
   // 무한스크롤 API
   const [data, setData] = useState([]); // getData 함수를 통해 받아온 데이터의 상태 (Carditem에 전달 될 데이터)
   const [page, setPage] = useState(0); // page 상태에 따라 api 요청에 lastPostId params를 추가 (page가 1일 경우 lastPostId 쿼리 없이 데이터 요청, 1일 아닐 경우 lastPostId 쿼리를 추가하여 데이터 요청)
-  const [ref, inView, getData, isLoadEnd] = useInfiniteScroll({
+  const [ref, inView, getCrewingApplyData, isLoadEnd] = useInfiniteScroll({
     url,
     category: 'apply',
     data,
@@ -20,15 +20,18 @@ function CrewingApplyTabContent({ memberId }) {
     page,
   });
 
+  console.log(page);
+
   // 카테고리가 바뀔 때마다 데이터를 재요청
   useEffect(() => {
     setData([]); // 데이터 초기화
     setPage(0); // 페이지 초기화
-    getData(); // 데이터 재요청
+    getCrewingApplyData(); // 데이터 재요청
   }, []);
 
   useEffect(() => {
     if (inView && !isLoadEnd) {
+      getCrewingApplyData();
       setPage(page + 1);
     }
   }, [inView]);

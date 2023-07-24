@@ -199,7 +199,10 @@ function UserProfile() {
               크루잉
             </TabItem>
           </TabContainer>
-          <SelectedTabComponent memberId={profileMemberId} />
+          <SelectedTabComponent
+            key={profileMemberId}
+            memberId={profileMemberId}
+          />
         </ProfilePageMain>
       </MainContainer>
     </>

@@ -12,8 +12,6 @@ function MainCardItem({ item }) {
     window.history.pushState({}, '', `/posts/${item.postId}`);
   };
 
-  console.log(item);
-
   return (
     <>
       <Card.Container>
@@ -42,7 +40,7 @@ function MainCardItem({ item }) {
         <Card.Content>{item.content}</Card.Content>
         <Card.Add>
           <div>{`댓글 ${item.comments.length}개`}</div>
-          <button onClick={hendleClick}>자세히보기</button>
+          <button onClick={hendleClick}>더보기</button>
         </Card.Add>
       </Card.Container>
       {isModal ? (
