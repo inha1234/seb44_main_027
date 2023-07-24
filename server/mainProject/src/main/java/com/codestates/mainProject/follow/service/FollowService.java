@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -124,7 +125,15 @@ public class FollowService {
             followingPosts.addAll(posts.toList());
         }
 
-        return new PageImpl<>(followingPosts, pageable, followingPosts.size());
+        followingPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+
+        int page = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+        int totalElements = followingPosts.size();
+        int fromIndex = Math.min(page * size, totalElements);
+        int toIndex = Math.min((page + 1) * size, totalElements);
+
+        return new PageImpl<>(followingPosts.subList(fromIndex, toIndex), pageable, totalElements);
     }
 
     public Page<Post> getFollowingPostsAfter(long memberId, long lastPostId, Pageable pageable) {
