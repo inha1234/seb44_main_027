@@ -127,6 +127,114 @@ const useInfiniteScroll = ({
     }
   };
 
+  const getCrewingApplyData = () => {
+    setLoading(true);
+
+    if (page < 1) {
+      api
+        .get(
+          url,
+          { params: { category: category } },
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          const newData = response.data.data;
+          const concatData = [...data, ...newData];
+          setIsLoadEnd(!response.data.pageInfo.hasNextPage);
+          setData(concatData);
+          setLastPostId(concatData.slice(-1)[0].crewingId);
+          setLoading(false);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } else if (page >= 1) {
+      api
+        .get(
+          url,
+          { params: { category: category, lastPostId: lastPostId } },
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          const newData = response.data.data;
+          if (isLoadEnd) {
+            setLoading(false);
+          } else {
+            const concatData = [...data, ...newData];
+            setIsLoadEnd(!response.data.pageInfo.hasNextPage);
+            setData(concatData);
+            setLastPostId(concatData.slice(-1)[0].crewingId);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
+  };
+
+  const getMyCrewingData = () => {
+    setLoading(true);
+
+    if (page < 1) {
+      api
+        .get(
+          url,
+          { params: { category: 'crewing' } },
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          const newData = response.data.data;
+          const concatData = [...data, ...newData];
+          setIsLoadEnd(!response.data.pageInfo.hasNextPage);
+          setData(concatData);
+          setLastPostId(concatData.slice(-1)[0].crewingId);
+          setLoading(false);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } else if (page >= 1) {
+      api
+        .get(
+          url,
+          { params: { category: 'crewing', lastPostId: lastPostId } },
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          const newData = response.data.data;
+          if (isLoadEnd) {
+            setLoading(false);
+          } else {
+            const concatData = [...data, ...newData];
+            setIsLoadEnd(!response.data.pageInfo.hasNextPage);
+            setData(concatData);
+            setLastPostId(concatData.slice(-1)[0].crewingId);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
+  };
+
   // GET Main API
   const getMainData = () => {
     setLoading(true);
@@ -186,6 +294,10 @@ const useInfiniteScroll = ({
     return [ref, inView, getMainData, isLoadEnd];
   } else if (category === 'crewing') {
     return [ref, inView, getCrewingData, isLoadEnd];
+  } else if (category === 'apply') {
+    return [ref, inView, getCrewingApplyData, isLoadEnd];
+  } else if (category === 'mycrewing') {
+    return [ref, inView, getMyCrewingData, isLoadEnd];
   } else {
     return [ref, inView, getData, isLoadEnd];
   }
