@@ -27,7 +27,13 @@ function Nav() {
 
   return (
     <NavContainer>
-      <NavLogoContainer>Here goes the logo</NavLogoContainer>
+      <NavLogoContainer>
+        <img
+          style={{ width: '6rem', marginLeft: '15px' }}
+          src="/images/logo-long.png"
+          alt="logo-long"
+        />
+      </NavLogoContainer>
       <NavMenuList>
         <NavMenuItem to="/">
           <NavMenuIcon>

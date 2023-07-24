@@ -79,6 +79,11 @@ function SignUpForm() {
 
   return (
     <SignUpInputContainer>
+      <img
+        style={{ width: '8rem', marginLeft: '-5px', marginBottom: '20px' }}
+        src="/images/logo-long.png"
+        alt="logo-long"
+      />
       <SignUpHeading>회원가입</SignUpHeading>
       <InputWithTitle>
         <InputHeading>이메일</InputHeading>

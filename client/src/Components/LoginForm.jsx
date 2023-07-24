@@ -29,6 +29,11 @@ function LoginForm() {
 
   return (
     <LoginInputContainer>
+      <img
+        style={{ width: '8rem', marginLeft: '-5px', marginBottom: '20px' }}
+        src="/images/logo-long.png"
+        alt="logo-long"
+      />
       <LoginHeading>{MESSAGE.LOGIN}</LoginHeading>
       <InputWithTitle>
         <InputHeading>{MESSAGE.SUB_HEADING_EMAIL}</InputHeading>
