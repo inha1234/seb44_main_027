@@ -143,7 +143,7 @@ public class PostController {
                 .collect(Collectors.toList());
 
         MultiResponseDto<PostDto.ResponseDto> multiResponseDto;
-        if (!followingPosts.isEmpty()) {
+        if (followingPosts.hasNext()) {
             multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, followingPosts.getTotalElements(), followingPosts.getTotalPages(), true));
         } else {
             multiResponseDto = new MultiResponseDto<>(responseDto, new PageInfo(page, 15, followingPosts.getTotalElements(), followingPosts.getTotalPages(), false));

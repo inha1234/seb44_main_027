@@ -19,5 +19,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByMemberAndCategoryAndPostIdLessThan(Member member, String category, Long idx, Pageable pageable);
     long countByMember(Member member);
     Page<Post> findByMemberInOrderByCreatedAtDesc(List<Member> members, Pageable pageable);
-    Page<Post> findByMemberInAndPostIdGreaterThanOrderByCreatedAtDesc(List<Member> members, Long lastPostId, Pageable pageable);
+    Page<Post> findByMemberInAndPostIdLessThan(List<Member> members, Long lastPostId, Pageable pageable);
 }

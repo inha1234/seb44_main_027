@@ -167,7 +167,8 @@ public class FollowService {
                 .map(follow -> follow.getFollowing())
                 .collect(Collectors.toList());
 
-        return postRepository.findByMemberInAndPostIdGreaterThanOrderByCreatedAtDesc(
+//        return postRepository.findByMemberInAndPostIdGreaterThanOrderByCreatedAtAsc(
+        return postRepository.findByMemberInAndPostIdLessThan(
                 followingMembers, lastPostId, pageable);
     }
 
