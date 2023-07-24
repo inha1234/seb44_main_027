@@ -114,33 +114,56 @@ public class FollowService {
         return followings;
     }
 
+//    public Page<Post> getFollowingPosts(long memberId, Pageable pageable) {
+//        List<FollowDto.Members> followings = getFollowings(memberId);
+//
+//        List<Post> followingPosts = new ArrayList<>();
+//
+//        for (FollowDto.Members following : followings) {
+//            Page<Post> posts = postRepository.findByMemberInOrderByCreatedAtDesc(following.getMemberId(), pageable);
+//
+//            followingPosts.addAll(posts.toList());
+//        }
+//
+//        followingPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+//
+//        int page = pageable.getPageNumber();
+//        int size = pageable.getPageSize();
+//        int totalElements = followingPosts.size();
+//        int fromIndex = Math.min(page * size, totalElements);
+//        int toIndex = Math.min((page + 1) * size, totalElements);
+//
+//        return new PageImpl<>(followingPosts.subList(fromIndex, toIndex), pageable, totalElements);
+//    }
+
     public Page<Post> getFollowingPosts(long memberId, Pageable pageable) {
-        List<FollowDto.Members> followings = getFollowings(memberId);
+        List<Follow> follows = followRepository.findByFollower_MemberId(memberId);
 
-        List<Post> followingPosts = new ArrayList<>();
+        List<Member> followingMembers = follows.stream()
+                .map(follow -> follow.getFollowing())
+                .collect(Collectors.toList());
 
-        for (FollowDto.Members following : followings) {
-            Page<Post> posts = postRepository.findByMember_MemberId(following.getMemberId(), pageable);
-
-            followingPosts.addAll(posts.toList());
-        }
-
-        followingPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
-
-        int page = pageable.getPageNumber();
-        int size = pageable.getPageSize();
-        int totalElements = followingPosts.size();
-        int fromIndex = Math.min(page * size, totalElements);
-        int toIndex = Math.min((page + 1) * size, totalElements);
-
-        return new PageImpl<>(followingPosts.subList(fromIndex, toIndex), pageable, totalElements);
+        return postRepository.findByMemberInOrderByCreatedAtDesc(followingMembers, pageable);
     }
 
-    public Page<Post> getFollowingPostsAfter(long memberId, long lastPostId, Pageable pageable) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//    public Page<Post> getFollowingPostsAfter(long memberId, long lastPostId, Pageable pageable) {
+//        Member member = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//
+//        List<Member> followingMembers = member.getFollowing().stream()
+//                .map(follow -> follow.getFollowing())
+//                .collect(Collectors.toList());
+//
+//        return postRepository.findByMemberInAndPostIdGreaterThanOrderByCreatedAtDesc(
+//                followingMembers, lastPostId, pageable);
+//    }
 
-        List<Member> followingMembers = member.getFollowing().stream()
+    public Page<Post> getFollowingPostsAfter(long memberId, long lastPostId, Pageable pageable) {
+        Member member = new Member();
+        member.setMemberId(memberId);
+
+        List<Follow> follows = followRepository.findByFollower(member);
+        List<Member> followingMembers = follows.stream()
                 .map(follow -> follow.getFollowing())
                 .collect(Collectors.toList());
 

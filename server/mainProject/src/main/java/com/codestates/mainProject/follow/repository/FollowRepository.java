@@ -2,6 +2,7 @@ package com.codestates.mainProject.follow.repository;
 
 import com.codestates.mainProject.follow.entity.Follow;
 import com.codestates.mainProject.follow.entity.FollowKey;
+import com.codestates.mainProject.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface FollowRepository extends JpaRepository<Follow, FollowKey> {
     List<Follow> findFollowingIdsByFollowerId(Long followerId);
     int countByFollowerId(long followerId);
     int countByFollowingId(long followingId);
+    List<Follow> findByFollower_MemberId(long memberId);
+    List<Follow> findByFollower(Member member);
 }
